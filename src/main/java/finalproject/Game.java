@@ -33,9 +33,6 @@ public class Game extends JFrame {
     }
 
     public static void main(String[] args) {
-        // prevent graphics processing and game logic
-        // from blocking the UI (keypresses and such)
-        // by running it on a swing-managed thread
         Game game = new Game();
         game.start();
     }
