@@ -1,6 +1,7 @@
 package finalproject;
 
 import finalproject.engine.Engine;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +14,6 @@ public class Game extends JFrame {
 
         engine = new Engine();
         add(engine);
-        addKeyListener(engine);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -23,29 +23,20 @@ public class Game extends JFrame {
 
     public void start() {
         setVisible(true);
-
-        Graphics g = engine.getGraphics();
         setup();
 
-        // testing
-        g.setColor(Color.BLACK);
-        g.drawRect(WIDTH / 2, HEIGHT / 2, WIDTH, HEIGHT);
-
-        engine.paint(g);
-        // TODO main event loop
+        engine.startGameLoop();
     }
 
     private void setup() {
-
+        // TODO add components
     }
 
     public static void main(String[] args) {
-        // prevent graphics processing from blocking the UI (keypresses and such)
+        // prevent graphics processing and game logic
+        // from blocking the UI (keypresses and such)
         // by running it on a swing-managed thread
-        SwingUtilities.invokeLater(() -> {
-            Game game = new Game();
-
-            game.start();
-        });
+        Game game = new Game();
+        game.start();
     }
 }

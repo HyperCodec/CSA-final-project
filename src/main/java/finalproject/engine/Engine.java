@@ -1,15 +1,29 @@
 package finalproject.engine;
 
+import finalproject.engine.ecs.*;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
-public class Engine extends JPanel implements KeyListener, MouseListener, MouseMotionListener {
+public class Engine extends JPanel {
     final static int WIDTH = 800;
     final static int HEIGHT = 600;
-    final static Color BACKGROUND_COLOR = new Color(255,255,255);
+    final static Color BACKGROUND_COLOR = Color.WHITE;
+    final static long FPS = 60;
+
+    final static long FRAME_DELAY = 1000 / FPS;
+
+    HashMap<Entity, EntityComponentRegistry> components = new HashMap<>();
+    HashSet<Tickable> tickables = new HashSet<>();
+    HashSet<Renderable> renderables = new HashSet<>();
+    boolean running = false;
+
+    TimeManager time = new TimeManager();
+    WorldAccessor access = new WorldAccessor(this);
 
     public Engine() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -17,55 +31,101 @@ public class Engine extends JPanel implements KeyListener, MouseListener, MouseM
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
+    public void paint(@NotNull Graphics g) {
+        // TODO idk if it clears the screen automatically
+        g.setColor(BACKGROUND_COLOR);
+        g.drawRect(0, 0, WIDTH, HEIGHT);
 
+        for(Renderable renderable : renderables)
+            renderable.render(g);
     }
 
-    @Override
-    public void keyPressed(KeyEvent e) {
+    public void step() {
+        double dt = time.deltaSecs();
+        System.out.println("dt: " + dt);
 
+        for(Tickable t : tickables)
+            t.tick(access, dt);
+
+        time.endTick();
     }
 
-    @Override
-    public void keyReleased(KeyEvent e) {
+    public Thread startGameLoop() {
+        if(running) throw new IllegalStateException("Game loop is already running");
 
+        running = true;
+
+        Thread t = new Thread(() -> {
+            while (running) {
+                step();
+                repaint();
+
+                try {
+                    Thread.sleep(FRAME_DELAY);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        t.start();
+
+        return t;
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
+    public void addEntity(Entity entity) {
+        EntityComponentRegistry r = new EntityComponentRegistry(this, entity);
+        components.put(entity, r);
+        entity.spawn(r);
     }
 
-    @Override
-    public void mousePressed(MouseEvent e) {
-
+    // things are "static" (i.e. persistent) if they are registered
+    // without an `EntityComponentRegistry` because they will never
+    // be removed.
+    public void addStaticTickable(@NotNull Tickable tickable) {
+        tickables.add(tickable);
     }
 
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
+    public void addStaticRenderable(@NotNull Renderable renderable) {
+        renderables.add(renderable);
     }
 
-    @Override
-    public void mouseEntered(MouseEvent e) {
+    public boolean destroyEntity(@NotNull Entity entity) {
+        EntityComponentRegistry r = components.remove(entity);
+        if(r == null) return false;
+
+        tickables.removeAll(r.getTickables());
+        renderables.removeAll(r.getRenderables());
+
+        for(Entity child : r.getChildren())
+            destroyEntity(child);
+
+        return true;
     }
 
-    @Override
-    public void mouseExited(MouseEvent e) {
-
+    public Set<Entity> getEntities() {
+        return components.keySet();
     }
 
-    @Override
-    public void mouseDragged(MouseEvent e) {
+    public HashSet<Tickable> getTickablesForEntity(@NotNull Entity entity) {
+        EntityComponentRegistry r = components.get(entity);
+        if(r == null) throw new IllegalArgumentException("entity not found");
 
+        return r.getTickables();
     }
 
-    @Override
-    public void mouseMoved(@NotNull MouseEvent e) {
-        Graphics g = getGraphics();
+    public HashSet<Renderable> getRenderablesForEntity(@NotNull Entity entity) {
+        EntityComponentRegistry r = components.get(entity);
+        if(r == null) throw new IllegalArgumentException("entity not found");
 
-        g.setColor(Color.BLACK);
-        g.drawOval(e.getX(), e.getY(), 10, 10);
-        repaint();
+        return r.getRenderables();
+    }
+
+    public WorldAccessor getWorldAccessor() {
+        return access;
+    }
+
+    public void stopGameLoop() {
+        running = false;
     }
 }
