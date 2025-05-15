@@ -21,7 +21,6 @@ public class PointCollection implements Renderable {
 
     @Override
     public void render(@NotNull Graphics g) {
-        System.out.println("called for render");
         g.setColor(color);
         int diameter = radius * 2;
         for(Vec2 point : points) {

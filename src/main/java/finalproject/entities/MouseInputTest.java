@@ -56,6 +56,5 @@ public class MouseInputTest implements Entity, MouseListener, MouseMotionListene
     public void mouseMoved(@NotNull MouseEvent e) {
         Vec2 pos = new Vec2(e.getX(), e.getY());
         points.points.add(pos);
-        System.out.println(pos);
     }
 }

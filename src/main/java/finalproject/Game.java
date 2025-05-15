@@ -1,6 +1,7 @@
 package finalproject;
 
 import finalproject.engine.Engine;
+import finalproject.entities.MouseInputTest;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -29,7 +30,7 @@ public class Game extends JFrame {
     }
 
     private void setup() {
-        // TODO add components
+        engine.addEntity(new MouseInputTest());
     }
 
     public static void main(String[] args) {
