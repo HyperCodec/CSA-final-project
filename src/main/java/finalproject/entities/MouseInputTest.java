@@ -1,8 +1,10 @@
 package finalproject.entities;
 
 import finalproject.components.renderables.PointCollection;
+import finalproject.components.renderables.sprite.PointSprite;
 import finalproject.engine.ecs.Entity;
 import finalproject.engine.ecs.EntityComponentRegistry;
+import finalproject.engine.util.Ref;
 import finalproject.engine.util.Vec2;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,14 +14,18 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 public class MouseInputTest implements Entity, MouseListener, MouseMotionListener {
-    PointCollection points;
+    public final static Color HOVER_COLOR = Color.BLUE;
+    public final static Color CLICK_COLOR = Color.RED;
+    public final static int RADIUS = 5;
+
+    Ref<Vec2> mousePos = new Ref<>(Vec2.ZERO);
+    PointSprite sprite = new PointSprite(mousePos, HOVER_COLOR, RADIUS);
 
     @Override
     public void spawn(@NotNull EntityComponentRegistry r) {
-        points = new PointCollection(Color.BLUE, 5);
         r.addMouseListener(this);
         r.addMouseMotionListener(this);
-        r.addRenderable(points);
+        r.addRenderable(sprite);
     }
 
     @Override
@@ -29,12 +35,12 @@ public class MouseInputTest implements Entity, MouseListener, MouseMotionListene
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        sprite.setColor(CLICK_COLOR);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        sprite.setColor(HOVER_COLOR);
     }
 
     @Override
@@ -48,13 +54,12 @@ public class MouseInputTest implements Entity, MouseListener, MouseMotionListene
     }
 
     @Override
-    public void mouseDragged(MouseEvent e) {
-
+    public void mouseDragged(@NotNull MouseEvent e) {
+        sprite.setPos(new Vec2(e.getX(), e.getY()));
     }
 
     @Override
     public void mouseMoved(@NotNull MouseEvent e) {
-        Vec2 pos = new Vec2(e.getX(), e.getY());
-        points.points.add(pos);
+        sprite.setPos(new Vec2(e.getX(), e.getY()));
     }
 }

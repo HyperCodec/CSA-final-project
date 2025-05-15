@@ -1,7 +1,7 @@
 package finalproject.components.tickables.physics;
 
 import finalproject.engine.ecs.Tickable;
-import finalproject.engine.ecs.WorldAccessor;
+import finalproject.engine.WorldAccessor;
 import finalproject.engine.util.Ref;
 import finalproject.engine.util.Vec2;
 

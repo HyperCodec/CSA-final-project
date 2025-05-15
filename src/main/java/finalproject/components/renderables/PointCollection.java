@@ -24,8 +24,8 @@ public class PointCollection implements Renderable {
         g.setColor(color);
         int diameter = radius * 2;
         for(Vec2 point : points) {
-            int cx = (int) point.getX() + radius;
-            int cy = (int) point.getY() + radius;
+            int cx = (int) point.getX() - radius;
+            int cy = (int) point.getY() - radius;
 
             g.fillOval(cx, cy, diameter, diameter);
         }

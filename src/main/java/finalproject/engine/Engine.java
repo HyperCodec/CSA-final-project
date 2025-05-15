@@ -13,7 +13,7 @@ public class Engine extends JPanel {
     final static int WIDTH = 800;
     final static int HEIGHT = 600;
     final static Color BACKGROUND_COLOR = Color.WHITE;
-    final static long FPS = 60;
+    final static long FPS = 120;
 
     final static long FRAME_DELAY = 1000 / FPS;
 
@@ -32,9 +32,7 @@ public class Engine extends JPanel {
 
     @Override
     public void paint(@NotNull Graphics g) {
-        // TODO idk if it clears the screen automatically
-        g.setColor(BACKGROUND_COLOR);
-        g.drawRect(0, 0, WIDTH, HEIGHT);
+        super.paint(g);
 
         for(Renderable renderable : renderables)
             renderable.render(g);

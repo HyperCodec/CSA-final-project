@@ -1,6 +1,7 @@
 package finalproject.engine.ecs;
 
 import finalproject.engine.Engine;
+import finalproject.engine.WorldAccessor;
 
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
