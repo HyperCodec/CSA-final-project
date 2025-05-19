@@ -61,6 +61,11 @@ public class EntityComponentRegistry {
         return children;
     }
 
+    // probably a bad idea to register these
+    // to the actual panel, should use custom event
+    // registry instead with only one listener on that API.
+    // however for this project i'm only ever really using it
+    // for persistent objects anyway.
     public void addKeyListener(KeyListener keyListener) {
         engine.addKeyListener(keyListener);
     }

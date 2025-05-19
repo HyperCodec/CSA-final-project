@@ -13,6 +13,7 @@ public abstract class Sprite implements Renderable {
         this.pos = position;
     }
 
+    public Ref<Vec2> getPos() { return pos; }
     public void setPos(Vec2 pos) {
         this.pos.set(pos);
     }

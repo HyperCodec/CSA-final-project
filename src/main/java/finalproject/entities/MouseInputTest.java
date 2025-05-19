@@ -1,6 +1,5 @@
 package finalproject.entities;
 
-import finalproject.components.renderables.PointCollection;
 import finalproject.components.renderables.sprite.PointSprite;
 import finalproject.engine.ecs.Entity;
 import finalproject.engine.ecs.EntityComponentRegistry;
