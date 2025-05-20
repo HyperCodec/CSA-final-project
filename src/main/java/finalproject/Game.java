@@ -1,6 +1,7 @@
 package finalproject;
 
 import finalproject.engine.Engine;
+import finalproject.entities.FpsDisplay;
 import finalproject.entities.MouseInputTest;
 
 import javax.swing.*;
@@ -29,6 +30,7 @@ public class Game extends JFrame {
 
     private void setup() {
         engine.addEntity(new MouseInputTest());
+        engine.addEntity(new FpsDisplay());
     }
 
     public static void main(String[] args) {

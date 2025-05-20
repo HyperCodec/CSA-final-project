@@ -1,6 +1,7 @@
 package finalproject.entities;
 
 import finalproject.components.renderables.sprite.AnimatedSprite;
+import finalproject.components.renderables.sprite.PointSprite;
 import finalproject.components.tickables.physics.Gravity;
 import finalproject.engine.ecs.Entity;
 import finalproject.engine.ecs.EntityComponentRegistry;
@@ -8,11 +9,11 @@ import finalproject.engine.util.Ref;
 import finalproject.engine.util.Vec2;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 
 public class Player implements Entity, MouseListener, KeyListener {
     Ref<Vec2> pos;
@@ -27,9 +28,8 @@ public class Player implements Entity, MouseListener, KeyListener {
         Gravity gravity = new Gravity(vel);
         r.addTickable(gravity);
 
-        AnimatedSprite sprite = new AnimatedSprite(pos, new ArrayList<>(), 0.1);
+        PointSprite sprite = new PointSprite(pos, Color.cyan, 10);
         r.addRenderable(sprite);
-        r.addTickable(sprite);
 
         r.addMouseListener(this);
         r.addKeyListener(this);
