@@ -25,6 +25,7 @@ public class FpsDisplay implements Entity, Tickable, Renderable {
 
     @Override
     public void render(@NotNull Graphics g) {
+        g.setColor(Color.BLACK);
         g.drawString("FPS: " + fps, 10, 20);
     }
 
