@@ -3,6 +3,7 @@ package finalproject.entities;
 import finalproject.components.renderables.sprite.AnimatedSprite;
 import finalproject.components.renderables.sprite.PointSprite;
 import finalproject.components.tickables.physics.Gravity;
+import finalproject.components.tickables.physics.VelocityPositionUpdater;
 import finalproject.engine.ecs.Entity;
 import finalproject.engine.ecs.EntityComponentRegistry;
 import finalproject.engine.util.Ref;
@@ -27,6 +28,9 @@ public class Player implements Entity, MouseListener, KeyListener {
     public void spawn(@NotNull EntityComponentRegistry r) {
         Gravity gravity = new Gravity(vel);
         r.addTickable(gravity);
+
+        VelocityPositionUpdater updater = new VelocityPositionUpdater(pos, vel);
+        r.addTickable(updater);
 
         PointSprite sprite = new PointSprite(pos, Color.cyan, 10);
         r.addRenderable(sprite);

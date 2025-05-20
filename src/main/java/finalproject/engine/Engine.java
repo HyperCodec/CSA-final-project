@@ -10,8 +10,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Engine extends JPanel {
-    final static int WIDTH = 800;
-    final static int HEIGHT = 600;
+    public final static int WIDTH = 800;
+    public final static int HEIGHT = 600;
     final static Color BACKGROUND_COLOR = Color.WHITE;
     final static long FPS = 120;
 
