@@ -1,7 +1,6 @@
 package finalproject.engine.ecs;
 
 import finalproject.engine.Engine;
-import finalproject.engine.WorldAccessor;
 
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
@@ -18,6 +17,7 @@ public class EntityComponentRegistry {
     HashSet<Renderable> renderables = new HashSet<>();
     HashSet<Tickable> tickables = new HashSet<>();
     HashSet<Entity> children = new HashSet<>();
+    HashSet<Object> markers = new HashSet<>();
     Entity target;
 
     public EntityComponentRegistry(Engine engine, Entity target) {
@@ -30,9 +30,25 @@ public class EntityComponentRegistry {
         engine.addStaticTickable(tickable);
     }
 
+    public boolean removeTickable(Tickable tickable) {
+        return tickables.remove(tickable);
+    }
+
     public void addRenderable(Renderable renderable) {
         renderables.add(renderable);
         engine.addStaticRenderable(renderable);
+    }
+
+    public boolean removeRenderable(Renderable renderable) {
+        return renderables.remove(renderable);
+    }
+
+    public void addMarker(Object marker) {
+        markers.add(marker);
+    }
+
+    public boolean removeMarker(Object marker) {
+        return markers.remove(marker);
     }
 
     /**
@@ -59,6 +75,10 @@ public class EntityComponentRegistry {
 
     public HashSet<Entity> getChildren() {
         return children;
+    }
+
+    public HashSet<Object> getMarkers() {
+        return markers;
     }
 
     // probably a bad idea to register these

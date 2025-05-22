@@ -101,6 +101,14 @@ public class Engine extends JPanel {
         return true;
     }
 
+    public HashSet<Tickable> getTickables() {
+        return tickables;
+    }
+
+    public HashSet<Renderable> getRenderables() {
+        return renderables;
+    }
+
     public Set<Entity> getEntities() {
         return components.keySet();
     }
@@ -117,6 +125,13 @@ public class Engine extends JPanel {
         if(r == null) throw new IllegalArgumentException("entity not found");
 
         return r.getRenderables();
+    }
+
+    public HashSet<Object> getMarkersForEntity(@NotNull Entity entity) {
+        EntityComponentRegistry r = components.get(entity);
+        if(r == null) throw new IllegalArgumentException("entity not found");
+
+        return r.getMarkers();
     }
 
     public WorldAccessor getWorldAccessor() {

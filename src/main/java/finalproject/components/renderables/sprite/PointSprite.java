@@ -1,6 +1,6 @@
 package finalproject.components.renderables.sprite;
 
-import finalproject.engine.util.Ref;
+import finalproject.engine.util.Box;
 import finalproject.engine.util.Vec2;
 import org.jetbrains.annotations.NotNull;
 
@@ -10,7 +10,7 @@ public class PointSprite extends Sprite {
     Color color;
     int radius;
 
-    public PointSprite(Ref<Vec2> pos, Color color, int radius) {
+    public PointSprite(Box<Vec2> pos, Color color, int radius) {
         super(pos);
 
         this.color = color;

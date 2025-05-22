@@ -3,7 +3,7 @@ package finalproject.entities;
 import finalproject.components.renderables.sprite.PointSprite;
 import finalproject.engine.ecs.Entity;
 import finalproject.engine.ecs.EntityComponentRegistry;
-import finalproject.engine.util.Ref;
+import finalproject.engine.util.Box;
 import finalproject.engine.util.Vec2;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,7 +17,7 @@ public class MouseInputTest implements Entity, MouseListener, MouseMotionListene
     public final static Color CLICK_COLOR = Color.RED;
     public final static int RADIUS = 5;
 
-    Ref<Vec2> mousePos = new Ref<>(Vec2.ZERO);
+    Box<Vec2> mousePos = new Box<>(Vec2.ZERO);
     PointSprite sprite = new PointSprite(mousePos, HOVER_COLOR, RADIUS);
 
     @Override

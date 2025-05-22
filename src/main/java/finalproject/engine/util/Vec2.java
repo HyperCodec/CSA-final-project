@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 public class Vec2 {
     public final static Vec2 ZERO = new Vec2(0, 0);
 
-    double x, y;
+    final double x, y;
 
     public Vec2(double all) {
         this(all, all);

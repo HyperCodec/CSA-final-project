@@ -1,12 +1,12 @@
 package finalproject.entities;
 
-import finalproject.components.renderables.sprite.AnimatedSprite;
+import finalproject.components.markers.CircleCollider;
 import finalproject.components.renderables.sprite.PointSprite;
 import finalproject.components.tickables.physics.Gravity;
 import finalproject.components.tickables.physics.VelocityPositionUpdater;
 import finalproject.engine.ecs.Entity;
 import finalproject.engine.ecs.EntityComponentRegistry;
-import finalproject.engine.util.Ref;
+import finalproject.engine.util.Box;
 import finalproject.engine.util.Vec2;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,11 +17,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class Player implements Entity, MouseListener, KeyListener {
-    Ref<Vec2> pos;
-    Ref<Vec2> vel = new Ref<>(Vec2.ZERO);
+    public Box<Vec2> pos;
+    public Box<Vec2> vel = new Box<>(Vec2.ZERO);
 
     public Player(Vec2 pos) {
-        this.pos = new Ref<>(pos);
+        this.pos = new Box<>(pos);
     }
 
     @Override
@@ -34,6 +34,8 @@ public class Player implements Entity, MouseListener, KeyListener {
 
         PointSprite sprite = new PointSprite(pos, Color.cyan, 10);
         r.addRenderable(sprite);
+
+        r.addMarker(new CircleCollider(pos, 10));
 
         r.addMouseListener(this);
         r.addKeyListener(this);

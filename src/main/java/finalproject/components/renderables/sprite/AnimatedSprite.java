@@ -1,8 +1,8 @@
 package finalproject.components.renderables.sprite;
 
-import finalproject.engine.WorldAccessor;
+import finalproject.engine.ecs.WorldAccessor;
 import finalproject.engine.ecs.Tickable;
-import finalproject.engine.util.Ref;
+import finalproject.engine.util.Box;
 import finalproject.engine.util.Vec2;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +15,7 @@ public class AnimatedSprite extends Sprite implements Tickable {
     final double frameTime;
     double currentElapsed = 0;
 
-    public AnimatedSprite(Ref<Vec2> pos, List<Image> frames, double frameTime) {
+    public AnimatedSprite(Box<Vec2> pos, List<Image> frames, double frameTime) {
         super(pos);
         this.frames = frames;
         this.frameTime = frameTime;

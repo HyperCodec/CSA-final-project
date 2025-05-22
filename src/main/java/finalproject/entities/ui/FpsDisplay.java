@@ -1,6 +1,6 @@
-package finalproject.entities;
+package finalproject.entities.ui;
 
-import finalproject.engine.WorldAccessor;
+import finalproject.engine.ecs.WorldAccessor;
 import finalproject.engine.ecs.Entity;
 import finalproject.engine.ecs.EntityComponentRegistry;
 import finalproject.engine.ecs.Renderable;
