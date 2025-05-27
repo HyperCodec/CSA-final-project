@@ -19,4 +19,9 @@ public class CircleCollider extends Collider {
 
         return point.sub(center).magSq() <= radius * radius;
     }
+
+    @Override
+    public void alignBottom(double y) {
+        pos.set(new Vec2(pos.get().getX(), pos.get().getY() - y));
+    }
 }

@@ -1,8 +1,10 @@
 package finalproject.entities;
 
 import finalproject.components.markers.CircleCollider;
+import finalproject.components.markers.Collider;
 import finalproject.components.renderables.sprite.PointSprite;
 import finalproject.components.tickables.physics.Gravity;
+import finalproject.components.tickables.physics.Platformer;
 import finalproject.components.tickables.physics.VelocityPositionUpdater;
 import finalproject.engine.ecs.Entity;
 import finalproject.engine.ecs.EntityComponentRegistry;
@@ -32,10 +34,14 @@ public class Player implements Entity, MouseListener, KeyListener {
         VelocityPositionUpdater updater = new VelocityPositionUpdater(pos, vel);
         r.addTickable(updater);
 
+        Collider collider = new CircleCollider(pos, 10);
+        r.addMarker(collider);
+
+        Platformer platformController = new Platformer(collider, vel);
+        r.addTickable(platformController);
+
         PointSprite sprite = new PointSprite(pos, Color.cyan, 10);
         r.addRenderable(sprite);
-
-        r.addMarker(new CircleCollider(pos, 10));
 
         r.addMouseListener(this);
         r.addKeyListener(this);

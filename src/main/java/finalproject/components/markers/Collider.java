@@ -11,4 +11,14 @@ public abstract class Collider {
     }
 
     public abstract boolean contains(Vec2 point);
+
+    public Vec2 getCenter() {
+        return pos.get();
+    }
+
+    public void setCenter(Vec2 center) {
+        pos.set(center);
+    }
+
+    public abstract void alignBottom(double y);
 }
