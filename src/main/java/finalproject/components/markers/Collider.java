@@ -11,6 +11,7 @@ public abstract class Collider {
     }
 
     public abstract boolean contains(Vec2 point);
+    public abstract boolean isColliding(Collider other);
 
     public Vec2 getCenter() {
         return pos.get();

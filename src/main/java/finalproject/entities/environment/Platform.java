@@ -11,19 +11,18 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 
 public class Platform implements Entity {
-    public final static double HEIGHT = 5;
-
     public final Box<Vec2> pos;
-    public double width;
+    public final Box<Vec2> dimensions;
 
-    public Platform(Vec2 pos, double width) {
+    public Platform(Vec2 pos, Vec2 dimensions) {
         this.pos = new Box<>(pos);
-        this.width = width;
+        this.dimensions = new Box<>(dimensions);
     }
 
     @Override
     public void spawn(@NotNull EntityComponentRegistry r) {
-        r.addRenderable(new RectangleSprite(pos, (int) width, (int) HEIGHT, Color.BLUE));
+        Vec2 dims = dimensions.get();
+        r.addRenderable(new RectangleSprite(pos, (int) dims.getX(), (int) dims.getY(), Color.BLUE));
     }
 
     public boolean isColliding(@NotNull Collider collider) {
@@ -44,35 +43,5 @@ public class Platform implements Entity {
         }
 
         return false;
-    }
-
-    public double top() {
-        return pos.get().getY() - HEIGHT / 2;
-    }
-
-    public double bottom() {
-        return pos.get().getY() + HEIGHT / 2;
-    }
-
-    public double left() {
-        return pos.get().getX() - width / 2;
-    }
-
-    public double right() {
-        return pos.get().getX() + width / 2;
-    }
-
-    public Vec2[] getCorners() {
-        double top = top();
-        double bottom = bottom();
-        double left = left();
-        double right = right();
-
-        return new Vec2[]{
-                new Vec2(left, top),
-                new Vec2(right, bottom),
-                new Vec2(right, top),
-                new Vec2(left, bottom),
-        };
     }
 }
