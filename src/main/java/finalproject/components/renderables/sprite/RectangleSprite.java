@@ -7,32 +7,18 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 
 public class RectangleSprite extends Sprite {
-    int width;
-    int height;
+    Box<Vec2> dimensions;
     Color color;
 
-    public RectangleSprite(Box<Vec2> pos, int width, int height, Color color) {
+    public RectangleSprite(Box<Vec2> pos, Box<Vec2> dimensions, Color color) {
         super(pos);
 
-        this.width = width;
-        this.height = height;
+        this.dimensions = dimensions;
         this.color = color;
     }
 
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
+    public Vec2 getDimensions() {
+        return dimensions.get();
     }
 
     public Color getColor() {
@@ -48,10 +34,14 @@ public class RectangleSprite extends Sprite {
         g.setColor(color);
 
         Vec2 center = pos.get();
+        Vec2 size = dimensions.get();
 
-        int top = (int) center.getY() - height / 2;
-        int left = (int) center.getX() - width / 2;
+        double height = size.getY();
+        double width = size.getX();
 
-        g.fillRect(left, top, width, height);
+        int top = (int) (center.getY() - height / 2);
+        int left = (int) (center.getX() - width / 2);
+
+        g.fillRect(left, top, (int) width, (int) height);
     }
 }

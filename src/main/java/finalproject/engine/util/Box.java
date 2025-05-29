@@ -1,6 +1,7 @@
 package finalproject.engine.util;
 
 /**
+ * Stores a reference to an object.
  * Effectively a heap pointer type
  * to keep fields the same across
  * components with immutable types.

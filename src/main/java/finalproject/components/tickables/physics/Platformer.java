@@ -14,10 +14,12 @@ import java.util.ArrayList;
 public class Platformer implements Tickable {
     Collider collider;
     Box<Vec2> vel;
+    Box<Boolean> grounded;
 
-    public Platformer(Collider collider, Box<Vec2> vel) {
+    public Platformer(Collider collider, Box<Vec2> vel, Box<Boolean> grounded) {
         this.collider = collider;
         this.vel = vel;
+        this.grounded = grounded;
     }
 
     @Override
@@ -28,12 +30,15 @@ public class Platformer implements Tickable {
         double velY = vel2.getY();
 
         for (Platform platform : platforms) {
-            if(!platform.isColliding(collider)) continue;
+            if(!collider.isColliding(platform.collider)) continue;
 
             if(velY > 0) {
                 vel.set(vel2.subY(velY));
-                collider.alignBottom(platform.top());
+                collider.alignBottom(platform.collider.top());
+                grounded.set(true);
             }
         }
+
+        grounded.set(false);
     }
 }

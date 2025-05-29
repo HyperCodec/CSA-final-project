@@ -13,7 +13,7 @@ public class Engine extends JPanel {
     public final static int WIDTH = 800;
     public final static int HEIGHT = 600;
     final static Color BACKGROUND_COLOR = Color.WHITE;
-    final static long FPS = 120;
+    final static long FPS = 128;
 
     final static long FRAME_DELAY = 1000 / FPS;
 
@@ -28,6 +28,7 @@ public class Engine extends JPanel {
     public Engine() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setBackground(BACKGROUND_COLOR);
+        requestFocusInWindow();
     }
 
     @Override
@@ -40,7 +41,7 @@ public class Engine extends JPanel {
 
     public void step() {
         double dt = time.deltaSecs();
-        System.out.println("dt: " + dt);
+//        System.out.println("dt: " + dt);
 
         for(Tickable t : tickables)
             t.tick(access, dt);

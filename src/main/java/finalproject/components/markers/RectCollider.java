@@ -5,6 +5,8 @@ import finalproject.engine.util.Vec2;
 import org.jetbrains.annotations.NotNull;
 
 public class RectCollider extends Collider {
+    final static int POINTS_PER_SIDE = 5;
+
     Box<Vec2> dimensions;
 
     public RectCollider(Box<Vec2> pos, Box<Vec2> dimensions) {
@@ -30,14 +32,37 @@ public class RectCollider extends Collider {
         if(contains(otherCenter))
             return true;
 
-        // TODO point checks
+        // check points along edge with ambiguous collider
+        Vec2 dims = dimensions.get();
+        double dx = dims.getX() / POINTS_PER_SIDE;
+        double dy = dims.getY() / POINTS_PER_SIDE;
+
+        // top and bottom edges
+        double[] tby = {top(), bottom()};
+        for(double x = left(); x < right(); x += dx) {
+            for(double y : tby) {
+                if(other.contains(new Vec2(x, y)))
+                    return true;
+            }
+        }
+
+        // left and right edges
+        double[] lrx = {left(), right()};
+        for(double y = top(); y < bottom(); y += dy) {
+            for(double x : lrx) {
+                if(other.contains(new Vec2(x, y)))
+                    return true;
+            }
+        }
 
         return false;
     }
 
     @Override
     public void alignBottom(double y) {
-
+        double height = dimensions.get().getY();
+        double dy = height / 2;
+        pos.set(new Vec2(pos.get().getX(), y - dy));
     }
 
     public double top() {
@@ -68,5 +93,9 @@ public class RectCollider extends Collider {
                 new Vec2(right, top),
                 new Vec2(left, bottom),
         };
+    }
+
+    public Vec2 getDimensions() {
+        return dimensions.get();
     }
 }

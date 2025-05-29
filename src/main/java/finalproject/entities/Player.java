@@ -13,14 +13,14 @@ import finalproject.engine.util.Vec2;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 
-public class Player implements Entity, MouseListener, KeyListener {
-    public Box<Vec2> pos;
-    public Box<Vec2> vel = new Box<>(Vec2.ZERO);
+public class Player implements Entity {
+    // bad practice but using getters
+    // and setters is super annoying
+    public final Box<Vec2> pos;
+    public final Box<Vec2> vel = new Box<>(Vec2.ZERO);
+    public final Box<Boolean> grounded = new Box<>(false);
 
     public Player(Vec2 pos) {
         this.pos = new Box<>(pos);
@@ -37,53 +37,26 @@ public class Player implements Entity, MouseListener, KeyListener {
         Collider collider = new CircleCollider(pos, 10);
         r.addMarker(collider);
 
-        Platformer platformController = new Platformer(collider, vel);
+        Platformer platformController = new Platformer(collider, vel, grounded);
         r.addTickable(platformController);
 
         PointSprite sprite = new PointSprite(pos, Color.cyan, 10);
         r.addRenderable(sprite);
-
-        r.addMouseListener(this);
-        r.addKeyListener(this);
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
+    // TODO transition to new input system
+    // https://docs.oracle.com/javase/tutorial/uiswing/misc/keybinding.html
+    public void keyPressed(@NotNull KeyEvent e) {
+        System.out.println("Key pressed: " + e.getKeyChar());
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_UP: case KeyEvent.VK_W:
+                System.out.println("jump pressed");
+                if(grounded.get()) {
+                    System.out.println("jumping");
+                    vel.set(vel.get().subY(10));
+                    grounded.set(false);
+                }
+                break;
+        }
     }
 }
