@@ -39,6 +39,6 @@ public class Platformer implements Tickable {
             }
         }
 
-        grounded.set(false);
+//        grounded.set(false);
     }
 }

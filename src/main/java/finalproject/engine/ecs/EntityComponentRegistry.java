@@ -2,6 +2,7 @@ package finalproject.engine.ecs;
 
 import finalproject.engine.Engine;
 
+import javax.swing.*;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -100,5 +101,27 @@ public class EntityComponentRegistry {
 
     public WorldAccessor getWorldAccessor() {
         return engine.getWorldAccessor();
+    }
+
+    public void addKeybind(KeyStroke keyStroke, Object ident, Action action) {
+        engine.getInputMap().put(keyStroke, ident);
+        engine.getActionMap().put(ident, action);
+    }
+
+    public void rebindKey(KeyStroke oldKey, KeyStroke newKey) {
+        InputMap inputMap = engine.getInputMap();
+
+        Object ident = inputMap.get(oldKey);
+        inputMap.remove(oldKey);
+        engine.getInputMap().put(newKey, ident);
+    }
+
+    public Object removeKeybind(KeyStroke keyStroke) {
+        InputMap inputMap = engine.getInputMap();
+
+        Object ident = inputMap.get(keyStroke);
+        inputMap.remove(keyStroke);
+
+        return ident;
     }
 }

@@ -1,0 +1,36 @@
+package finalproject.components.markers.physics;
+
+import finalproject.engine.util.Box;
+import finalproject.engine.util.Vec2;
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * Provides control over force/velocity.
+ */
+public class Rigidbody {
+    double mass;
+    Box<Vec2> vel;
+
+    public Rigidbody(double mass, Box<Vec2> vel) {
+        this.mass = mass;
+        this.vel = vel;
+    }
+
+    public void applyAccel(@NotNull Vec2 accel, double dt) {
+        vel.set(vel.get().add(accel.mulSingle(dt)));
+    }
+
+    public Vec2 applyForce(@NotNull Vec2 force, double dt) {
+        Vec2 accel = force.divSingle(mass);
+        applyAccel(accel, dt);
+        return accel;
+    }
+
+    public Vec2 getVelocity() {
+        return vel.get();
+    }
+
+    public Vec2 getForce() {
+        return vel.get().mulSingle(mass);
+    }
+}

@@ -2,7 +2,9 @@ package finalproject.entities;
 
 import finalproject.components.markers.CircleCollider;
 import finalproject.components.markers.Collider;
+import finalproject.components.markers.physics.Rigidbody;
 import finalproject.components.renderables.sprite.PointSprite;
+import finalproject.components.tickables.physics.Drag;
 import finalproject.components.tickables.physics.Gravity;
 import finalproject.components.tickables.physics.Platformer;
 import finalproject.components.tickables.physics.VelocityPositionUpdater;
@@ -12,6 +14,7 @@ import finalproject.engine.util.Box;
 import finalproject.engine.util.Vec2;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -42,21 +45,43 @@ public class Player implements Entity {
 
         PointSprite sprite = new PointSprite(pos, Color.cyan, 10);
         r.addRenderable(sprite);
-    }
 
-    // TODO transition to new input system
-    // https://docs.oracle.com/javase/tutorial/uiswing/misc/keybinding.html
-    public void keyPressed(@NotNull KeyEvent e) {
-        System.out.println("Key pressed: " + e.getKeyChar());
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_UP: case KeyEvent.VK_W:
+        Rigidbody rb = new Rigidbody(10, vel);
+        r.addMarker(rb);
+
+        Drag drag = new Drag(0.1, rb);
+        r.addTickable(drag);
+
+        r.addKeybind(KeyStroke.getKeyStroke("W"), "jump", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent _e) {
                 System.out.println("jump pressed");
                 if(grounded.get()) {
                     System.out.println("jumping");
                     vel.set(vel.get().subY(10));
                     grounded.set(false);
                 }
-                break;
-        }
+            }
+        });
+
+        r.addKeybind(KeyStroke.getKeyStroke("D"), "right", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Vec2 vel2 = vel.get();
+                if(vel2.getX() > 10) return;
+
+                vel.set(new Vec2(5, vel2.getY()));
+            }
+        });
+
+        r.addKeybind(KeyStroke.getKeyStroke("A"), "left", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Vec2 vel2 = vel.get();
+                if(vel2.getX() < -10) return;
+
+                vel.set(new Vec2(-5, vel2.getY()));
+            }
+        });
     }
 }
