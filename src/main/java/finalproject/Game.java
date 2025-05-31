@@ -1,11 +1,10 @@
 package finalproject;
 
 import finalproject.engine.Engine;
-import finalproject.engine.util.Vec2;
-import finalproject.entities.MouseInputTest;
-import finalproject.entities.environment.Platform;
-import finalproject.entities.ui.FpsDisplay;
-import finalproject.entities.Player;
+import finalproject.game.util.Vec2;
+import finalproject.game.entities.environment.Platform;
+import finalproject.game.entities.ui.FpsDisplay;
+import finalproject.game.entities.character.Player;
 
 import javax.swing.*;
 

@@ -1,0 +1,23 @@
+package finalproject.game.components.tickables.physics;
+
+import finalproject.game.components.markers.physics.Rigidbody;
+import finalproject.engine.ecs.Tickable;
+import finalproject.engine.ecs.WorldAccessor;
+import finalproject.game.util.Vec2;
+
+public class Drag implements Tickable {
+    double dragCoefficient;
+    Rigidbody rb;
+
+    public Drag(double dragCoefficient, Rigidbody rb) {
+        this.dragCoefficient = dragCoefficient;
+        this.rb = rb;
+    }
+
+    @Override
+    public void tick(WorldAccessor _world, double dt) {
+        Vec2 vel = rb.getVelocity();
+        Vec2 drag = vel.norm().mulSingle(-dragCoefficient * vel.magSq());
+        rb.applyForce(drag, dt);
+    }
+}

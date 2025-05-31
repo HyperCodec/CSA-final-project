@@ -17,9 +17,9 @@ public class Engine extends JPanel {
 
     final static long FRAME_DELAY = 1000 / FPS;
 
-    HashMap<Entity, EntityComponentRegistry> components = new HashMap<>();
-    HashSet<Tickable> tickables = new HashSet<>();
-    HashSet<Renderable> renderables = new HashSet<>();
+    final HashMap<Entity, EntityComponentRegistry> components = new HashMap<>();
+    final HashSet<Tickable> tickables = new HashSet<>();
+    final HashSet<Renderable> renderables = new HashSet<>();
     boolean running = false;
 
     TimeManager time = new TimeManager();
@@ -33,17 +33,22 @@ public class Engine extends JPanel {
 
     @Override
     public void paint(@NotNull Graphics g) {
+        // clear previous frame
         super.paint(g);
 
-        for(Renderable renderable : renderables)
-            renderable.render(g);
+        synchronized(renderables) {
+            for(Renderable renderable : renderables)
+                renderable.render(g);
+        }
     }
 
     public void step() {
         double dt = time.deltaSecs();
 
-        for(Tickable t : tickables)
-            t.tick(access, dt);
+        synchronized(tickables) {
+            for(Tickable t : tickables)
+                t.tick(access, dt);
+        }
 
         time.endTick();
     }
