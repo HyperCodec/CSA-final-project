@@ -41,7 +41,6 @@ public class Engine extends JPanel {
 
     public void step() {
         double dt = time.deltaSecs();
-//        System.out.println("dt: " + dt);
 
         for(Tickable t : tickables)
             t.tick(access, dt);

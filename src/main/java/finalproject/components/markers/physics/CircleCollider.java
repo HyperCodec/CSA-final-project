@@ -1,10 +1,10 @@
-package finalproject.components.markers;
+package finalproject.components.markers.physics;
 
 import finalproject.engine.util.Box;
 import finalproject.engine.util.Vec2;
 import org.jetbrains.annotations.NotNull;
 
-public class CircleCollider extends Collider {
+public class CircleCollider extends PlatformerCollider {
     double radius;
     double cornerComponent;
 
@@ -26,30 +26,6 @@ public class CircleCollider extends Collider {
     public boolean isColliding(@NotNull Collider other) {
         Vec2 center = pos.get();
         Vec2 otherCenter = other.getCenter();
-
-        if(other instanceof RectCollider rect) {
-            // find closest edges. if either of the edges is in circle, there is a collision.
-            double cx = center.getX();
-            double cy = center.getY();
-
-            double x = cx;
-            double y = cy;
-
-            double left = rect.left();
-            if(cx < left)
-                x = left;
-            else if(cx > rect.right())
-                x = rect.right();
-
-            double top = rect.top();
-            if(cy < top)
-                y = top;
-            else if(cy > rect.bottom())
-                y = rect.bottom();
-
-            double distSq = otherCenter.sub(new Vec2(x, y)).magSq();
-            return distSq <= radius * radius;
-        }
 
         double distSq = center.sub(otherCenter).magSq();
 
@@ -93,5 +69,10 @@ public class CircleCollider extends Collider {
     @Override
     public void alignBottom(double y) {
         pos.set(new Vec2(pos.get().getX(), y - radius));
+    }
+
+    @Override
+    public Vec2 getBottom() {
+        return pos.get().addY(radius);
     }
 }

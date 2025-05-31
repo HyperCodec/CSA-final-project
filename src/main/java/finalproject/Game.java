@@ -36,7 +36,7 @@ public class Game extends JFrame {
         Player p = new Player(new Vec2((double) Engine.WIDTH / 2, (double) Engine.HEIGHT / 2));
         engine.addEntity(p);
         engine.addEntity(new Platform(p.pos.get().addY(50), new Vec2(50, 5)));
-        engine.addEntity(new MouseInputTest());
+//        engine.addEntity(new MouseInputTest());
     }
 
     public static void main(String[] args) {

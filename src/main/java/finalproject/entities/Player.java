@@ -1,7 +1,8 @@
 package finalproject.entities;
 
-import finalproject.components.markers.CircleCollider;
-import finalproject.components.markers.Collider;
+import finalproject.components.markers.physics.CircleCollider;
+import finalproject.components.markers.physics.Collider;
+import finalproject.components.markers.physics.PlatformerCollider;
 import finalproject.components.markers.physics.Rigidbody;
 import finalproject.components.renderables.sprite.PointSprite;
 import finalproject.components.tickables.physics.Drag;
@@ -34,28 +35,27 @@ public class Player implements Entity {
         Gravity gravity = new Gravity(vel);
         r.addTickable(gravity);
 
-        VelocityPositionUpdater updater = new VelocityPositionUpdater(pos, vel);
-        r.addTickable(updater);
+        Rigidbody rb = new Rigidbody(10, vel);
+        r.addMarker(rb);
 
-        Collider collider = new CircleCollider(pos, 10);
+        PlatformerCollider collider = new CircleCollider(pos, 10);
         r.addMarker(collider);
 
         Platformer platformController = new Platformer(collider, vel, grounded);
         r.addTickable(platformController);
 
+        Drag drag = new Drag(0.25, rb);
+        r.addTickable(drag);
+
+        VelocityPositionUpdater updater = new VelocityPositionUpdater(pos, vel);
+        r.addTickable(updater);
+
         PointSprite sprite = new PointSprite(pos, Color.cyan, 10);
         r.addRenderable(sprite);
-
-        Rigidbody rb = new Rigidbody(10, vel);
-        r.addMarker(rb);
-
-        Drag drag = new Drag(0.1, rb);
-        r.addTickable(drag);
 
         r.addKeybind(KeyStroke.getKeyStroke("W"), "jump", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent _e) {
-                System.out.println("jump pressed");
                 if(grounded.get()) {
                     System.out.println("jumping");
                     vel.set(vel.get().subY(10));

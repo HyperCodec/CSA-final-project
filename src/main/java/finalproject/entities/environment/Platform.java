@@ -1,6 +1,6 @@
 package finalproject.entities.environment;
 
-import finalproject.components.markers.RectCollider;
+import finalproject.components.markers.physics.RectCollider;
 import finalproject.components.renderables.sprite.RectangleSprite;
 import finalproject.engine.ecs.Entity;
 import finalproject.engine.ecs.EntityComponentRegistry;

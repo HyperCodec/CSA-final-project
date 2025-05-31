@@ -1,10 +1,10 @@
-package finalproject.components.markers;
+package finalproject.components.markers.physics;
 
 import finalproject.engine.util.Box;
 import finalproject.engine.util.Vec2;
 import org.jetbrains.annotations.NotNull;
 
-public class RectCollider extends Collider {
+public class RectCollider extends PlatformerCollider {
     final static int POINTS_PER_SIDE = 5;
 
     Box<Vec2> dimensions;
@@ -97,5 +97,10 @@ public class RectCollider extends Collider {
 
     public Vec2 getDimensions() {
         return dimensions.get();
+    }
+
+    @Override
+    public Vec2 getBottom() {
+        return pos.get().addY(dimensions.get().getY() / 2);
     }
 }

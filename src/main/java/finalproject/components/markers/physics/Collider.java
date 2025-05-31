@@ -1,4 +1,4 @@
-package finalproject.components.markers;
+package finalproject.components.markers.physics;
 
 import finalproject.engine.util.Box;
 import finalproject.engine.util.Vec2;
@@ -20,6 +20,4 @@ public abstract class Collider {
     public void setCenter(Vec2 center) {
         pos.set(center);
     }
-
-    public abstract void alignBottom(double y);
 }

@@ -1,6 +1,6 @@
 package finalproject.components.tickables.physics;
 
-import finalproject.components.markers.Collider;
+import finalproject.components.markers.physics.PlatformerCollider;
 import finalproject.engine.ecs.Tickable;
 import finalproject.engine.ecs.WorldAccessor;
 import finalproject.engine.util.Box;
@@ -12,11 +12,11 @@ import java.util.ArrayList;
 
 // implements platform collision for this entity.
 public class Platformer implements Tickable {
-    Collider collider;
+    PlatformerCollider collider;
     Box<Vec2> vel;
     Box<Boolean> grounded;
 
-    public Platformer(Collider collider, Box<Vec2> vel, Box<Boolean> grounded) {
+    public Platformer(PlatformerCollider collider, Box<Vec2> vel, Box<Boolean> grounded) {
         this.collider = collider;
         this.vel = vel;
         this.grounded = grounded;
@@ -30,7 +30,7 @@ public class Platformer implements Tickable {
         double velY = vel2.getY();
 
         for (Platform platform : platforms) {
-            if(!collider.isColliding(platform.collider)) continue;
+            if(!platform.collider.isColliding(collider)) continue;
 
             if(velY > 0) {
                 vel.set(vel2.subY(velY));
@@ -38,7 +38,5 @@ public class Platformer implements Tickable {
                 grounded.set(true);
             }
         }
-
-//        grounded.set(false);
     }
 }
