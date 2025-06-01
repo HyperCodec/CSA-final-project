@@ -122,9 +122,12 @@ public class KeysManager {
 
         addKeybind("up", "W");
         addKeybind("up", "UP");
+        addKeybind("up", "SPACE");
 
         addKeybind("down", "S");
         addKeybind("down", "DOWN");
+
+        addKeybind("toggle_debug", "F3");
     }
 
     public final static Map<String, CardinalDirection> DIRECTION_MAP = Map.of(
