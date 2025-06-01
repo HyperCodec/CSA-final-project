@@ -53,7 +53,7 @@ public class KeysManager {
         });
 
         // using putIfAbsent in case multiple
-        // keys are bound to the same name
+        // keys are bound to the same ident
         keyDownSubscribers.putIfAbsent(ident, new HashSet<>());
         keyUpSubscribers.putIfAbsent(ident, new HashSet<>());
     }
