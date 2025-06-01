@@ -3,6 +3,8 @@ package finalproject.game.util;
 import org.jetbrains.annotations.NotNull;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -30,5 +32,14 @@ public class ResourceUtils {
     public static @NotNull String readString(@NotNull Class<?> requester, String resourcePath) throws URISyntaxException, IOException {
         Path path = pathToResource(requester, resourcePath);
         return Files.readString(path);
+    }
+
+    public static @NotNull AudioSource readAudio(@NotNull Class<?> requester, String resourcePath, int loop) throws URISyntaxException, UnsupportedAudioFileException, IOException, LineUnavailableException {
+        Path path = pathToResource(requester, resourcePath);
+        return new AudioSource(path.toFile(), loop);
+    }
+
+    public static @NotNull AudioSource readAudio(@NotNull Class<?> requester, String resourcePath) throws UnsupportedAudioFileException, LineUnavailableException, URISyntaxException, IOException {
+        return readAudio(requester, resourcePath, -1);
     }
 }

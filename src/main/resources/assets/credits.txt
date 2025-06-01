@@ -1,3 +1,4 @@
 textures/dynamite/explosion.png - https://ansimuz.itch.io/explosion-animations-pack
 textures/dynamite/dynamite.png, textures/dynamite/dynamite.pdn - https://tumas81.itch.io/minerman-adventure/ (modified by me)
 textures/tiles/* - https://tumas81.itch.io/minerman-adventure/
+sounds/explosion.wav - https://pixabay.com/sound-effects/explosion-fx-343683/ (cropped by me)

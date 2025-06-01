@@ -10,16 +10,18 @@ import finalproject.game.components.markers.physics.Rigidbody;
 import finalproject.game.components.markers.physics.colliders.AlignableCollider;
 import finalproject.game.components.markers.physics.colliders.CircleCollider;
 import finalproject.game.components.renderables.sprite.AnimatedSprite;
-import finalproject.game.components.renderables.sprite.PointSprite;
 import finalproject.game.components.tickables.physics.Drag;
 import finalproject.game.components.tickables.physics.Gravity;
 import finalproject.game.components.tickables.physics.PlatformCollision;
 import finalproject.game.components.tickables.physics.VelocityPositionUpdater;
 import finalproject.game.util.ResourceUtils;
 import finalproject.game.util.Timer;
+import finalproject.game.util.AudioSource;
 import finalproject.game.util.rendering.SpriteSheet;
 import org.jetbrains.annotations.NotNull;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -83,7 +85,12 @@ public class Dynamite implements Entity, Tickable {
     }
 
     public void explode(@NotNull WorldAccessor world) {
-        // TODO sound
+        try {
+            AudioSource explosionSFX = ResourceUtils.readAudio(Dynamite.class, "assets/sounds/explosion.wav", 0);
+            explosionSFX.play();
+        } catch (UnsupportedAudioFileException | LineUnavailableException | URISyntaxException | IOException e) {
+            throw new RuntimeException(e);
+        }
         world.addEntity(new Explosion(pos.get(), EXPLOSION_RADIUS, DAMAGE, owner));
         world.destroyEntity(this);
     }
