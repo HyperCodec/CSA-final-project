@@ -71,8 +71,4 @@ public class CircleCollider extends AlignableCollider {
         pos.set(new Vec2(pos.get().getX(), y - radius));
     }
 
-    @Override
-    public Vec2 getBottom() {
-        return pos.get().addY(radius);
-    }
 }

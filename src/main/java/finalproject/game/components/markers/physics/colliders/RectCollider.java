@@ -97,8 +97,4 @@ public class RectCollider extends AlignableCollider {
         return dimensions.get();
     }
 
-    @Override
-    public Vec2 getBottom() {
-        return pos.get().addY(dimensions.get().getY() / 2);
-    }
 }

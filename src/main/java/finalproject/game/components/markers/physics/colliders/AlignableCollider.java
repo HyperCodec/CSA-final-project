@@ -8,6 +8,5 @@ public abstract class AlignableCollider extends Collider {
         super(pos);
     }
 
-    public abstract Vec2 getBottom();
     public abstract void alignBottom(double y);
 }

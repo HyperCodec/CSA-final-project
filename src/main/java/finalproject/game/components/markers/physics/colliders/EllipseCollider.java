@@ -16,11 +16,6 @@ public class EllipseCollider extends AlignableCollider {
     }
 
     @Override
-    public Vec2 getBottom() {
-        return pos.get().addY(dimensions.get().getY() / 2);
-    }
-
-    @Override
     public void alignBottom(double y) {
         double height = dimensions.get().getY();
         double dy = height / 2;
