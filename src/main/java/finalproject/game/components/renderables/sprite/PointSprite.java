@@ -1,7 +1,7 @@
 package finalproject.game.components.renderables.sprite;
 
 import finalproject.game.util.Box;
-import finalproject.game.util.Vec2;
+import finalproject.engine.Vec2;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -34,14 +34,13 @@ public class PointSprite extends Sprite {
     }
 
     @Override
-    public void render(@NotNull Graphics g) {
+    public void renderAtPos(@NotNull Graphics g, @NotNull Vec2 pos) {
         g.setColor(color);
 
         int diameter = radius * 2;
 
-        Vec2 pos2 = pos.get();
-        int cx = (int) pos2.getX() - radius;
-        int cy = (int) pos2.getY() - radius;
+        int cx = (int) pos.getX() - radius;
+        int cy = (int) pos.getY() - radius;
 
         g.fillOval(cx, cy, diameter, diameter);
     }

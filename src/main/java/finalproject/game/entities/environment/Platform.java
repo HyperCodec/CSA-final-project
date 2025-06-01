@@ -5,7 +5,7 @@ import finalproject.game.components.renderables.sprite.RectangleSprite;
 import finalproject.engine.ecs.Entity;
 import finalproject.engine.ecs.EntityComponentRegistry;
 import finalproject.game.util.Box;
-import finalproject.game.util.Vec2;
+import finalproject.engine.Vec2;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;

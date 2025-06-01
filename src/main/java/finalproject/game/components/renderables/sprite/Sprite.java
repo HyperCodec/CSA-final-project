@@ -1,19 +1,21 @@
 package finalproject.game.components.renderables.sprite;
 
+import finalproject.engine.Camera;
 import finalproject.engine.ecs.Renderable;
 import finalproject.game.util.Box;
-import finalproject.game.util.Vec2;
+import finalproject.engine.Vec2;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
 public abstract class Sprite implements Renderable {
-    protected Box<Vec2> pos;
+    private final Box<Vec2> pos;
 
     protected Sprite(Box<Vec2> position) {
         this.pos = position;
     }
 
-    public Box<Vec2> getPos() { return pos; }
+    public Vec2 getPos() { return pos.get(); }
     public void setPos(Vec2 pos) {
         this.pos.set(pos);
     }
@@ -21,5 +23,11 @@ public abstract class Sprite implements Renderable {
     // TODO make renderAtPos abstract method
     // and make default impl for this
     // once camera is implemented.
-    public abstract void render(Graphics g);
+    public void render(Graphics g, @NotNull Camera mainCamera) {
+        Vec2 screenPos = mainCamera.getScreenPos(pos.get());
+
+        renderAtPos(g, screenPos);
+    }
+
+    public abstract void renderAtPos(Graphics g, Vec2 pos);
 }

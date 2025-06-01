@@ -1,7 +1,7 @@
 package finalproject.game.components.markers.physics.colliders;
 
 import finalproject.game.util.Box;
-import finalproject.game.util.Vec2;
+import finalproject.engine.Vec2;
 
 public abstract class CharacterCollider extends Collider {
     protected CharacterCollider(Box<Vec2> pos) {

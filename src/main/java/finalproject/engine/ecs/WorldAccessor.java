@@ -171,4 +171,12 @@ public class WorldAccessor {
     public void endGame() {
         engine.stopGameLoop();
     }
+
+    public void destroyEntitiesOfType(Class<?> targetEntity) {
+        for(Entity entity : getEntities()) {
+            if(targetEntity.isAssignableFrom(entity.getClass())) {
+                engine.destroyEntity(entity);
+            }
+        }
+    }
 }

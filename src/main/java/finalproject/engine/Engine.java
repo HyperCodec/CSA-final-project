@@ -1,6 +1,7 @@
 package finalproject.engine;
 
 import finalproject.engine.ecs.*;
+import finalproject.game.util.Box;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -12,6 +13,8 @@ import java.util.Set;
 public class Engine extends JPanel {
     public final static int WIDTH = 800;
     public final static int HEIGHT = 600;
+    public final static Vec2 SCREEN_DIMENSIONS = new Vec2(WIDTH, HEIGHT);
+
     final static Color BACKGROUND_COLOR = Color.WHITE;
     final static long FPS = 128;
 
@@ -21,6 +24,7 @@ public class Engine extends JPanel {
     final HashSet<Tickable> tickables = new HashSet<>();
     final HashSet<Renderable> renderables = new HashSet<>();
     boolean running = false;
+    Camera mainCamera = new Camera(new Box<>(Vec2.ZERO));
 
     TimeManager time = new TimeManager();
     WorldAccessor access = new WorldAccessor(this);
@@ -38,7 +42,7 @@ public class Engine extends JPanel {
 
         synchronized(renderables) {
             for(Renderable renderable : renderables)
-                renderable.render(g);
+                renderable.render(g, mainCamera);
         }
     }
 
@@ -145,5 +149,13 @@ public class Engine extends JPanel {
 
     public void stopGameLoop() {
         running = false;
+    }
+
+    public Camera getMainCamera() {
+        return mainCamera;
+    }
+
+    public void setMainCamera(Camera camera) {
+        mainCamera = camera;
     }
 }

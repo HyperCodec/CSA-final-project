@@ -1,4 +1,4 @@
-package finalproject.game.util;
+package finalproject.engine;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.jetbrains.annotations.NotNull;
@@ -24,6 +24,7 @@ public class Vec2 {
     public Vec2 add(@NotNull Vec2 v) {
         return new Vec2(x + v.x, y + v.y);
     }
+
     public Vec2 addX(double v) {
         return new Vec2(x + v, y);
     }
@@ -32,15 +33,24 @@ public class Vec2 {
         return new Vec2(x, y + v);
     }
 
+    public Vec2 addSingle(double v) {
+        return new Vec2(x + v, y + v);
+    }
+
     public Vec2 sub(@NotNull Vec2 v) {
         return new Vec2(x - v.x, y - v.y);
     }
+
     public Vec2 subX(double v) {
         return new Vec2(x - v, y);
     }
 
     public Vec2 subY(double v) {
         return new Vec2(x, y - v);
+    }
+
+    public Vec2 subSingle(double v) {
+        return new Vec2(x - v, y - v);
     }
 
     public Vec2 mul(@NotNull Vec2 v) {

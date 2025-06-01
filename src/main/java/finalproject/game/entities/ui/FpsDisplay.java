@@ -1,5 +1,6 @@
 package finalproject.game.entities.ui;
 
+import finalproject.engine.Camera;
 import finalproject.engine.ecs.WorldAccessor;
 import finalproject.engine.ecs.Entity;
 import finalproject.engine.ecs.EntityComponentRegistry;
@@ -24,7 +25,7 @@ public class FpsDisplay implements Entity, Tickable, Renderable {
     }
 
     @Override
-    public void render(@NotNull Graphics g) {
+    public void render(@NotNull Graphics g, Camera _mainCamera) {
         g.setColor(Color.BLACK);
         g.drawString("FPS: " + fps, 10, 20);
     }

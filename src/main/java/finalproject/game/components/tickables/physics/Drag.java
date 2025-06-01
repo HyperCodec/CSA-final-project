@@ -3,7 +3,7 @@ package finalproject.game.components.tickables.physics;
 import finalproject.game.components.markers.physics.Rigidbody;
 import finalproject.engine.ecs.Tickable;
 import finalproject.engine.ecs.WorldAccessor;
-import finalproject.game.util.Vec2;
+import finalproject.engine.Vec2;
 
 public class Drag implements Tickable {
     double dragCoefficient;

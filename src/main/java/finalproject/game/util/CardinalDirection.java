@@ -1,5 +1,7 @@
 package finalproject.game.util;
 
+import finalproject.engine.Vec2;
+
 public enum CardinalDirection {
     UP(new Vec2(0, -1)),
     DOWN(new Vec2(0, 1)),

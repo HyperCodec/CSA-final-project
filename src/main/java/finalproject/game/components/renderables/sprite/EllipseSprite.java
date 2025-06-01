@@ -1,7 +1,7 @@
 package finalproject.game.components.renderables.sprite;
 
 import finalproject.game.util.Box;
-import finalproject.game.util.Vec2;
+import finalproject.engine.Vec2;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -18,14 +18,13 @@ public class EllipseSprite extends Sprite {
     }
 
     @Override
-    public void render(@NotNull Graphics g) {
+    public void renderAtPos(@NotNull Graphics g, @NotNull Vec2 pos) {
         g.setColor(color);
 
-        Vec2 pos2 = pos.get();
         Vec2 dimensions2 = dimensions.get();
 
-        int top = (int) (pos2.getY() - dimensions2.getY() / 2);
-        int left = (int) (pos2.getX() - dimensions2.getX() / 2);
+        int top = (int) (pos.getY() - dimensions2.getY() / 2);
+        int left = (int) (pos.getX() - dimensions2.getX() / 2);
 
         g.fillOval(left, top, (int) dimensions2.getX(), (int) dimensions2.getY());
     }

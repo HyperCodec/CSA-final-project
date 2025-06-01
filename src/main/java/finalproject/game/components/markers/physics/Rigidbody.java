@@ -1,7 +1,7 @@
 package finalproject.game.components.markers.physics;
 
 import finalproject.game.util.Box;
-import finalproject.game.util.Vec2;
+import finalproject.engine.Vec2;
 import org.jetbrains.annotations.NotNull;
 
 /**

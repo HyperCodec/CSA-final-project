@@ -3,7 +3,7 @@ package finalproject.game.components.tickables.physics;
 import finalproject.engine.ecs.Tickable;
 import finalproject.engine.ecs.WorldAccessor;
 import finalproject.game.util.Box;
-import finalproject.game.util.Vec2;
+import finalproject.engine.Vec2;
 
 public class Gravity implements Tickable {
     Box<Vec2> velocity;

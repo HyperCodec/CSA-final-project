@@ -1,0 +1,31 @@
+[
+  {
+    "type": "Player",
+    "args": [
+      {
+        "type": "Vec2",
+        "parent": "Vec2",
+        "static": "ZERO"
+      }
+    ]
+  },
+  {
+    "type": "Platform",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          0.0,
+          50.0
+        ]
+      },
+      {
+        "type": "Vec2",
+        "args": [
+          50.0,
+          5.0
+        ]
+      }
+    ]
+  }
+]

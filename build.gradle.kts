@@ -12,9 +12,14 @@ repositories {
 
 dependencies {
     compileOnly("org.jetbrains:annotations:26.0.2")
+
+    // might remove this since there
+    // aren't any tests
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+
     implementation("org.apache.commons:commons-lang3:3.0")
+    implementation("org.json:json:20160810")
 }
 
 tasks.jar {

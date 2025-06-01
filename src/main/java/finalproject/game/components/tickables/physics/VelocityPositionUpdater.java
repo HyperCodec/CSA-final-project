@@ -4,7 +4,7 @@ import finalproject.engine.ecs.WorldAccessor;
 import finalproject.engine.ecs.Tickable;
 import finalproject.game.util.Box;
 import finalproject.game.util.UnitConversions;
-import finalproject.game.util.Vec2;
+import finalproject.engine.Vec2;
 
 public class VelocityPositionUpdater implements Tickable {
     Box<Vec2> pos;

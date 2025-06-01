@@ -15,7 +15,7 @@ import finalproject.engine.ecs.Tickable;
 import finalproject.engine.ecs.WorldAccessor;
 import finalproject.game.util.Box;
 import finalproject.game.util.CardinalDirection;
-import finalproject.game.util.Vec2;
+import finalproject.engine.Vec2;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;

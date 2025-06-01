@@ -1,7 +1,7 @@
 package finalproject.game.components.renderables.sprite;
 
 import finalproject.game.util.Box;
-import finalproject.game.util.Vec2;
+import finalproject.engine.Vec2;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -17,16 +17,6 @@ public class TextSprite extends Sprite {
         this.text = text;
         this.color = color;
         this.font = font;
-    }
-
-    @Override
-    public void render(@NotNull Graphics g) {
-        g.setColor(color);
-        g.setFont(font);
-
-        Vec2 pos2 = pos.get();
-
-        g.drawString(text.get(), (int) pos2.getX(), (int) pos2.getY());
     }
 
     public Color getColor() {
@@ -51,5 +41,13 @@ public class TextSprite extends Sprite {
 
     public void setText(String text) {
         this.text.set(text);
+    }
+
+    @Override
+    public void renderAtPos(@NotNull Graphics g, @NotNull Vec2 pos) {
+        g.setColor(color);
+        g.setFont(font);
+
+        g.drawString(text.get(), (int) pos.getX(), (int) pos.getY());
     }
 }

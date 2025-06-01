@@ -3,7 +3,7 @@ package finalproject.game.components.renderables.sprite;
 import finalproject.engine.ecs.WorldAccessor;
 import finalproject.engine.ecs.Tickable;
 import finalproject.game.util.Box;
-import finalproject.game.util.Vec2;
+import finalproject.engine.Vec2;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -27,9 +27,9 @@ public class AnimatedSprite extends Sprite implements Tickable {
     }
 
     @Override
-    public void render(@NotNull Graphics g) {
+    public void renderAtPos(@NotNull Graphics g, @NotNull Vec2 pos) {
         Image img = frames.get(currentFrame);
-        g.drawImage(img, (int) pos.get().getX(), (int) pos.get().getY(), null);
+        g.drawImage(img, (int) pos.getX(), (int) pos.getY(), null);
     }
 
     @Override

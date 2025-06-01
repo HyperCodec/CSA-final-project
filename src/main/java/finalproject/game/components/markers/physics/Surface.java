@@ -1,6 +1,6 @@
 package finalproject.game.components.markers.physics;
 
-import finalproject.game.util.Vec2;
+import finalproject.engine.Vec2;
 
 public class Surface {
     public double staticFriction;
