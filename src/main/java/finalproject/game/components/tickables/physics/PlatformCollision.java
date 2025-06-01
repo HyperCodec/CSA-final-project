@@ -1,9 +1,10 @@
 package finalproject.game.components.tickables.physics;
 
+import finalproject.engine.util.box.BasicBox;
 import finalproject.game.components.markers.physics.colliders.AlignableCollider;
 import finalproject.engine.ecs.Tickable;
 import finalproject.engine.ecs.WorldAccessor;
-import finalproject.engine.util.Box;
+import finalproject.engine.util.box.Box;
 import finalproject.engine.util.Vec2;
 import finalproject.game.entities.environment.Platform;
 import org.jetbrains.annotations.NotNull;
@@ -27,7 +28,7 @@ public class PlatformCollision implements Tickable {
     }
 
     public PlatformCollision(AlignableCollider collider, Box<Vec2> vel) {
-        this(collider, vel, new Box<>(false), new Box<>(0.0));
+        this(collider, vel, new BasicBox<>(false), new BasicBox<>(0.0));
     }
 
     @Override

@@ -2,7 +2,7 @@ package finalproject.game.components.tickables.physics;
 
 import finalproject.engine.ecs.WorldAccessor;
 import finalproject.engine.ecs.Tickable;
-import finalproject.engine.util.Box;
+import finalproject.engine.util.box.Box;
 import finalproject.game.util.physics.UnitConversions;
 import finalproject.engine.util.Vec2;
 

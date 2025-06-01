@@ -1,29 +1,39 @@
 package finalproject.game.entities.environment;
 
+import finalproject.engine.util.box.BasicBox;
 import finalproject.game.components.markers.physics.colliders.RectCollider;
-import finalproject.game.components.renderables.sprite.RectangleSprite;
+import finalproject.game.components.renderables.sprite.ImageSprite;
 import finalproject.engine.ecs.Entity;
 import finalproject.engine.ecs.EntityComponentRegistry;
-import finalproject.engine.util.Box;
+import finalproject.engine.util.box.Box;
 import finalproject.engine.util.Vec2;
+import finalproject.game.util.rendering.TextureManager;
+import finalproject.game.util.rendering.TileMap;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
 public class Platform implements Entity {
     public final Box<Vec2> pos;
-    public final Box<Vec2> dimensions;
+    public final Vec2 dimensions;
     public final RectCollider collider;
+    Image image;
 
-    public Platform(Vec2 pos, Vec2 dimensions) {
-        this.pos = new Box<>(pos);
-        this.dimensions = new Box<>(dimensions);
-        collider = new RectCollider(this.pos, this.dimensions);
+    public Platform(Vec2 pos, @NotNull Vec2 dimensions) {
+        this.pos = new BasicBox<>(pos);
+        this.dimensions = dimensions;
+        collider = new RectCollider(this.pos, new BasicBox<>(this.dimensions));
+        image = TextureManager.Environment.PLACEHOLDER_TILE.tileRect((int) dimensions.getX(), (int) dimensions.getY());
+    }
+
+    public Platform(Vec2 pos, Vec2 dimensions, @NotNull TileMap tileMap) {
+        this(pos, dimensions);
+        this.image = tileMap.tileRect((int) dimensions.getX(), (int) dimensions.getY());
     }
 
     @Override
     public void spawn(@NotNull EntityComponentRegistry r) {
-        r.addRenderable(new RectangleSprite(pos, dimensions, Color.BLUE));
+        r.addRenderable(new ImageSprite(pos, image));
         r.addMarker(collider);
     }
 }

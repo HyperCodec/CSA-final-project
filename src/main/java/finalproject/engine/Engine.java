@@ -3,7 +3,8 @@ package finalproject.engine;
 import finalproject.engine.ecs.*;
 import finalproject.engine.input.KeysManager;
 import finalproject.engine.input.MouseManager;
-import finalproject.engine.util.Box;
+import finalproject.engine.util.box.BasicBox;
+import finalproject.engine.util.box.Box;
 import finalproject.engine.util.Vec2;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,7 +25,7 @@ public class Engine extends JPanel {
     final HashSet<Tickable> tickables = new HashSet<>();
     final HashSet<Renderable> renderables = new HashSet<>();
     boolean running = false;
-    Camera mainCamera = new Camera(this, new Box<>(Vec2.ZERO));
+    Camera mainCamera = new Camera(this, new BasicBox<>(Vec2.ZERO));
 
     TimeManager time = new TimeManager();
     WorldAccessor access = new WorldAccessor(this);
@@ -117,6 +118,7 @@ public class Engine extends JPanel {
         mouse.removeAllMouseMotionListeners(r.getMouseMotionListeners());
 
         keys.removeAllSubscribers(r.getKeySubscribers());
+        keys.removeAllKeyListeners(r.getKeyListeners());
 
         for(Entity child : r.getChildren())
             destroyEntity(child);

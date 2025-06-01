@@ -1,11 +1,12 @@
-package finalproject.game.entities.projectile;
+package finalproject.game.entities.attack;
 
 import finalproject.engine.util.Vec2;
 import finalproject.engine.ecs.Entity;
 import finalproject.engine.ecs.EntityComponentRegistry;
 import finalproject.engine.ecs.Tickable;
 import finalproject.engine.ecs.WorldAccessor;
-import finalproject.engine.util.Box;
+import finalproject.engine.util.box.BasicBox;
+import finalproject.engine.util.box.Box;
 import finalproject.game.components.markers.physics.Rigidbody;
 import finalproject.game.components.markers.physics.colliders.AlignableCollider;
 import finalproject.game.components.markers.physics.colliders.CircleCollider;
@@ -25,7 +26,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
+import java.util.List;
 
 public class Dynamite implements Entity, Tickable {
     final static SpriteSheet DYNAMITE_TEXTURE;
@@ -49,8 +50,8 @@ public class Dynamite implements Entity, Tickable {
     public final AlignableCollider collider;
 
     public Dynamite(Vec2 pos, Vec2 vel, double time, Entity owner) {
-        this.pos = new Box<>(pos);
-        this.vel = new Box<>(vel);
+        this.pos = new BasicBox<>(pos);
+        this.vel = new BasicBox<>(vel);
         timer = new Timer(time);
         this.owner = owner;
         collider = new CircleCollider(this.pos, COLLIDER_RADIUS);
@@ -69,7 +70,7 @@ public class Dynamite implements Entity, Tickable {
         r.addTickable(new VelocityPositionUpdater(pos, vel));
         r.addTickable(this);
 
-        ArrayList<Image> frames = DYNAMITE_TEXTURE.getImages();
+        List<Image> frames = DYNAMITE_TEXTURE.getImages();
         double frameTime = timer.getDuration() / frames.size();
 
         AnimatedSprite sprite = new AnimatedSprite(pos, frames, frameTime);

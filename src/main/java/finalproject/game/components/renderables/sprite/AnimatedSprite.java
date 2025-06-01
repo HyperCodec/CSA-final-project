@@ -2,7 +2,7 @@ package finalproject.game.components.renderables.sprite;
 
 import finalproject.engine.ecs.WorldAccessor;
 import finalproject.engine.ecs.Tickable;
-import finalproject.engine.util.Box;
+import finalproject.engine.util.box.Box;
 import finalproject.engine.util.Vec2;
 import finalproject.game.util.Timer;
 import org.jetbrains.annotations.NotNull;
@@ -11,8 +11,8 @@ import java.awt.*;
 import java.util.List;
 
 public class AnimatedSprite extends Sprite implements Tickable {
-    int currentFrame = 0;
-    final List<Image> frames;
+    protected int currentFrame = 0;
+    protected final List<Image> frames;
     final Timer timer;
 
     public AnimatedSprite(Box<Vec2> pos, List<Image> frames, double frameTime) {
@@ -27,6 +27,11 @@ public class AnimatedSprite extends Sprite implements Tickable {
 
     public double getCycleDuration() {
         return timer.getDuration() * frames.size();
+    }
+
+    public void reset() {
+        currentFrame = 0;
+        timer.reset();
     }
 
     @Override

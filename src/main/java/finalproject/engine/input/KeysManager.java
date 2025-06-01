@@ -6,16 +6,20 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.*;
 
-public class KeysManager {
+public class KeysManager implements KeyListener {
     HashSet<String> heldKeys = new HashSet<>();
     HashMap<String, HashSet<Runnable>> keyDownSubscribers = new HashMap<>();
     HashMap<String, HashSet<Runnable>> keyUpSubscribers = new HashMap<>();
+    HashSet<KeyListener> keyListeners = new HashSet<>();
     Engine engine;
 
-    public KeysManager(Engine engine) {
+    public KeysManager(@NotNull Engine engine) {
         this.engine = engine;
+        engine.addKeyListener(this);
     }
 
     public synchronized void subscribeKeyDown(String ident, Runnable onKeyDown) {
@@ -148,5 +152,35 @@ public class KeysManager {
                 output.add(kv.getValue());
 
         return output;
+    }
+
+    public synchronized void addKeyListener(KeyListener sub) {
+        keyListeners.add(sub);
+    }
+
+    public synchronized void removeKeyListener(KeyListener sub) {
+        keyListeners.remove(sub);
+    }
+
+    public synchronized void removeAllKeyListeners(Collection<KeyListener> subs) {
+        keyListeners.removeAll(subs);
+    }
+
+    @Override
+    public synchronized void keyTyped(KeyEvent e) {
+        for(KeyListener listener : keyListeners)
+            listener.keyTyped(e);
+    }
+
+    @Override
+    public synchronized void keyPressed(KeyEvent e) {
+        for(KeyListener listener : keyListeners)
+            listener.keyPressed(e);
+    }
+
+    @Override
+    public synchronized void keyReleased(KeyEvent e) {
+        for(KeyListener listener : keyListeners)
+            listener.keyReleased(e);
     }
 }

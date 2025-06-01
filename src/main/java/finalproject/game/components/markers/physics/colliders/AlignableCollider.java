@@ -1,6 +1,6 @@
 package finalproject.game.components.markers.physics.colliders;
 
-import finalproject.engine.util.Box;
+import finalproject.engine.util.box.Box;
 import finalproject.engine.util.Vec2;
 
 public abstract class AlignableCollider extends Collider {

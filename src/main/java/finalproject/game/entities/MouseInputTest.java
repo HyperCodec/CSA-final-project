@@ -1,7 +1,8 @@
 package finalproject.game.entities;
 
-import finalproject.engine.util.Box;
-import finalproject.game.components.renderables.sprite.PointSprite;
+import finalproject.engine.util.box.BasicBox;
+import finalproject.engine.util.box.Box;
+import finalproject.game.components.renderables.sprite.geometry.CircleSprite;
 import finalproject.engine.ecs.Entity;
 import finalproject.engine.ecs.EntityComponentRegistry;
 import finalproject.engine.util.Vec2;
@@ -17,8 +18,8 @@ public class MouseInputTest implements Entity, MouseListener, MouseMotionListene
     public final static Color CLICK_COLOR = Color.RED;
     public final static int RADIUS = 5;
 
-    Box<Vec2> mousePos = new Box<>(Vec2.ZERO);
-    PointSprite sprite = new PointSprite(mousePos, HOVER_COLOR, RADIUS);
+    Box<Vec2> mousePos = new BasicBox<>(Vec2.ZERO);
+    CircleSprite sprite = new CircleSprite(mousePos, HOVER_COLOR, RADIUS);
 
     @Override
     public void spawn(@NotNull EntityComponentRegistry r) {

@@ -2,7 +2,7 @@ package finalproject.engine.ecs;
 
 import finalproject.engine.Camera;
 import finalproject.engine.Engine;
-import finalproject.engine.util.Box;
+import finalproject.engine.util.box.Box;
 import finalproject.engine.util.Vec2;
 import finalproject.game.entities.Scene;
 import finalproject.game.util.physics.CardinalDirection;

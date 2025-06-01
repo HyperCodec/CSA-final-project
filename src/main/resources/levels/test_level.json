@@ -25,6 +25,11 @@
           50.0,
           5.0
         ]
+      },
+      {
+        "type": "TileMap",
+        "parent": "Environment",
+        "static": "PLANKS_TILE_1"
       }
     ]
   }

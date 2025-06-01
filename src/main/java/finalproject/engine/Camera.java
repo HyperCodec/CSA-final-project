@@ -1,6 +1,6 @@
 package finalproject.engine;
 
-import finalproject.engine.util.Box;
+import finalproject.engine.util.box.Box;
 import finalproject.engine.util.Vec2;
 import org.jetbrains.annotations.NotNull;
 

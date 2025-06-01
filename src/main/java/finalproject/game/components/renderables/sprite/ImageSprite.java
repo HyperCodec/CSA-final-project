@@ -1,13 +1,13 @@
 package finalproject.game.components.renderables.sprite;
 
-import finalproject.engine.util.Box;
+import finalproject.engine.util.box.Box;
 import finalproject.engine.util.Vec2;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
 public class ImageSprite extends Sprite {
-    Image image;
+    protected Image image;
 
     public ImageSprite(Box<Vec2> pos, Image image) {
         super(pos);

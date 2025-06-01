@@ -4,6 +4,7 @@ import finalproject.game.entities.character.Player;
 import finalproject.game.entities.environment.Platform;
 import finalproject.engine.util.Vec2;
 import finalproject.game.util.rendering.TextureManager;
+import finalproject.game.util.rendering.TileMap;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -24,11 +25,17 @@ public class ParseUtils {
     // this all work in like my second try
     // after writing everything without testing once
 
+    // i could probably find a way to make
+    // this work with classpaths in general,
+    // but i dont feel like typing all of that
+    // out in JSON anyway
     private final static List<Class<?>> VALID_CLASSES = List.of(
             Player.class,
             Platform.class,
             Vec2.class,
-            TextureManager.class
+            TextureManager.class,
+            TextureManager.Environment.class,
+            TileMap.class
     );
 
     /**
@@ -170,6 +177,11 @@ public class ParseUtils {
     public static Object parseStatic(String typeName, String parentName, String staticName) throws NoSuchFieldException, IllegalAccessException {
         Class<?> type = CLASS_MAP.get(typeName);
         Class<?> parent = CLASS_MAP.get(parentName);
+
+        if(type == null)
+            throw new IllegalArgumentException("No such class: " + typeName);
+        if(parent == null)
+            throw new IllegalArgumentException("No such class: " + parentName);
 
         return fetchStatic(type, parent, staticName);
     }

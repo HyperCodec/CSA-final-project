@@ -17,4 +17,15 @@ public enum CardinalDirection {
     public Vec2 toVector() {
         return val;
     }
+
+    public final static CardinalDirection[] HORIZONTAL = {RIGHT, LEFT};
+    public final static CardinalDirection[] VERTICAL = {UP, DOWN};
+
+    public HorizontalDirection toHorizontal() {
+        return switch (this) {
+            case RIGHT -> HorizontalDirection.RIGHT;
+            case LEFT -> HorizontalDirection.LEFT;
+            default -> throw new IllegalArgumentException("CardinalDirection must be horizontal");
+        };
+    }
 }

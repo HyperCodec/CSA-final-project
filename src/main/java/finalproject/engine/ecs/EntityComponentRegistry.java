@@ -4,6 +4,7 @@ import finalproject.engine.Camera;
 import finalproject.engine.Engine;
 import finalproject.engine.input.KeysManager;
 
+import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.HashSet;
@@ -29,6 +30,7 @@ public class EntityComponentRegistry {
     HashSet<Runnable> keySubscribers = new HashSet<>();
     HashSet<MouseListener> mouseListeners = new HashSet<>();
     HashSet<MouseMotionListener> mouseMotionListeners = new HashSet<>();
+    HashSet<KeyListener> keyListeners = new HashSet<>();
 
     public EntityComponentRegistry(Engine engine, Entity target) {
         this.engine = engine;
@@ -109,6 +111,11 @@ public class EntityComponentRegistry {
         engine.getMouseManager().addMouseMotionListener(sub);
     }
 
+    public void addKeyListener(KeyListener sub) {
+        keyListeners.add(sub);
+        engine.getKeysManager().addKeyListener(sub);
+    }
+
     // could use a HashMap and make removing subscribers
     // a little bit faster, but it's kind of annoying and not
     // that big of a performance improvement.
@@ -132,6 +139,10 @@ public class EntityComponentRegistry {
 
     public HashSet<Runnable> getKeySubscribers() {
         return keySubscribers;
+    }
+
+    public HashSet<KeyListener> getKeyListeners() {
+        return keyListeners;
     }
 
     public Entity getTarget() {

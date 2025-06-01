@@ -1,16 +1,17 @@
-package finalproject.game.components.renderables.sprite;
+package finalproject.game.components.renderables.sprite.geometry;
 
-import finalproject.engine.util.Box;
+import finalproject.engine.util.box.Box;
 import finalproject.engine.util.Vec2;
+import finalproject.game.components.renderables.sprite.Sprite;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
-public class PointSprite extends Sprite {
+public class CircleSprite extends Sprite {
     Color color;
     int radius;
 
-    public PointSprite(Box<Vec2> pos, Color color, int radius) {
+    public CircleSprite(Box<Vec2> pos, Color color, int radius) {
         super(pos);
 
         this.color = color;

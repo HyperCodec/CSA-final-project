@@ -1,7 +1,8 @@
-package finalproject.game.components.renderables.sprite;
+package finalproject.game.components.renderables.sprite.geometry;
 
-import finalproject.engine.util.Box;
+import finalproject.engine.util.box.Box;
 import finalproject.engine.util.Vec2;
+import finalproject.game.components.renderables.sprite.Sprite;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;

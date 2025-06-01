@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SpriteSheet {
     ArrayList<BufferedImage> images = new ArrayList<>();
@@ -22,7 +23,11 @@ public class SpriteSheet {
         }
     }
 
-    public ArrayList<BufferedImage> getImages() {
+    public ArrayList<BufferedImage> getBufferedImages() {
         return images;
+    }
+
+    public List<Image> getImages() {
+        return ImageUtils.flatCastImages(images);
     }
 }

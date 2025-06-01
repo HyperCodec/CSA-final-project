@@ -1,16 +1,17 @@
-package finalproject.game.entities.projectile;
+package finalproject.game.entities.attack;
 
 import finalproject.engine.util.Vec2;
 import finalproject.engine.ecs.Entity;
 import finalproject.engine.ecs.EntityComponentRegistry;
 import finalproject.engine.ecs.Tickable;
 import finalproject.engine.ecs.WorldAccessor;
+import finalproject.engine.util.box.BasicBox;
 import finalproject.game.components.markers.Damageable;
 import finalproject.game.components.markers.physics.colliders.CircleCollider;
 import finalproject.game.components.markers.physics.colliders.Collider;
 import finalproject.game.components.renderables.sprite.AnimatedSprite;
 import finalproject.game.components.tickables.DespawnAfterTime;
-import finalproject.engine.util.Box;
+import finalproject.engine.util.box.Box;
 import finalproject.game.util.ResourceUtils;
 import finalproject.game.util.rendering.SpriteSheet;
 import org.jetbrains.annotations.NotNull;
@@ -42,7 +43,7 @@ public class Explosion implements Entity, Tickable {
     Collider hitbox;
 
     public Explosion(Vec2 pos, double radius, double damage, Entity owner) {
-        this.pos = new Box<>(pos);
+        this.pos = new BasicBox<>(pos);
         this.radius = radius;
         this.damage = damage;
         this.owner = owner;
@@ -53,7 +54,7 @@ public class Explosion implements Entity, Tickable {
         hitbox = new CircleCollider(pos, radius);
         r.addMarker(hitbox);
 
-        AnimatedSprite sprite = new AnimatedSprite(new Box<>(pos.get().subY(GRAPHICS_Y_OFFSET)), EXPLOSION_TEXTURE.getImages(), 0.1);
+        AnimatedSprite sprite = new AnimatedSprite(new BasicBox<>(pos.get().subY(GRAPHICS_Y_OFFSET)), EXPLOSION_TEXTURE.getImages(), 0.1);
         r.addRenderable(sprite);
         r.addTickable(sprite);
 

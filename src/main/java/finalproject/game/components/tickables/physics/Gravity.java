@@ -2,7 +2,8 @@ package finalproject.game.components.tickables.physics;
 
 import finalproject.engine.ecs.Tickable;
 import finalproject.engine.ecs.WorldAccessor;
-import finalproject.engine.util.Box;
+import finalproject.engine.util.box.BasicBox;
+import finalproject.engine.util.box.Box;
 import finalproject.engine.util.Vec2;
 
 public class Gravity implements Tickable {
@@ -21,11 +22,11 @@ public class Gravity implements Tickable {
     }
 
     public Gravity(Box<Vec2> velocity) {
-        this(velocity, new Box<>(true));
+        this(velocity, new BasicBox<>(true));
     }
 
     public Gravity(Box<Vec2> velocity, double acceleration) {
-        this(velocity, new Box<>(true), acceleration);
+        this(velocity, new BasicBox<>(true), acceleration);
     }
 
     @Override

@@ -14,12 +14,17 @@ public class Timer {
         this(endTime, false);
     }
 
-    public boolean tick(double dt) {
+    public double incTime(double dt) {
         elapsed += dt;
+        return elapsed;
+    }
+
+    public boolean tick(double dt) {
+        incTime(dt);
 
         if(isFinished()) {
             if(repeat)
-                elapsed -= duration;
+                nextLoop();
 
             return true;
         }
@@ -33,6 +38,10 @@ public class Timer {
 
     public void reset() {
         elapsed = 0;
+    }
+
+    public void nextLoop() {
+        elapsed = Math.max(0, elapsed - duration);
     }
 
     public double getElapsed() {
