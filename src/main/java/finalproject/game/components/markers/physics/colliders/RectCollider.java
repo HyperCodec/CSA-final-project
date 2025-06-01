@@ -5,7 +5,7 @@ import finalproject.engine.Vec2;
 import org.jetbrains.annotations.NotNull;
 
 public class RectCollider extends CharacterCollider {
-    final static double DIST_BETWEEN_POINTS = 10;
+    final static double DIST_BETWEEN_POINTS = 5;
 
     Box<Vec2> dimensions;
 

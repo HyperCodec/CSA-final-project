@@ -28,6 +28,7 @@ public class Engine extends JPanel {
 
     TimeManager time = new TimeManager();
     WorldAccessor access = new WorldAccessor(this);
+    KeybindManager keybinds = new KeybindManager(this);
 
     public Engine() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -36,23 +37,19 @@ public class Engine extends JPanel {
     }
 
     @Override
-    public void paint(@NotNull Graphics g) {
+    public synchronized void paint(@NotNull Graphics g) {
         // clear previous frame
         super.paint(g);
 
-        synchronized(renderables) {
-            for(Renderable renderable : renderables)
-                renderable.render(g, mainCamera);
-        }
+        for(Renderable renderable : renderables)
+            renderable.render(g, mainCamera);
     }
 
-    public void step() {
+    public synchronized void step() {
         double dt = time.deltaSecs();
 
-        synchronized(tickables) {
-            for(Tickable t : tickables)
-                t.tick(access, dt);
-        }
+        for(Tickable t : tickables)
+            t.tick(access, dt);
 
         time.endTick();
     }
@@ -80,7 +77,7 @@ public class Engine extends JPanel {
         return t;
     }
 
-    public void addEntity(Entity entity) {
+    public synchronized void addEntity(Entity entity) {
         EntityComponentRegistry r = new EntityComponentRegistry(this, entity);
         components.put(entity, r);
         entity.spawn(r);
@@ -89,15 +86,15 @@ public class Engine extends JPanel {
     // things are "static" (i.e. persistent) if they are registered
     // without an `EntityComponentRegistry` because they will never
     // be removed.
-    public void addStaticTickable(@NotNull Tickable tickable) {
+    public synchronized void addStaticTickable(@NotNull Tickable tickable) {
         tickables.add(tickable);
     }
 
-    public void addStaticRenderable(@NotNull Renderable renderable) {
+    public synchronized void addStaticRenderable(@NotNull Renderable renderable) {
         renderables.add(renderable);
     }
 
-    public boolean destroyEntity(@NotNull Entity entity) {
+    public synchronized boolean destroyEntity(@NotNull Entity entity) {
         EntityComponentRegistry r = components.remove(entity);
         if(r == null) return false;
 
@@ -122,21 +119,21 @@ public class Engine extends JPanel {
         return components.keySet();
     }
 
-    public HashSet<Tickable> getTickablesForEntity(@NotNull Entity entity) {
+    public synchronized HashSet<Tickable> getTickablesForEntity(@NotNull Entity entity) {
         EntityComponentRegistry r = components.get(entity);
         if(r == null) throw new IllegalArgumentException("entity not found");
 
         return r.getTickables();
     }
 
-    public HashSet<Renderable> getRenderablesForEntity(@NotNull Entity entity) {
+    public synchronized HashSet<Renderable> getRenderablesForEntity(@NotNull Entity entity) {
         EntityComponentRegistry r = components.get(entity);
         if(r == null) throw new IllegalArgumentException("entity not found");
 
         return r.getRenderables();
     }
 
-    public HashSet<Object> getMarkersForEntity(@NotNull Entity entity) {
+    public synchronized HashSet<Object> getMarkersForEntity(@NotNull Entity entity) {
         EntityComponentRegistry r = components.get(entity);
         if(r == null) throw new IllegalArgumentException("entity not found");
 
@@ -147,6 +144,10 @@ public class Engine extends JPanel {
         return access;
     }
 
+    public KeybindManager getKeybindManager() {
+        return keybinds;
+    }
+
     public void stopGameLoop() {
         running = false;
     }
@@ -155,7 +156,7 @@ public class Engine extends JPanel {
         return mainCamera;
     }
 
-    public void setMainCamera(Camera camera) {
+    public synchronized void setMainCamera(Camera camera) {
         mainCamera = camera;
     }
 }

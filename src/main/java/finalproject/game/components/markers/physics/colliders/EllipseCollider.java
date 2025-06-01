@@ -5,7 +5,7 @@ import finalproject.engine.Vec2;
 import org.jetbrains.annotations.NotNull;
 
 public class EllipseCollider extends CharacterCollider {
-    public final static double ANGLE_BETWEEN_CHECKS = Math.PI / 6;
+    public final static double ANGLE_BETWEEN_CHECKS = Math.PI / 12;
 
     Box<Vec2> dimensions;
 
@@ -59,7 +59,6 @@ public class EllipseCollider extends CharacterCollider {
         return false;
     }
 
-    // https://math.stackexchange.com/questions/22064/calculating-a-point-that-lies-on-an-ellipse-given-an-angle
     public Vec2 getEdgePoint(double angle) {
         // a lot of these operations are really
         // expensive, should probably optimize or

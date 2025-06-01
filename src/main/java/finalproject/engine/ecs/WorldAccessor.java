@@ -1,6 +1,7 @@
 package finalproject.engine.ecs;
 
 import finalproject.engine.Engine;
+import finalproject.engine.KeybindManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -178,5 +179,9 @@ public class WorldAccessor {
                 engine.destroyEntity(entity);
             }
         }
+    }
+
+    public KeybindManager getKeybindManager() {
+        return engine.getKeybindManager();
     }
 }

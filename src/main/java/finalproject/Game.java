@@ -33,11 +33,12 @@ public class Game extends JFrame {
     }
 
     private void setup() {
+        engine.getKeybindManager().registerDefaultKeybinds();
+
+        // static UI elements
         engine.addEntity(new FpsDisplay());
-//        Player p = new Player(new Vec2((double) Engine.WIDTH / 2, (double) Engine.HEIGHT / 2));
-//        engine.setMainCamera(new Camera(p.pos));
-//        engine.addEntity(p);
-//        engine.addEntity(new Platform(p.pos.get().addY(50), new Vec2(50, 5)));
+
+        // actual level data
         try {
             engine.addEntity(LevelUtils.parseFromResources("test_level.json"));
         } catch(Exception e) {

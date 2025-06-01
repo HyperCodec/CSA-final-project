@@ -1,38 +1,33 @@
 package finalproject.game.entities;
 
+import finalproject.engine.Camera;
 import finalproject.engine.ecs.Entity;
 import finalproject.engine.ecs.EntityComponentRegistry;
+import finalproject.engine.ecs.WorldAccessor;
+import finalproject.game.entities.character.Player;
 import finalproject.game.util.ParseUtils;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Level implements Entity {
     ArrayList<Entity> entities;
+    String json;
 
     public Level(String json) {
         entities = parseEntities(json);
+        this.json = json;
     }
 
-    public Level(File file) throws FileNotFoundException {
-        this(readFile(file));
-    }
-
-    private static @NotNull String readFile(File file) throws FileNotFoundException {
-        Scanner scanner = new Scanner(file);
-
-        StringBuilder text = new StringBuilder();
-        while (scanner.hasNextLine()) {
-            text.append(scanner.nextLine());
-        }
-
-        scanner.close();
-
-        return text.toString();
+    public Level(Path path) throws IOException {
+        this(Files.readString(path));
     }
 
     public static @NotNull ArrayList<Entity> parseEntities(String json) {
@@ -41,7 +36,22 @@ public class Level implements Entity {
 
     @Override
     public void spawn(EntityComponentRegistry r) {
-        for(Entity entity : entities)
+        Player player = null;
+        for(Entity entity : entities) {
+            if(entity instanceof Player p)
+                player = p;
             r.addChildEntity(entity);
+        }
+
+        // track player with camera
+        if(player != null) {
+            r.setMainCamera(new Camera(player.pos));
+        }
+    }
+
+    public void reload(@NotNull WorldAccessor world) {
+        world.destroyEntity(this);
+        entities = parseEntities(json);
+        world.addEntity(this);
     }
 }

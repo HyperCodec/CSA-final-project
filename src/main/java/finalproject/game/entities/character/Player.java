@@ -1,5 +1,6 @@
 package finalproject.game.entities.character;
 
+import finalproject.engine.KeybindManager;
 import finalproject.game.components.markers.physics.colliders.CharacterCollider;
 import finalproject.game.components.markers.physics.Rigidbody;
 import finalproject.game.components.markers.physics.colliders.EllipseCollider;
@@ -38,7 +39,6 @@ public class Player implements Entity, Tickable {
     public final Box<Boolean> grounded = new Box<>(false);
     public final Box<Double> fallDuration = new Box<>(0.0);
     public final Box<Boolean> useGravity = new Box<>(true);
-    HashSet<CardinalDirection> heldDirections = new HashSet<>();
 
     double jumpHeldDuration = 0;
     boolean isJumping = false;
@@ -71,23 +71,14 @@ public class Player implements Entity, Tickable {
         Sprite sprite = new EllipseSprite(pos, Color.cyan, ellipseDims);
         r.addRenderable(sprite);
 
-        addMovementKeybind(r, CardinalDirection.UP, "W", "up");
-        addMovementKeybind(r, CardinalDirection.UP, "UP", "up2");
-
-        addMovementKeybind(r, CardinalDirection.DOWN, "S", "down");
-        addMovementKeybind(r, CardinalDirection.DOWN, "DOWN", "down2");
-
-        addMovementKeybind(r, CardinalDirection.LEFT, "A", "left");
-        addMovementKeybind(r, CardinalDirection.LEFT, "LEFT", "left2");
-
-        addMovementKeybind(r, CardinalDirection.RIGHT, "D", "right");
-        addMovementKeybind(r, CardinalDirection.RIGHT, "RIGHT", "right2");
-
         r.addTickable(this);
     }
 
     @Override
-    public void tick(WorldAccessor world, double dt) {
+    public void tick(@NotNull WorldAccessor world, double dt) {
+        KeybindManager keys = world.getKeybindManager();
+        HashSet<CardinalDirection> heldDirections = keys.getHeldDirections();
+
         Vec2 pos2 = pos.get();
 
         CardinalDirection[] lr = {CardinalDirection.LEFT, CardinalDirection.RIGHT};
@@ -128,20 +119,5 @@ public class Player implements Entity, Tickable {
         isJumping = false;
         jumpHeldDuration = 0;
         useGravity.set(true);
-    }
-
-    private void addMovementKeybind(@NotNull EntityComponentRegistry r, CardinalDirection dir, String key, String name) {
-        r.addKeybind(KeyStroke.getKeyStroke(key), name, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                heldDirections.add(dir);
-            }
-        });
-        r.addKeybind(KeyStroke.getKeyStroke("released " + key), "released" + name, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                heldDirections.remove(dir);
-            }
-        });
     }
 }

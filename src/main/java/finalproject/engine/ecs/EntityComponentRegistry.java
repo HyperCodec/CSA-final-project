@@ -1,6 +1,8 @@
 package finalproject.engine.ecs;
 
+import finalproject.engine.Camera;
 import finalproject.engine.Engine;
+import finalproject.engine.KeybindManager;
 
 import javax.swing.*;
 import java.awt.event.KeyListener;
@@ -87,10 +89,6 @@ public class EntityComponentRegistry {
     // registry instead with only one listener on that API.
     // however for this project i'm only ever really using it
     // for persistent objects anyway.
-    public void addKeyListener(KeyListener keyListener) {
-        engine.addKeyListener(keyListener);
-    }
-
     public void addMouseListener(MouseListener mouseListener) {
         engine.addMouseListener(mouseListener);
     }
@@ -103,25 +101,11 @@ public class EntityComponentRegistry {
         return engine.getWorldAccessor();
     }
 
-    public void addKeybind(KeyStroke keyStroke, Object ident, Action action) {
-        engine.getInputMap().put(keyStroke, ident);
-        engine.getActionMap().put(ident, action);
+    public void setMainCamera(Camera camera) {
+        engine.setMainCamera(camera);
     }
 
-    public void rebindKey(KeyStroke oldKey, KeyStroke newKey) {
-        InputMap inputMap = engine.getInputMap();
-
-        Object ident = inputMap.get(oldKey);
-        inputMap.remove(oldKey);
-        engine.getInputMap().put(newKey, ident);
-    }
-
-    public Object removeKeybind(KeyStroke keyStroke) {
-        InputMap inputMap = engine.getInputMap();
-
-        Object ident = inputMap.get(keyStroke);
-        inputMap.remove(keyStroke);
-
-        return ident;
+    public KeybindManager getKeybindManager() {
+        return engine.getKeybindManager();
     }
 }

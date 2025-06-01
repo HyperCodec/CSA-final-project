@@ -5,6 +5,7 @@ import finalproject.game.entities.Level;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
@@ -23,17 +24,17 @@ public class LevelUtils {
         world.addEntity(level);
     }
 
-    public static @NotNull Level parseFromResources(String path) throws FileNotFoundException, URISyntaxException {
+    public static @NotNull Level parseFromResources(String path) throws IOException, URISyntaxException {
         URL resource = CLASS_LOADER.getResource(path);
         if (resource == null)
             throw new FileNotFoundException(path);
 
         Path fullPath = Paths.get(resource.toURI());
 
-        return new Level(fullPath.toFile());
+        return new Level(fullPath);
     }
 
-    public static void loadFromResources(WorldAccessor world, String path) throws FileNotFoundException, URISyntaxException {
+    public static void loadFromResources(WorldAccessor world, String path) throws IOException, URISyntaxException {
         Level level = parseFromResources(path);
         loadLevel(world, level);
     }
