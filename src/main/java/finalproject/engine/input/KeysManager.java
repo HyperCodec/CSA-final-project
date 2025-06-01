@@ -10,8 +10,8 @@ import java.util.*;
 
 public class KeysManager {
     HashSet<String> heldKeys = new HashSet<>();
-    HashMap<String, ArrayList<Runnable>> keyDownSubscribers = new HashMap<>();
-    HashMap<String, ArrayList<Runnable>> keyUpSubscribers = new HashMap<>();
+    HashMap<String, HashSet<Runnable>> keyDownSubscribers = new HashMap<>();
+    HashMap<String, HashSet<Runnable>> keyUpSubscribers = new HashMap<>();
     Engine engine;
 
     public KeysManager(Engine engine) {
@@ -19,7 +19,7 @@ public class KeysManager {
     }
 
     public synchronized void subscribeKeyDown(String ident, Runnable onKeyDown) {
-        ArrayList<Runnable> subs = keyDownSubscribers.get(ident);
+        HashSet<Runnable> subs = keyDownSubscribers.get(ident);
         if(subs == null)
             throw new IllegalArgumentException("key not found");
         subs.add(onKeyDown);
@@ -27,7 +27,7 @@ public class KeysManager {
     }
 
     public synchronized void subscribeKeyUp(String ident, Runnable onKeyUp) {
-        ArrayList<Runnable> subs = keyUpSubscribers.get(ident);
+        HashSet<Runnable> subs = keyUpSubscribers.get(ident);
         if(subs == null)
             throw new IllegalArgumentException("key not found");
         subs.add(onKeyUp);
@@ -51,8 +51,11 @@ public class KeysManager {
                 triggerKeyUp(ident);
             }
         });
-        keyDownSubscribers.put(ident, new ArrayList<>());
-        keyUpSubscribers.put(ident, new ArrayList<>());
+
+        // using putIfAbsent in case multiple
+        // keys are bound to the same name
+        keyDownSubscribers.putIfAbsent(ident, new HashSet<>());
+        keyUpSubscribers.putIfAbsent(ident, new HashSet<>());
     }
 
     private void addKeybindRaw(KeyStroke keyStroke, Object ident, Action action) {
@@ -80,10 +83,10 @@ public class KeysManager {
     }
 
     public synchronized void removeSubscriber(Runnable sub) {
-        for(ArrayList<Runnable> subs : keyDownSubscribers.values())
+        for(HashSet<Runnable> subs : keyDownSubscribers.values())
             subs.remove(sub);
 
-        for(ArrayList<Runnable> subs : keyUpSubscribers.values())
+        for(HashSet<Runnable> subs : keyUpSubscribers.values())
             subs.remove(sub);
     }
 
@@ -94,7 +97,7 @@ public class KeysManager {
 
     private synchronized void triggerKeyDown(String ident) {
         heldKeys.add(ident);
-        ArrayList<Runnable> subs = keyDownSubscribers.get(ident);
+        HashSet<Runnable> subs = keyDownSubscribers.get(ident);
 
         for(Runnable sub : subs)
             sub.run();
@@ -103,17 +106,25 @@ public class KeysManager {
     private synchronized void triggerKeyUp(String ident) {
         heldKeys.remove(ident);
 
-        ArrayList<Runnable> subs = keyUpSubscribers.get(ident);
+        HashSet<Runnable> subs = keyUpSubscribers.get(ident);
 
         for(Runnable sub : subs)
             sub.run();
     }
 
     public void registerDefaultKeybinds() {
+        // movement keys
         addKeybind("right", "D");
+        addKeybind("right", "RIGHT");
+
         addKeybind("left", "A");
+        addKeybind("left", "LEFT");
+
         addKeybind("up", "W");
+        addKeybind("up", "UP");
+
         addKeybind("down", "S");
+        addKeybind("down", "DOWN");
     }
 
     public final static Map<String, CardinalDirection> DIRECTION_MAP = Map.of(
@@ -126,6 +137,9 @@ public class KeysManager {
     public synchronized HashSet<CardinalDirection> getHeldDirections() {
         HashSet<CardinalDirection> output = new HashSet<>();
 
+        // could probably use CardinalDirection.values() and toString
+        // instead of a map, but whatever. efficiency is about the same
+        // either way.
         for(Map.Entry<String, CardinalDirection> kv : DIRECTION_MAP.entrySet())
             if(heldKeys.contains(kv.getKey()))
                 output.add(kv.getValue());
