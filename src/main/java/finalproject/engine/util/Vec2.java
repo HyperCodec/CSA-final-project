@@ -1,4 +1,4 @@
-package finalproject.engine;
+package finalproject.engine.util;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.jetbrains.annotations.NotNull;

@@ -16,6 +16,12 @@ public class EntityComponentRegistry {
     private final Engine engine;
     private final Entity target;
 
+    /*
+    * might want to consider turning `renderables` and `tickables`
+    * into `HashMap<Class<? extends Renderable/Tickable>, Renderable/Tickable>`
+    * for faster querying. mostly not doing it rn bc it's annoying to refactor.
+    * I'll make the refactor if I start having performance issues.
+    */
     HashSet<Renderable> renderables = new HashSet<>();
     HashSet<Tickable> tickables = new HashSet<>();
     HashSet<Entity> children = new HashSet<>();
@@ -101,6 +107,19 @@ public class EntityComponentRegistry {
     public void addMouseMotionListener(MouseMotionListener sub) {
         mouseMotionListeners.add(sub);
         engine.getMouseManager().addMouseMotionListener(sub);
+    }
+
+    // could use a HashMap and make removing subscribers
+    // a little bit faster, but it's kind of annoying and not
+    // that big of a performance improvement.
+    public void subscribeKeyDown(String ident, Runnable sub) {
+        keySubscribers.add(sub);
+        engine.getKeysManager().subscribeKeyDown(ident, sub);
+    }
+
+    public void subscribeKeyUp(String ident, Runnable sub) {
+        keySubscribers.add(sub);
+        engine.getKeysManager().subscribeKeyUp(ident, sub);
     }
 
     public HashSet<MouseListener> getMouseListeners() {

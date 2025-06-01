@@ -1,10 +1,10 @@
 package finalproject.game.entities;
 
+import finalproject.engine.util.Box;
 import finalproject.game.components.renderables.sprite.PointSprite;
 import finalproject.engine.ecs.Entity;
 import finalproject.engine.ecs.EntityComponentRegistry;
-import finalproject.game.util.Box;
-import finalproject.engine.Vec2;
+import finalproject.engine.util.Vec2;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;

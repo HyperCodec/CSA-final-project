@@ -4,8 +4,8 @@ import finalproject.game.components.markers.physics.colliders.RectCollider;
 import finalproject.game.components.renderables.sprite.RectangleSprite;
 import finalproject.engine.ecs.Entity;
 import finalproject.engine.ecs.EntityComponentRegistry;
-import finalproject.game.util.Box;
-import finalproject.engine.Vec2;
+import finalproject.engine.util.Box;
+import finalproject.engine.util.Vec2;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;

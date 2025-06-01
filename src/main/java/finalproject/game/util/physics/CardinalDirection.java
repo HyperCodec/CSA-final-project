@@ -1,6 +1,6 @@
-package finalproject.game.util;
+package finalproject.game.util.physics;
 
-import finalproject.engine.Vec2;
+import finalproject.engine.util.Vec2;
 
 public enum CardinalDirection {
     UP(new Vec2(0, -1)),

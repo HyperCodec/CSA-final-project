@@ -1,4 +1,4 @@
-package finalproject.game.util;
+package finalproject.engine.util;
 
 /**
  * Stores a reference to an object.

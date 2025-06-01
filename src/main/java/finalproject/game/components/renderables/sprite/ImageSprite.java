@@ -1,7 +1,7 @@
 package finalproject.game.components.renderables.sprite;
 
-import finalproject.game.util.Box;
-import finalproject.engine.Vec2;
+import finalproject.engine.util.Box;
+import finalproject.engine.util.Vec2;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -16,6 +16,8 @@ public class ImageSprite extends Sprite {
 
     @Override
     public void renderAtPos(@NotNull Graphics g, @NotNull Vec2 pos) {
-        g.drawImage(image, (int) pos.getX(), (int) pos.getY(), null);
+        int w = image.getWidth(null);
+        int h = image.getHeight(null);
+        g.drawImage(image, (int) pos.getX() - w/2, (int) pos.getY() - h/2, null);
     }
 }

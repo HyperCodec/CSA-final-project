@@ -1,7 +1,7 @@
 package finalproject.engine.input;
 
 import finalproject.engine.Engine;
-import finalproject.game.util.CardinalDirection;
+import finalproject.game.util.physics.CardinalDirection;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;

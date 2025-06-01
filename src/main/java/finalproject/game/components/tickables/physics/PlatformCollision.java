@@ -1,29 +1,33 @@
 package finalproject.game.components.tickables.physics;
 
-import finalproject.game.components.markers.physics.colliders.CharacterCollider;
+import finalproject.game.components.markers.physics.colliders.AlignableCollider;
 import finalproject.engine.ecs.Tickable;
 import finalproject.engine.ecs.WorldAccessor;
-import finalproject.game.util.Box;
-import finalproject.engine.Vec2;
+import finalproject.engine.util.Box;
+import finalproject.engine.util.Vec2;
 import finalproject.game.entities.environment.Platform;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-// implements platform collision for this entity.
-public class CharacterController implements Tickable {
+// implements platform and wall collision for this entity.
+public class PlatformCollision implements Tickable {
     public final static double COYOTE_JUMP_DURATION = 0.25;
 
-    CharacterCollider collider;
+    AlignableCollider collider;
     Box<Vec2> vel;
     Box<Boolean> grounded;
     Box<Double> fallDuration;
 
-    public CharacterController(CharacterCollider collider, Box<Vec2> vel, Box<Boolean> grounded, Box<Double> fallDuration) {
+    public PlatformCollision(AlignableCollider collider, Box<Vec2> vel, Box<Boolean> grounded, Box<Double> fallDuration) {
         this.collider = collider;
         this.vel = vel;
         this.grounded = grounded;
         this.fallDuration = fallDuration;
+    }
+
+    public PlatformCollision(AlignableCollider collider, Box<Vec2> vel) {
+        this(collider, vel, new Box<>(false), new Box<>(0.0));
     }
 
     @Override

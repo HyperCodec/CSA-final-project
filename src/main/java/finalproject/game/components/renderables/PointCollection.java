@@ -2,7 +2,7 @@ package finalproject.game.components.renderables;
 
 import finalproject.engine.Camera;
 import finalproject.engine.ecs.Renderable;
-import finalproject.engine.Vec2;
+import finalproject.engine.util.Vec2;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;

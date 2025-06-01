@@ -1,6 +1,7 @@
 package finalproject.engine;
 
-import finalproject.game.util.Box;
+import finalproject.engine.util.Box;
+import finalproject.engine.util.Vec2;
 import org.jetbrains.annotations.NotNull;
 
 public class Camera {
@@ -15,6 +16,6 @@ public class Camera {
     }
 
     public Vec2 getAbsolutePos(@NotNull Vec2 screenPos) {
-        return screenPos.add(pos.get());
+        return screenPos.add(pos.get()).sub(Engine.SCREEN_DIMENSIONS.divSingle(2));
     }
 }

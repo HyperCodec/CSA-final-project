@@ -1,22 +1,22 @@
 package finalproject.game.entities.character;
 
-import finalproject.engine.input.KeysManager;
-import finalproject.game.components.markers.physics.colliders.CharacterCollider;
+import finalproject.game.components.markers.physics.colliders.AlignableCollider;
 import finalproject.game.components.markers.physics.Rigidbody;
 import finalproject.game.components.markers.physics.colliders.EllipseCollider;
 import finalproject.game.components.renderables.sprite.EllipseSprite;
 import finalproject.game.components.renderables.sprite.Sprite;
 import finalproject.game.components.tickables.physics.Drag;
 import finalproject.game.components.tickables.physics.Gravity;
-import finalproject.game.components.tickables.physics.CharacterController;
+import finalproject.game.components.tickables.physics.PlatformCollision;
 import finalproject.game.components.tickables.physics.VelocityPositionUpdater;
 import finalproject.engine.ecs.Entity;
 import finalproject.engine.ecs.EntityComponentRegistry;
 import finalproject.engine.ecs.Tickable;
 import finalproject.engine.ecs.WorldAccessor;
-import finalproject.game.util.Box;
-import finalproject.game.util.CardinalDirection;
-import finalproject.engine.Vec2;
+import finalproject.engine.util.Box;
+import finalproject.game.entities.projectile.Dynamite;
+import finalproject.game.util.physics.CardinalDirection;
+import finalproject.engine.util.Vec2;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -54,10 +54,10 @@ public class Player implements Entity, Tickable {
         r.addMarker(rb);
 
         Box<Vec2> ellipseDims = new Box<>(new Vec2(10, 20));
-        CharacterCollider collider = new EllipseCollider(pos, ellipseDims);
+        AlignableCollider collider = new EllipseCollider(pos, ellipseDims);
         r.addMarker(collider);
 
-        CharacterController controller = new CharacterController(collider, vel, grounded, fallDuration);
+        PlatformCollision controller = new PlatformCollision(collider, vel, grounded, fallDuration);
         r.addTickable(controller);
 
         Drag drag = new Drag(0.25, rb);
@@ -74,6 +74,11 @@ public class Player implements Entity, Tickable {
 
     @Override
     public void tick(@NotNull WorldAccessor world, double dt) {
+        handleMovement(world, dt);
+        handleAttack(world);
+    }
+
+    private void handleMovement(@NotNull WorldAccessor world, double dt) {
         HashSet<CardinalDirection> heldDirections = world.getHeldDirections();
 
         Vec2 pos2 = pos.get();
@@ -116,5 +121,21 @@ public class Player implements Entity, Tickable {
         isJumping = false;
         jumpHeldDuration = 0;
         useGravity.set(true);
+    }
+
+    public final static double THROW_VELOCITY = 15;
+    public final static double DYNAMITE_TIME = 3;
+
+    private void handleAttack(@NotNull WorldAccessor world) {
+        if(world.mouseJustStartedClick()) {
+            Vec2 pos2 = pos.get();
+            Vec2 mousePos = world.getMousePos();
+            Vec2 absoluteMousePos = world.getMainCamera().getAbsolutePos(mousePos);
+
+            Vec2 direction = absoluteMousePos.sub(pos2).norm();
+            Vec2 projVel = direction.mulSingle(THROW_VELOCITY).add(vel.get());
+
+            world.addEntity(new Dynamite(pos2, projVel, DYNAMITE_TIME, this));
+        }
     }
 }

@@ -2,7 +2,7 @@ package finalproject.game.util;
 
 import finalproject.game.entities.character.Player;
 import finalproject.game.entities.environment.Platform;
-import finalproject.engine.Vec2;
+import finalproject.engine.util.Vec2;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -43,12 +44,12 @@ public class ParseUtils {
         }
     }
 
-    public static final Map<Class<?>, Class<?>> WRAPPER_TO_PRIMITIVE = Map.of(
+    public static final Map<Class<?>, Class<?>> PRIMITIVE_TYPE_MAPPINGS = Map.of(
             Boolean.class, boolean.class,
             Byte.class, byte.class,
             Character.class, char.class,
             Double.class, double.class,
-            Float.class, float.class,
+            Float.class, double.class,
             Integer.class, int.class,
             Long.class, long.class,
             Short.class, short.class
@@ -132,13 +133,33 @@ public class ParseUtils {
     }
 
     @Contract(pure = true)
-    public static <T> @NotNull T constructFromArgs(@NotNull Class<T> tClass, Object... args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        Class<?>[] paramTypes = Arrays.stream(args)
-                .map(arg -> {
-                    Class<?> clazz = arg.getClass();
-                    return WRAPPER_TO_PRIMITIVE.getOrDefault(clazz, clazz);
-                })
-                .toArray(Class<?>[]::new);
+    public static <T> @NotNull T constructFromArgs(@NotNull Class<T> tClass, Object @NotNull ... args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        Class<?>[] paramTypes = new Class<?>[args.length];
+
+        for(int i = 0; i < args.length; i++) {
+            Object arg = args[i];
+
+            // for some reason JSON randomly
+            // decides to use BigDecimal even
+            // though I didn't change anything
+            // in the file.
+            if(arg instanceof BigDecimal big) {
+                paramTypes[i] = double.class;
+                args[i] = big.doubleValue();
+                continue;
+            }
+
+            Class<?> clazz = arg.getClass();
+            Class<?> mappedClazz = PRIMITIVE_TYPE_MAPPINGS.get(clazz);
+
+            if(mappedClazz == null) {
+                paramTypes[i] = clazz;
+                continue;
+            }
+
+            paramTypes[i] = mappedClazz;
+            args[i] = mappedClazz.cast(arg);
+        }
 
         Constructor<T> constructor = tClass.getConstructor(paramTypes);
         return constructor.newInstance(args);

@@ -3,21 +3,20 @@ package finalproject.game.components.tickables;
 import finalproject.engine.ecs.Entity;
 import finalproject.engine.ecs.Tickable;
 import finalproject.engine.ecs.WorldAccessor;
+import finalproject.game.util.Timer;
 
 public class DespawnAfterTime implements Tickable {
     Entity parent;
-    double despawnTime;
+    Timer timer;
 
     public DespawnAfterTime(Entity parent, double despawnTime) {
         this.parent = parent;
-        this.despawnTime = despawnTime;
+        timer = new Timer(despawnTime);
     }
 
     @Override
     public void tick(WorldAccessor world, double dt) {
-        despawnTime -= dt;
-
-        if(despawnTime <= 0) {
+        if(timer.tick(dt)) {
             world.destroyEntity(parent);
         }
     }

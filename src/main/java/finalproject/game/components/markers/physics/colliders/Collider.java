@@ -1,7 +1,7 @@
 package finalproject.game.components.markers.physics.colliders;
 
-import finalproject.game.util.Box;
-import finalproject.engine.Vec2;
+import finalproject.engine.util.Box;
+import finalproject.engine.util.Vec2;
 
 public abstract class Collider {
     protected Box<Vec2> pos;

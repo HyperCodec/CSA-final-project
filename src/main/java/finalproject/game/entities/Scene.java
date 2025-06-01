@@ -9,24 +9,21 @@ import finalproject.game.util.ParseUtils;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Scanner;
 
-public class Level implements Entity {
+public class Scene implements Entity {
     ArrayList<Entity> entities;
     String json;
 
-    public Level(String json) {
+    public Scene(String json) {
         entities = parseEntities(json);
         this.json = json;
     }
 
-    public Level(Path path) throws IOException {
+    public Scene(Path path) throws IOException {
         this(Files.readString(path));
     }
 

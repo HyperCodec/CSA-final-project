@@ -1,8 +1,10 @@
 package finalproject.engine.ecs;
 
+import finalproject.engine.Camera;
 import finalproject.engine.Engine;
-import finalproject.engine.input.KeysManager;
-import finalproject.game.util.CardinalDirection;
+import finalproject.engine.util.Vec2;
+import finalproject.game.entities.Scene;
+import finalproject.game.util.physics.CardinalDirection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,8 +23,28 @@ public class WorldAccessor {
         this.engine = engine;
     }
 
-    public void addEntity(Entity entity) {
+    /**
+     * Adds an entity that will not
+     * be despawned with the level.
+     * @param entity The entity to spawn.
+     */
+    public void addGlobalEntity(Entity entity) {
         engine.addEntity(entity);
+    }
+
+    /**
+     * If there is a level, it ties the entity
+     * to the level. Otherwise, it spawns it globally.
+     * @param entity The entity to spawn.
+     */
+    public void addEntity(Entity entity) {
+        Scene currentScene = findEntitiesOfType(Scene.class).getFirst();
+        if(currentScene == null) {
+            engine.addEntity(entity);
+            return;
+        }
+
+        addChildEntity(currentScene, entity);
     }
 
     public boolean destroyEntity(Entity entity) {
@@ -186,7 +208,31 @@ public class WorldAccessor {
         return engine.getKeysManager().isPressed(ident);
     }
 
+    public boolean isMouseClicking() {
+        return engine.getMouseManager().isClicking();
+    }
+
+    public boolean mouseJustStartedClick() {
+        return engine.getMouseManager().justStartedClick();
+    }
+
+    public Vec2 getMousePos() {
+        return engine.getMouseManager().getMousePos();
+    }
+
     public HashSet<CardinalDirection> getHeldDirections() {
         return engine.getKeysManager().getHeldDirections();
+    }
+
+    public void addChildEntity(Entity parent, Entity child) {
+        engine.addChildEntity(parent, child);
+    }
+
+    public Camera getMainCamera() {
+        return engine.getMainCamera();
+    }
+
+    public void setMainCamera(Camera camera) {
+        engine.setMainCamera(camera);
     }
 }

@@ -3,11 +3,13 @@ package finalproject.engine;
 import finalproject.engine.ecs.*;
 import finalproject.engine.input.KeysManager;
 import finalproject.engine.input.MouseManager;
-import finalproject.game.util.Box;
+import finalproject.engine.util.Box;
+import finalproject.engine.util.Vec2;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -51,9 +53,15 @@ public class Engine extends JPanel {
     public synchronized void step() {
         double dt = time.deltaSecs();
 
-        for(Tickable t : tickables)
+        // shallow clone tickables
+        // to prevent ConcurrentModificationException
+        // when `t.tick()` modifies spawns/despawns entity.
+        ArrayList<Tickable> tickablesSnapshot = new ArrayList<>(tickables);
+
+        for(Tickable t : tickablesSnapshot)
             t.tick(access, dt);
 
+        mouse.endTick();
         time.endTick();
     }
 
@@ -170,5 +178,10 @@ public class Engine extends JPanel {
 
     public synchronized void setMainCamera(Camera camera) {
         mainCamera = camera;
+    }
+
+    public synchronized void addChildEntity(Entity parent, Entity child) {
+        EntityComponentRegistry r = components.get(parent);
+        r.addChildEntity(child);
     }
 }

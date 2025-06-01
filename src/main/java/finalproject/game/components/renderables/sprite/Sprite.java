@@ -2,8 +2,8 @@ package finalproject.game.components.renderables.sprite;
 
 import finalproject.engine.Camera;
 import finalproject.engine.ecs.Renderable;
-import finalproject.game.util.Box;
-import finalproject.engine.Vec2;
+import finalproject.engine.util.Box;
+import finalproject.engine.util.Vec2;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;

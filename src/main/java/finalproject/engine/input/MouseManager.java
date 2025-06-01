@@ -1,6 +1,7 @@
 package finalproject.engine.input;
 
 import finalproject.engine.Engine;
+import finalproject.engine.util.Vec2;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.event.MouseEvent;
@@ -10,13 +11,31 @@ import java.util.Collection;
 import java.util.HashSet;
 
 public class MouseManager implements MouseListener, MouseMotionListener {
-    boolean isClicking = false;
+    boolean clicking = false;
+    boolean startedPressing = false;
+    Vec2 lastMousePos = null;
     HashSet<MouseListener> mouseListeners = new HashSet<>();
     HashSet<MouseMotionListener> mouseMotionListeners = new HashSet<>();
 
     public MouseManager(@NotNull Engine engine) {
         engine.addMouseListener(this);
         engine.addMouseMotionListener(this);
+    }
+
+    public boolean isClicking() {
+        return clicking;
+    }
+
+    public boolean justStartedClick() {
+        return startedPressing;
+    }
+
+    public void endTick() {
+        startedPressing = false;
+    }
+
+    public Vec2 getMousePos() {
+        return lastMousePos;
     }
 
     public synchronized void addMouseListener(MouseListener sub) {
@@ -51,14 +70,15 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 
     @Override
     public synchronized void mousePressed(MouseEvent e) {
-        isClicking = true;
+        clicking = true;
+        startedPressing = true;
         for(MouseListener sub : mouseListeners)
             sub.mousePressed(e);
     }
 
     @Override
     public synchronized void mouseReleased(MouseEvent e) {
-        isClicking = false;
+        clicking = false;
         for(MouseListener sub : mouseListeners)
             sub.mouseReleased(e);
     }
@@ -82,7 +102,9 @@ public class MouseManager implements MouseListener, MouseMotionListener {
     }
 
     @Override
-    public synchronized void mouseMoved(MouseEvent e) {
+    public synchronized void mouseMoved(@NotNull MouseEvent e) {
+        lastMousePos = new Vec2(e.getX(), e.getY());
+
         for(MouseMotionListener sub : mouseMotionListeners)
             sub.mouseMoved(e);
     }

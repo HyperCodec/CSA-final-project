@@ -2,7 +2,7 @@ package finalproject;
 
 import finalproject.engine.Engine;
 import finalproject.game.entities.ui.FpsDisplay;
-import finalproject.game.util.LevelUtils;
+import finalproject.game.util.SceneUtils;
 
 import javax.swing.*;
 
@@ -36,7 +36,7 @@ public class Game extends JFrame {
 
         // actual level data
         try {
-            engine.addEntity(LevelUtils.parseFromResources("test_level.json"));
+            engine.addEntity(SceneUtils.parseFromResources("levels/test_level.json"));
         } catch(Exception e) {
             throw new RuntimeException(e);
         }

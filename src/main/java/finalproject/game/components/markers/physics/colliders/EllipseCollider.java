@@ -1,10 +1,10 @@
 package finalproject.game.components.markers.physics.colliders;
 
-import finalproject.game.util.Box;
-import finalproject.engine.Vec2;
+import finalproject.engine.util.Box;
+import finalproject.engine.util.Vec2;
 import org.jetbrains.annotations.NotNull;
 
-public class EllipseCollider extends CharacterCollider {
+public class EllipseCollider extends AlignableCollider {
     public final static double ANGLE_BETWEEN_CHECKS = Math.PI / 12;
 
     Box<Vec2> dimensions;
