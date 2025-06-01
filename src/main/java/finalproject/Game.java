@@ -1,11 +1,7 @@
 package finalproject;
 
-import finalproject.engine.Camera;
 import finalproject.engine.Engine;
-import finalproject.engine.Vec2;
-import finalproject.game.entities.environment.Platform;
 import finalproject.game.entities.ui.FpsDisplay;
-import finalproject.game.entities.character.Player;
 import finalproject.game.util.LevelUtils;
 
 import javax.swing.*;
@@ -33,7 +29,7 @@ public class Game extends JFrame {
     }
 
     private void setup() {
-        engine.getKeybindManager().registerDefaultKeybinds();
+        engine.getKeysManager().registerDefaultKeybinds();
 
         // static UI elements
         engine.addEntity(new FpsDisplay());

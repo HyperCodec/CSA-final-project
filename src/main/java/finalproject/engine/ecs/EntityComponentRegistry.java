@@ -2,10 +2,8 @@ package finalproject.engine.ecs;
 
 import finalproject.engine.Camera;
 import finalproject.engine.Engine;
-import finalproject.engine.KeybindManager;
+import finalproject.engine.input.KeysManager;
 
-import javax.swing.*;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.HashSet;
@@ -16,12 +14,15 @@ import java.util.HashSet;
  */
 public class EntityComponentRegistry {
     private final Engine engine;
+    private final Entity target;
 
     HashSet<Renderable> renderables = new HashSet<>();
     HashSet<Tickable> tickables = new HashSet<>();
     HashSet<Entity> children = new HashSet<>();
     HashSet<Object> markers = new HashSet<>();
-    Entity target;
+    HashSet<Runnable> keySubscribers = new HashSet<>();
+    HashSet<MouseListener> mouseListeners = new HashSet<>();
+    HashSet<MouseMotionListener> mouseMotionListeners = new HashSet<>();
 
     public EntityComponentRegistry(Engine engine, Entity target) {
         this.engine = engine;
@@ -84,19 +85,6 @@ public class EntityComponentRegistry {
         return markers;
     }
 
-    // probably a bad idea to register these
-    // to the actual panel, should use custom event
-    // registry instead with only one listener on that API.
-    // however for this project i'm only ever really using it
-    // for persistent objects anyway.
-    public void addMouseListener(MouseListener mouseListener) {
-        engine.addMouseListener(mouseListener);
-    }
-
-    public void addMouseMotionListener(MouseMotionListener mouseMotionListener) {
-        engine.addMouseMotionListener(mouseMotionListener);
-    }
-
     public WorldAccessor getWorldAccessor() {
         return engine.getWorldAccessor();
     }
@@ -105,7 +93,29 @@ public class EntityComponentRegistry {
         engine.setMainCamera(camera);
     }
 
-    public KeybindManager getKeybindManager() {
-        return engine.getKeybindManager();
+    public void addMouseListener(MouseListener sub) {
+        mouseListeners.add(sub);
+        engine.getMouseManager().addMouseListener(sub);
+    }
+
+    public void addMouseMotionListener(MouseMotionListener sub) {
+        mouseMotionListeners.add(sub);
+        engine.getMouseManager().addMouseMotionListener(sub);
+    }
+
+    public HashSet<MouseListener> getMouseListeners() {
+        return mouseListeners;
+    }
+
+    public HashSet<MouseMotionListener> getMouseMotionListeners() {
+        return mouseMotionListeners;
+    }
+
+    public HashSet<Runnable> getKeySubscribers() {
+        return keySubscribers;
+    }
+
+    public Entity getTarget() {
+        return target;
     }
 }

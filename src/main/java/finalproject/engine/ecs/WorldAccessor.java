@@ -1,7 +1,8 @@
 package finalproject.engine.ecs;
 
 import finalproject.engine.Engine;
-import finalproject.engine.KeybindManager;
+import finalproject.engine.input.KeysManager;
+import finalproject.game.util.CardinalDirection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -181,7 +182,11 @@ public class WorldAccessor {
         }
     }
 
-    public KeybindManager getKeybindManager() {
-        return engine.getKeybindManager();
+    public boolean isKeyPressed(String ident) {
+        return engine.getKeysManager().isPressed(ident);
+    }
+
+    public HashSet<CardinalDirection> getHeldDirections() {
+        return engine.getKeysManager().getHeldDirections();
     }
 }

@@ -1,6 +1,6 @@
 package finalproject.game.entities.character;
 
-import finalproject.engine.KeybindManager;
+import finalproject.engine.input.KeysManager;
 import finalproject.game.components.markers.physics.colliders.CharacterCollider;
 import finalproject.game.components.markers.physics.Rigidbody;
 import finalproject.game.components.markers.physics.colliders.EllipseCollider;
@@ -19,9 +19,7 @@ import finalproject.game.util.CardinalDirection;
 import finalproject.engine.Vec2;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.util.HashSet;
 
 public class Player implements Entity, Tickable {
@@ -76,8 +74,7 @@ public class Player implements Entity, Tickable {
 
     @Override
     public void tick(@NotNull WorldAccessor world, double dt) {
-        KeybindManager keys = world.getKeybindManager();
-        HashSet<CardinalDirection> heldDirections = keys.getHeldDirections();
+        HashSet<CardinalDirection> heldDirections = world.getHeldDirections();
 
         Vec2 pos2 = pos.get();
 

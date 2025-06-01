@@ -1,6 +1,8 @@
 package finalproject.engine;
 
 import finalproject.engine.ecs.*;
+import finalproject.engine.input.KeysManager;
+import finalproject.engine.input.MouseManager;
 import finalproject.game.util.Box;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,7 +30,8 @@ public class Engine extends JPanel {
 
     TimeManager time = new TimeManager();
     WorldAccessor access = new WorldAccessor(this);
-    KeybindManager keybinds = new KeybindManager(this);
+    KeysManager keys = new KeysManager(this);
+    MouseManager mouse = new MouseManager(this);
 
     public Engine() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -101,6 +104,11 @@ public class Engine extends JPanel {
         tickables.removeAll(r.getTickables());
         renderables.removeAll(r.getRenderables());
 
+        mouse.removeAllMouseListeners(r.getMouseListeners());
+        mouse.removeAllMouseMotionListeners(r.getMouseMotionListeners());
+
+        keys.removeAllSubscribers(r.getKeySubscribers());
+
         for(Entity child : r.getChildren())
             destroyEntity(child);
 
@@ -144,8 +152,12 @@ public class Engine extends JPanel {
         return access;
     }
 
-    public KeybindManager getKeybindManager() {
-        return keybinds;
+    public KeysManager getKeysManager() {
+        return keys;
+    }
+
+    public MouseManager getMouseManager() {
+        return mouse;
     }
 
     public void stopGameLoop() {

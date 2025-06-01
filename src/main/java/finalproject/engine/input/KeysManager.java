@@ -1,21 +1,20 @@
-package finalproject.engine;
+package finalproject.engine.input;
 
+import finalproject.engine.Engine;
 import finalproject.game.util.CardinalDirection;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
-public class KeybindManager {
+public class KeysManager {
     HashSet<String> heldKeys = new HashSet<>();
     HashMap<String, ArrayList<Runnable>> keyDownSubscribers = new HashMap<>();
     HashMap<String, ArrayList<Runnable>> keyUpSubscribers = new HashMap<>();
     Engine engine;
 
-    public KeybindManager(Engine engine) {
+    public KeysManager(Engine engine) {
         this.engine = engine;
     }
 
@@ -86,6 +85,11 @@ public class KeybindManager {
 
         for(ArrayList<Runnable> subs : keyUpSubscribers.values())
             subs.remove(sub);
+    }
+
+    public synchronized void removeAllSubscribers(@NotNull Collection<Runnable> subs) {
+        for(Runnable sub : subs)
+            removeSubscriber(sub);
     }
 
     private synchronized void triggerKeyDown(String ident) {
