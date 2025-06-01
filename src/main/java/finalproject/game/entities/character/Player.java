@@ -24,7 +24,7 @@ import java.util.HashSet;
 
 public class Player implements Entity, Tickable {
     public final static double MOVE_SPEED = 50;
-    public final static double FAST_FALL_VELOCITY = 25;
+    public final static double FAST_FALL_VELOCITY = 20;
     public final static double JUMP_SPEED = 100;
     public final static double JUMP_END_VELOCITY = 5;
     public final static double MAX_JUMP_TIME = 0.5;

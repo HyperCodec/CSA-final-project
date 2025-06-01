@@ -2,6 +2,7 @@ package finalproject.engine.ecs;
 
 import finalproject.engine.Camera;
 import finalproject.engine.Engine;
+import finalproject.engine.util.Box;
 import finalproject.engine.util.Vec2;
 import finalproject.game.entities.Scene;
 import finalproject.game.util.physics.CardinalDirection;
@@ -234,5 +235,9 @@ public class WorldAccessor {
 
     public void setMainCamera(Camera camera) {
         engine.setMainCamera(camera);
+    }
+
+    public Camera makeCamera(Box<Vec2> pos) {
+        return new Camera(engine, pos);
     }
 }

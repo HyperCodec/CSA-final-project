@@ -11,6 +11,14 @@ public class TextSprite extends Sprite {
     Color color;
     Font font;
 
+    public TextSprite(Box<Vec2> pos, Box<String> text, Color color, Font font, int layer) {
+        super(pos, layer);
+
+        this.text = text;
+        this.color = color;
+        this.font = font;
+    }
+
     public TextSprite(Box<Vec2> pos, Box<String> text, Color color, Font font) {
         super(pos);
 

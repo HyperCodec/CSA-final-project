@@ -32,6 +32,11 @@ public class FpsDisplay implements Entity, Tickable, Renderable {
     }
 
     @Override
+    public int getLayer() {
+        return -2;
+    }
+
+    @Override
     public void tick(WorldAccessor _world, double dt) {
         // only update once every second to make it more readable
         if(timer.tick(dt))

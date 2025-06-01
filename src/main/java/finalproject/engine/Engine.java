@@ -9,18 +9,14 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Engine extends JPanel {
-    public final static int WIDTH = 800;
-    public final static int HEIGHT = 600;
-    public final static Vec2 SCREEN_DIMENSIONS = new Vec2(WIDTH, HEIGHT);
+    public final static int INITIAL_WIDTH = 800;
+    public final static int INTIIAL_HEIGHT = 600;
 
     final static Color BACKGROUND_COLOR = Color.WHITE;
-    final static long FPS = 128;
+    final static long FPS = 500;
 
     final static long FRAME_DELAY = 1000 / FPS;
 
@@ -28,7 +24,7 @@ public class Engine extends JPanel {
     final HashSet<Tickable> tickables = new HashSet<>();
     final HashSet<Renderable> renderables = new HashSet<>();
     boolean running = false;
-    Camera mainCamera = new Camera(new Box<>(Vec2.ZERO));
+    Camera mainCamera = new Camera(this, new Box<>(Vec2.ZERO));
 
     TimeManager time = new TimeManager();
     WorldAccessor access = new WorldAccessor(this);
@@ -36,7 +32,7 @@ public class Engine extends JPanel {
     MouseManager mouse = new MouseManager(this);
 
     public Engine() {
-        setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        setPreferredSize(new Dimension(INITIAL_WIDTH, INTIIAL_HEIGHT));
         setBackground(BACKGROUND_COLOR);
         requestFocusInWindow();
     }
@@ -46,7 +42,12 @@ public class Engine extends JPanel {
         // clear previous frame
         super.paint(g);
 
-        for(Renderable renderable : renderables)
+        ArrayList<Renderable> renderablesSnapshot = new ArrayList<>(renderables);
+
+        // put lower-layered things on top
+        renderablesSnapshot.sort((a, b) -> b.getLayer() - a.getLayer());
+
+        for(Renderable renderable : renderablesSnapshot)
             renderable.render(g, mainCamera);
     }
 
@@ -183,5 +184,9 @@ public class Engine extends JPanel {
     public synchronized void addChildEntity(Entity parent, Entity child) {
         EntityComponentRegistry r = components.get(parent);
         r.addChildEntity(child);
+    }
+
+    public Vec2 getScreenDimensions() {
+        return new Vec2(getWidth(), getHeight());
     }
 }

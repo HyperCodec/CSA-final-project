@@ -19,6 +19,8 @@ public class Game extends JFrame {
 
         pack();
         setLocationRelativeTo(null);
+
+        setTitle("CSA Final Game");
     }
 
     public void start() {

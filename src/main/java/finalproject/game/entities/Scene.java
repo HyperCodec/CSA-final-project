@@ -42,7 +42,7 @@ public class Scene implements Entity {
 
         // track player with camera
         if(player != null) {
-            r.setMainCamera(new Camera(player.pos));
+            r.setMainCamera(r.getWorldAccessor().makeCamera(player.pos));
         }
     }
 

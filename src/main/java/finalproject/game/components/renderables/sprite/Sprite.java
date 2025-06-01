@@ -10,9 +10,15 @@ import java.awt.*;
 
 public abstract class Sprite implements Renderable {
     private final Box<Vec2> pos;
+    int layer;
 
-    protected Sprite(Box<Vec2> position) {
-        this.pos = position;
+    protected Sprite(Box<Vec2> pos, int layer) {
+        this.pos = pos;
+        this.layer = layer;
+    }
+
+    protected Sprite(Box<Vec2> pos) {
+        this(pos, 0);
     }
 
     public Vec2 getPos() { return pos.get(); }
@@ -20,14 +26,17 @@ public abstract class Sprite implements Renderable {
         this.pos.set(pos);
     }
 
-    // TODO make renderAtPos abstract method
-    // and make default impl for this
-    // once camera is implemented.
+    public abstract void renderAtPos(Graphics g, Vec2 pos);
+
+    @Override
     public void render(Graphics g, @NotNull Camera mainCamera) {
         Vec2 screenPos = mainCamera.getScreenPos(pos.get());
 
         renderAtPos(g, screenPos);
     }
 
-    public abstract void renderAtPos(Graphics g, Vec2 pos);
+    @Override
+    public int getLayer() {
+        return layer;
+    }
 }
