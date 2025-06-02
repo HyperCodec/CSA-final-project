@@ -1,5 +1,6 @@
 package finalproject.game.components.tickables.physics;
 
+import finalproject.engine.util.VectorComponent;
 import finalproject.engine.util.box.BasicBox;
 import finalproject.game.components.markers.physics.colliders.AlignableCollider;
 import finalproject.engine.ecs.Tickable;
@@ -12,6 +13,8 @@ import finalproject.game.util.physics.CardinalDirection;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 // implements platform and wall collision for this entity.
 public class GeneralCollision implements Tickable {
@@ -20,22 +23,26 @@ public class GeneralCollision implements Tickable {
     AlignableCollider collider;
     Box<Vec2> vel;
     Box<Boolean> grounded;
+    Box<Boolean> fallThroughPlatforms;
     Box<Double> fallDuration;
 
-    public GeneralCollision(AlignableCollider collider, Box<Vec2> vel, Box<Boolean> grounded, Box<Double> fallDuration) {
+    public GeneralCollision(AlignableCollider collider, Box<Vec2> vel, Box<Boolean> grounded, Box<Boolean> fallThroughPlatforms, Box<Double> fallDuration) {
         this.collider = collider;
         this.vel = vel;
         this.grounded = grounded;
+        this.fallThroughPlatforms = fallThroughPlatforms;
         this.fallDuration = fallDuration;
     }
 
     public GeneralCollision(AlignableCollider collider, Box<Vec2> vel) {
-        this(collider, vel, new BasicBox<>(false), new BasicBox<>(0.0));
+        this(collider, vel, new BasicBox<>(false), new BasicBox<>(false), new BasicBox<>(0.0));
     }
 
     @Override
     public void tick(@NotNull WorldAccessor world, double dt) {
-        boolean landedOnGround = performPlatformCollision(world) || performWallCollision(world);
+        boolean a = performPlatformCollision(world);
+        boolean b = performWallCollision(world);
+        boolean landedOnGround = a || b;
         if(landedOnGround) return;
 
         double newFallDuration = fallDuration.get() + dt;
@@ -46,6 +53,11 @@ public class GeneralCollision implements Tickable {
     }
 
     private boolean performPlatformCollision(@NotNull WorldAccessor world) {
+        // TODO keep player falling through until
+        // they come back up, even if they release
+        // button
+        if(fallThroughPlatforms.get()) return false;
+
         // kind of slow to query every frame, but storing it is a little annoying
         ArrayList<Platform> platforms = world.findEntitiesOfType(Platform.class);
 
@@ -75,9 +87,27 @@ public class GeneralCollision implements Tickable {
         Vec2 vel2 = vel.get();
 
         for(Wall wall : walls) {
-            if(!wall.collider.isColliding(collider)) continue;
+            List<VectorComponent> validCardinals;
+            if(wall.collider.contains(center))
+                // entity's center is inside the wall, so don't prune cardinals
+                validCardinals = List.of(wall.collider.getCardinals());
+            else if(wall.collider.outerIntersect(collider))
+                // entity only intersects edges, center is outside
+                validCardinals = Arrays.stream(wall.collider.getCardinals())
+                        .filter(component -> switch(component.getAxis()) {
+                            case X -> collider.bottom() >= wall.collider.top() && collider.top() <= wall.collider.bottom();
+                            case Y -> collider.right() >= wall.collider.left() && collider.left() <= wall.collider.right();
+                        })
+                        .toList();
+            else {
+                // no collision
+                if(collider.isColliding(wall.collider)) {
+                    System.out.println("this shouldn't be happening");
+                }
+                continue;
+            }
 
-            CardinalDirection wallSide = wall.collider.closestDirection(center);
+            CardinalDirection wallSide = closestDirection(wall.collider, validCardinals);
             switch(wallSide) {
                 case LEFT:
                     if(vel2.getX() > 0)
@@ -107,6 +137,11 @@ public class GeneralCollision implements Tickable {
         }
 
         return false;
+    }
+
+    private CardinalDirection closestDirection(@NotNull AlignableCollider wallCollider, List<VectorComponent> validCardinals) {
+        VectorComponent closestComponent = collider.getCenter().getClosestComponent(validCardinals);
+        return CardinalDirection.fromComponent(closestComponent.sub(wallCollider.getCenter()));
     }
 
     private void landOnGround() {

@@ -33,7 +33,7 @@ public class Game extends JFrame {
     private void setup() {
         engine.getKeysManager().registerDefaultKeybinds();
 
-        // static UI elements
+        // static stuff
         engine.addEntity(new FpsDisplay());
 
         // actual level data

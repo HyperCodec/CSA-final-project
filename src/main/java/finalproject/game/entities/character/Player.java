@@ -54,6 +54,7 @@ public class Player implements Entity, Tickable {
     public final Box<Double> fallDuration = new BasicBox<>(0.0);
     public final Box<Boolean> useGravity = new BasicBox<>(true);
     public final Box<Boolean> canMove = new BasicBox<>(true);
+    public final Box<Boolean> fallThroughPlatforms = new BasicBox<>(false);
     public final Box<HorizontalDirection> facing = new BasicBox<>(HorizontalDirection.RIGHT);
     public final AnimationController animationController;
 
@@ -73,11 +74,11 @@ public class Player implements Entity, Tickable {
         Rigidbody rb = new Rigidbody(10, vel);
         r.addMarker(rb);
 
-        Box<Vec2> ellipseDims = new BasicBox<>(new Vec2(10, 20));
+        Box<Vec2> ellipseDims = new BasicBox<>(new Vec2(12, 20));
         AlignableCollider collider = new EllipseCollider(pos, ellipseDims);
         r.addMarker(collider);
 
-        GeneralCollision collision = new GeneralCollision(collider, vel, grounded, fallDuration);
+        GeneralCollision collision = new GeneralCollision(collider, vel, grounded, fallThroughPlatforms, fallDuration);
         r.addTickable(collision);
 
         Drag drag = new Drag(0.25, rb);
@@ -146,8 +147,12 @@ public class Player implements Entity, Tickable {
             animationController.setCurrentAnimation("idle");
         }
 
-        if(heldDirections.contains(CardinalDirection.DOWN))
+        if(heldDirections.contains(CardinalDirection.DOWN)) {
             vel.set(new Vec2(vel.get().getX(), FAST_FALL_VELOCITY));
+            fallThroughPlatforms.set(true);
+        } else {
+            fallThroughPlatforms.set(false);
+        }
 
         pos.set(pos2);
 

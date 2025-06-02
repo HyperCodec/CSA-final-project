@@ -56,6 +56,16 @@ public class WorldAccessor {
         return engine.getEntities();
     }
 
+    public void addTickableToEntity(Entity entity, Tickable tickable) {
+        engine.getTickablesForEntity(entity).add(tickable);
+        engine.addStaticTickable(tickable);
+    }
+
+    public void addRenderableToEntity(Entity entity, Renderable renderable) {
+        engine.getRenderablesForEntity(entity).add(renderable);
+        engine.addStaticRenderable(renderable);
+    }
+
     /**
      * O(N) check for all entities with a given tickable type.
      * @param targetTickable The class of the tickable component.

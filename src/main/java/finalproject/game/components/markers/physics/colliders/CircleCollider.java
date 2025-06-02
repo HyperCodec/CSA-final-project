@@ -55,6 +55,10 @@ public class CircleCollider extends AlignableCollider {
         return false;
     }
 
+    public double getRadius() {
+        return radius;
+    }
+
     @Override
     public ArrayList<Vec2> getEdgePoints() {
         Vec2 center = pos.get();

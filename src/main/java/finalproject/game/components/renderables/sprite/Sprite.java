@@ -10,7 +10,7 @@ import java.awt.*;
 
 public abstract class Sprite implements Renderable {
     private final Box<Vec2> pos;
-    int layer;
+    public int layer;
 
     protected Sprite(Box<Vec2> pos, int layer) {
         this.pos = pos;

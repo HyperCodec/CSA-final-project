@@ -11,7 +11,7 @@ import java.util.List;
 public class EllipseCollider extends AlignableCollider {
     public final static double ANGLE_BETWEEN_CHECKS = Math.PI / 12;
 
-    Box<Vec2> dimensions;
+    final Box<Vec2> dimensions;
 
     public EllipseCollider(Box<Vec2> pos, Box<Vec2> dimensions) {
         super(pos);
@@ -114,5 +114,9 @@ public class EllipseCollider extends AlignableCollider {
     @Override
     public double bottom() {
         return pos.get().getY() + dimensions.get().getY() / 2;
+    }
+
+    public Vec2 getDimensions() {
+        return dimensions.get();
     }
 }

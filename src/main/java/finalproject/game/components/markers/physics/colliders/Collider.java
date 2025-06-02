@@ -17,8 +17,16 @@ public abstract class Collider {
     public abstract List<Vec2> getEdgePoints();
 
     public boolean isColliding(@NotNull Collider other) {
-        if(contains(other.getCenter())) return true;
+        return contains(other.getCenter()) || outerIntersect(other);
+    }
 
+    /**
+     * Returns true if the collider intersects with the other collider,
+     * without checking if the other collider contains the center of this collider.
+     * @param other the other collider to check for intersection with.
+     * @return true if the colliders intersect, false otherwise.
+     */
+    public boolean outerIntersect(Collider other) {
         for(Vec2 point : getEdgePoints()) {
             if(other.contains(point))
                 return true;

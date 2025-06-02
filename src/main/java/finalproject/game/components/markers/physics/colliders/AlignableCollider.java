@@ -42,10 +42,6 @@ public abstract class AlignableCollider extends Collider {
         return points;
     }
 
-    public CardinalDirection closestDirection(@NotNull Vec2 point) {
-        VectorComponent closestComponent = point.getClosestComponent(List.of(getCardinals()));
-        return CardinalDirection.fromComponent(closestComponent.sub(getCenter()));
-    }
 
     public abstract void alignBottom(double y);
     public abstract void alignTop(double y);

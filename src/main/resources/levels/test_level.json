@@ -49,6 +49,83 @@
           50.0,
           50.0
         ]
+      },
+      {
+        "type": "TileMap",
+        "parent": "Environment",
+        "static": "ORANGE_BRICK_WALL_TILE"
+      }
+    ]
+  },
+  {
+    "type": "Platform",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          100.0,
+          50.0
+        ]
+      },
+      {
+        "type": "Vec2",
+        "args": [
+          50.0,
+          5.0
+        ]
+      },
+      {
+        "type": "TileMap",
+        "parent": "Environment",
+        "static": "PLANKS_TILE_1"
+      }
+    ]
+  },
+  {
+    "type": "Platform",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          0.0,
+          25.0
+        ]
+      },
+      {
+        "type": "Vec2",
+        "args": [
+          50.0,
+          5.0
+        ]
+      },
+      {
+        "type": "TileMap",
+        "parent": "Environment",
+        "static": "PLANKS_TILE_1"
+      }
+    ]
+  },
+  {
+    "type": "Platform",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          100.0,
+          25.0
+        ]
+      },
+      {
+        "type": "Vec2",
+        "args": [
+          50.0,
+          5.0
+        ]
+      },
+      {
+        "type": "TileMap",
+        "parent": "Environment",
+        "static": "PLANKS_TILE_1"
       }
     ]
   }

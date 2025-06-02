@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RectCollider extends AlignableCollider {
-    final static double DIST_BETWEEN_POINTS = 5;
+    final static double DIST_BETWEEN_POINTS = 2.5;
 
     Box<Vec2> dimensions;
 
