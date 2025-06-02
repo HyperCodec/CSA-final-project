@@ -1,5 +1,6 @@
 package finalproject.game.components.tickables.physics;
 
+import finalproject.engine.ecs.Entity;
 import finalproject.engine.util.VectorComponent;
 import finalproject.engine.util.box.BasicBox;
 import finalproject.game.components.markers.physics.colliders.AlignableCollider;
@@ -25,17 +26,23 @@ public class GeneralCollision implements Tickable {
     Box<Boolean> grounded;
     Box<Boolean> fallThroughPlatforms;
     Box<Double> fallDuration;
+    Entity parent;
 
-    public GeneralCollision(AlignableCollider collider, Box<Vec2> vel, Box<Boolean> grounded, Box<Boolean> fallThroughPlatforms, Box<Double> fallDuration) {
+    public GeneralCollision(AlignableCollider collider, Box<Vec2> vel, Box<Boolean> grounded, Box<Boolean> fallThroughPlatforms, Box<Double> fallDuration, Entity parent) {
         this.collider = collider;
         this.vel = vel;
         this.grounded = grounded;
         this.fallThroughPlatforms = fallThroughPlatforms;
         this.fallDuration = fallDuration;
+        this.parent = parent;
+    }
+
+    public GeneralCollision(AlignableCollider collider, Box<Vec2> vel, Entity parent) {
+        this(collider, vel, new BasicBox<>(false), new BasicBox<>(false), new BasicBox<>(0.0), parent);
     }
 
     public GeneralCollision(AlignableCollider collider, Box<Vec2> vel) {
-        this(collider, vel, new BasicBox<>(false), new BasicBox<>(false), new BasicBox<>(0.0));
+        this(collider, vel, null);
     }
 
     @Override
@@ -53,19 +60,25 @@ public class GeneralCollision implements Tickable {
     }
 
     private boolean performPlatformCollision(@NotNull WorldAccessor world) {
-        // TODO keep player falling through until
-        // they come back up, even if they release
-        // button
-        if(fallThroughPlatforms.get()) return false;
-
         // kind of slow to query every frame, but storing it is a little annoying
         ArrayList<Platform> platforms = world.findEntitiesOfType(Platform.class);
 
         Vec2 vel2 = vel.get();
         double velY = vel2.getY();
+        boolean landedOnGround = false;
 
         for (Platform platform : platforms) {
-            if(!platform.collider.isColliding(collider)) continue;
+            if(!platform.collider.isColliding(collider)) {
+                platform.fallingEntities.remove(parent);
+                continue;
+            }
+
+            if(fallThroughPlatforms.get()) {
+                platform.fallingEntities.add(parent);
+                continue;
+            }
+
+            if(platform.fallingEntities.contains(parent)) continue;
 
             if(velY > 0) {
                 vel.set(vel2.subY(velY));
@@ -74,10 +87,10 @@ public class GeneralCollision implements Tickable {
                 fallDuration.set(0.0);
             }
 
-            return true;
+            landedOnGround = true;
         }
 
-        return false;
+        return landedOnGround;
     }
 
     private boolean performWallCollision(@NotNull WorldAccessor world) {

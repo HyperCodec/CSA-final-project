@@ -78,7 +78,7 @@ public class Player implements Entity, Tickable {
         AlignableCollider collider = new EllipseCollider(pos, ellipseDims);
         r.addMarker(collider);
 
-        GeneralCollision collision = new GeneralCollision(collider, vel, grounded, fallThroughPlatforms, fallDuration);
+        GeneralCollision collision = new GeneralCollision(collider, vel, grounded, fallThroughPlatforms, fallDuration, this);
         r.addTickable(collision);
 
         Drag drag = new Drag(0.25, rb);

@@ -12,11 +12,13 @@ import finalproject.game.util.rendering.TileMap;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.util.HashSet;
 
 public class Platform implements Entity {
     public final Box<Vec2> pos;
     public final Vec2 dimensions;
     public final RectCollider collider;
+    public final HashSet<Entity> fallingEntities = new HashSet<>();
     Image image;
 
     public Platform(Vec2 pos, @NotNull Vec2 dimensions) {
