@@ -14,10 +14,10 @@ public class Camera {
     }
 
     public Vec2 getScreenPos(@NotNull Vec2 absolutePos) {
-        return absolutePos.sub(pos.get()).add(engine.getScreenDimensions().divSingle(2));
+        return absolutePos.sub(pos.get()).add(engine.getScreenDimensions().div(2));
     }
 
     public Vec2 getAbsolutePos(@NotNull Vec2 screenPos) {
-        return screenPos.add(pos.get()).sub(engine.getScreenDimensions().divSingle(2));
+        return screenPos.add(pos.get()).sub(engine.getScreenDimensions().div(2));
     }
 }

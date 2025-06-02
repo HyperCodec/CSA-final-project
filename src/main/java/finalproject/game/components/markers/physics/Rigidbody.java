@@ -17,11 +17,11 @@ public class Rigidbody {
     }
 
     public void applyAccel(@NotNull Vec2 accel, double dt) {
-        vel.set(vel.get().add(accel.mulSingle(dt)));
+        vel.set(vel.get().add(accel.mul(dt)));
     }
 
     public Vec2 applyForce(@NotNull Vec2 force, double dt) {
-        Vec2 accel = force.divSingle(mass);
+        Vec2 accel = force.div(mass);
         applyAccel(accel, dt);
         return accel;
     }
@@ -35,6 +35,6 @@ public class Rigidbody {
     }
 
     public Vec2 getForce() {
-        return vel.get().mulSingle(mass);
+        return vel.get().mul(mass);
     }
 }

@@ -3,6 +3,7 @@ package finalproject.game.util;
 import finalproject.game.entities.character.Player;
 import finalproject.game.entities.environment.Platform;
 import finalproject.engine.util.Vec2;
+import finalproject.game.entities.environment.Wall;
 import finalproject.game.util.rendering.TextureManager;
 import finalproject.game.util.rendering.TileMap;
 import org.jetbrains.annotations.Contract;
@@ -32,6 +33,7 @@ public class ParseUtils {
     private final static List<Class<?>> VALID_CLASSES = List.of(
             Player.class,
             Platform.class,
+            Wall.class,
             Vec2.class,
             TextureManager.class,
             TextureManager.Environment.class,

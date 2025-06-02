@@ -9,7 +9,7 @@ import finalproject.game.components.renderables.sprite.flippable.FlippableAnimat
 import finalproject.game.components.tickables.Dash;
 import finalproject.game.components.tickables.physics.Drag;
 import finalproject.game.components.tickables.physics.Gravity;
-import finalproject.game.components.tickables.physics.PlatformCollision;
+import finalproject.game.components.tickables.physics.GeneralCollision;
 import finalproject.game.components.tickables.physics.VelocityPositionUpdater;
 import finalproject.engine.ecs.Entity;
 import finalproject.engine.ecs.EntityComponentRegistry;
@@ -77,8 +77,8 @@ public class Player implements Entity, Tickable {
         AlignableCollider collider = new EllipseCollider(pos, ellipseDims);
         r.addMarker(collider);
 
-        PlatformCollision controller = new PlatformCollision(collider, vel, grounded, fallDuration);
-        r.addTickable(controller);
+        GeneralCollision collision = new GeneralCollision(collider, vel, grounded, fallDuration);
+        r.addTickable(collision);
 
         Drag drag = new Drag(0.25, rb);
         r.addTickable(drag);
@@ -111,9 +111,9 @@ public class Player implements Entity, Tickable {
 
 //        Sprite sprite = new EllipseSprite(pos, Color.cyan, ellipseDims);
 //        r.addRenderable(sprite);
+        r.addTickable(animationController);
         r.addRenderable(animationController);
 
-        animationController.addTickables(r);
         r.addTickable(this);
     }
 
@@ -134,7 +134,7 @@ public class Player implements Entity, Tickable {
         CardinalDirection[] lr = {CardinalDirection.LEFT, CardinalDirection.RIGHT};
         for (CardinalDirection dir : lr) {
             if (heldDirections.contains(dir)) {
-                pos2 = pos2.add(dir.toVector().mulSingle(MOVE_SPEED * dt));
+                pos2 = pos2.add(dir.toVector().mul(MOVE_SPEED * dt));
                 facing.set(dir.toHorizontal());
                 isMoving = true;
             }
@@ -192,7 +192,7 @@ public class Player implements Entity, Tickable {
             Vec2 absoluteMousePos = world.getMainCamera().getAbsolutePos(mousePos);
 
             Vec2 direction = absoluteMousePos.sub(pos2).norm();
-            Vec2 projVel = direction.mulSingle(THROW_VELOCITY).add(vel.get());
+            Vec2 projVel = direction.mul(THROW_VELOCITY).add(vel.get());
 
             world.addEntity(new Dynamite(pos2, projVel, DYNAMITE_TIME, this));
         }

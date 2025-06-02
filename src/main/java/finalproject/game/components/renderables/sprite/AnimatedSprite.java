@@ -14,6 +14,7 @@ public class AnimatedSprite extends Sprite implements Tickable {
     protected int currentFrame = 0;
     protected final List<Image> frames;
     final Timer timer;
+    boolean justFinished = false;
 
     public AnimatedSprite(Box<Vec2> pos, List<Image> frames, double frameTime) {
         super(pos);
@@ -34,6 +35,10 @@ public class AnimatedSprite extends Sprite implements Tickable {
         timer.reset();
     }
 
+    public boolean justFinishedCycle() {
+        return justFinished;
+    }
+
     @Override
     public void renderAtPos(@NotNull Graphics g, @NotNull Vec2 pos) {
         Image image = frames.get(currentFrame);
@@ -46,7 +51,9 @@ public class AnimatedSprite extends Sprite implements Tickable {
 
     @Override
     public void tick(WorldAccessor _world, double dt) {
-        if (timer.tick(dt))
+        justFinished = timer.tick(dt);
+
+        if(justFinished)
             incFrame();
     }
 }

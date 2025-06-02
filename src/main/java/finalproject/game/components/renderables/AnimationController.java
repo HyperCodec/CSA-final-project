@@ -1,6 +1,7 @@
 package finalproject.game.components.renderables;
 
-import finalproject.engine.ecs.EntityComponentRegistry;
+import finalproject.engine.ecs.Tickable;
+import finalproject.engine.ecs.WorldAccessor;
 import finalproject.engine.util.box.Box;
 import finalproject.engine.util.Vec2;
 import finalproject.game.components.renderables.sprite.AnimatedSprite;
@@ -10,9 +11,11 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AnimationController extends Sprite {
+public class AnimationController extends Sprite implements Tickable {
     Map<String, AnimatedSprite> animations;
     String currentAnimation;
+    boolean cancellable = true;
+    String queuedAnimation = null;
 
     public AnimationController(Box<Vec2> pos, Map<String, AnimatedSprite> animations, String defaultAnimation) {
         super(pos);
@@ -29,6 +32,20 @@ public class AnimationController extends Sprite {
         this(pos, new HashMap<>());
     }
 
+    /**
+     * Sets whether the current animation can be canceled.
+     * If it can't be canceled, the newest attempted animation will
+     * be queued and then run after the current animation is finished.
+     * @param cancellable Whether the current animation can be canceled.
+     */
+    public void setCancellable(boolean cancellable) {
+        this.cancellable = cancellable;
+    }
+
+    public boolean isCancellable() {
+        return cancellable;
+    }
+
     public void setCurrentAnimation(String name) {
         if(name == null) {
             // effectively disable rendering
@@ -37,6 +54,12 @@ public class AnimationController extends Sprite {
         }
 
         if(name.equals(currentAnimation)) return;
+
+        if(!cancellable) {
+            queuedAnimation = name;
+            return;
+        }
+
         currentAnimation = name;
         animations.get(currentAnimation).reset();
     }
@@ -61,15 +84,24 @@ public class AnimationController extends Sprite {
         animations.put(name, sprite);
     }
 
-    public void addTickables(EntityComponentRegistry r) {
-        for(AnimatedSprite sprite : animations.values())
-            r.addTickable(sprite);
-    }
-
     @Override
     public void renderAtPos(Graphics g, Vec2 pos) {
         AnimatedSprite current = animations.get(currentAnimation);
         if(current != null)
             current.renderAtPos(g, pos);
+    }
+
+    @Override
+    public void tick(WorldAccessor world, double dt) {
+        AnimatedSprite current = animations.get(currentAnimation);
+        current.tick(world, dt);
+
+        if(current.justFinishedCycle())
+            cancellable = true;
+
+        if(cancellable && queuedAnimation != null) {
+            setCurrentAnimation(queuedAnimation);
+            queuedAnimation = null;
+        }
     }
 }

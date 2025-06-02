@@ -2,7 +2,11 @@ package finalproject.game.components.markers.physics.colliders;
 
 import finalproject.engine.util.box.Box;
 import finalproject.engine.util.Vec2;
+import finalproject.game.util.physics.CardinalDirection;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EllipseCollider extends AlignableCollider {
     public final static double ANGLE_BETWEEN_CHECKS = Math.PI / 12;
@@ -39,19 +43,30 @@ public class EllipseCollider extends AlignableCollider {
     }
 
     @Override
-    public boolean isColliding(@NotNull Collider other) {
-        Vec2 otherCenter = other.getCenter();
+    public void alignTop(double y) {
+        pos.set(new Vec2(pos.get().getX(), y + dimensions.get().getY() / 2));
+    }
 
-        if(contains(otherCenter))
-            return true;
+    @Override
+    public void alignLeft(double x) {
+        pos.set(new Vec2(x + dimensions.get().getX() / 2, pos.get().getY()));
+    }
+
+    @Override
+    public void alignRight(double x) {
+        pos.set(new Vec2(x - dimensions.get().getX() / 2, pos.get().getY()));
+    }
+
+    @Override
+    public List<Vec2> getEdgePoints() {
+        ArrayList<Vec2> points = new ArrayList<>();
 
         for(double angle = 0; angle <= 2 * Math.PI; angle += ANGLE_BETWEEN_CHECKS) {
             Vec2 point = getEdgePoint(angle);
-            if(other.contains(point))
-                return true;
+            points.add(point);
         }
 
-        return false;
+        return points;
     }
 
     public Vec2 getEdgePoint(double angle) {
@@ -78,6 +93,26 @@ public class EllipseCollider extends AlignableCollider {
         double y = (a * b * tan / divisor) - cy;
 
         Vec2 edgePoint = new Vec2(x, y);
-        return edgePoint.mulSingle(sign);
+        return edgePoint.mul(sign);
+    }
+
+    @Override
+    public double left() {
+        return pos.get().getX() - dimensions.get().getX() / 2;
+    }
+
+    @Override
+    public double right() {
+        return pos.get().getX() + dimensions.get().getX() / 2;
+    }
+
+    @Override
+    public double top() {
+        return pos.get().getY() - dimensions.get().getY() / 2;
+    }
+
+    @Override
+    public double bottom() {
+        return pos.get().getY() + dimensions.get().getY() / 2;
     }
 }

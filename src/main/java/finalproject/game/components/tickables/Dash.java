@@ -48,7 +48,7 @@ public class Dash implements Tickable {
                 endDash();
                 return;
             }
-            pos.set(pos.get().add(direction.get().toVector().mulSingle(speed * dt)));
+            pos.set(pos.get().add(direction.get().toVector().mul(speed * dt)));
             return;
         }
 

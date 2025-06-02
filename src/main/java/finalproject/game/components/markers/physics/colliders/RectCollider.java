@@ -2,7 +2,11 @@ package finalproject.game.components.markers.physics.colliders;
 
 import finalproject.engine.util.box.Box;
 import finalproject.engine.util.Vec2;
+import finalproject.game.util.physics.CardinalDirection;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RectCollider extends AlignableCollider {
     final static double DIST_BETWEEN_POINTS = 5;
@@ -22,25 +26,50 @@ public class RectCollider extends AlignableCollider {
 
     @Override
     public boolean isColliding(@NotNull Collider other) {
-        if(other instanceof RectCollider rect)
+        if (other instanceof RectCollider rect)
             return left() < rect.right() && right() > rect.left() &&
                     top() > rect.bottom() && bottom() < rect.top();
 
         Vec2 center = pos.get();
         Vec2 otherCenter = other.getCenter();
 
-        if(contains(otherCenter))
+        if (contains(otherCenter))
             return true;
 
-        // check points along edge with ambiguous collider
-        Vec2 dims = dimensions.get();
+        List<Vec2> edgePoints = getEdgePoints();
+
+        for (Vec2 point : edgePoints) {
+            if (other.contains(point))
+                return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void alignTop(double y) {
+        pos.set(new Vec2(pos.get().getX(), y + dimensions.get().getY() / 2));
+    }
+
+    @Override
+    public void alignLeft(double x) {
+        pos.set(new Vec2(x + dimensions.get().getX() / 2, pos.get().getY()));
+    }
+
+    @Override
+    public void alignRight(double x) {
+        pos.set(new Vec2(x - dimensions.get().getX() / 2, pos.get().getY()));
+    }
+
+    @Override
+    public ArrayList<Vec2> getEdgePoints() {
+        ArrayList<Vec2> points = new ArrayList<>(List.of(getCorners()));
 
         // top and bottom edges
         double[] tby = {top(), bottom()};
         for(double x = left(); x < right(); x += DIST_BETWEEN_POINTS) {
             for(double y : tby) {
-                if(other.contains(new Vec2(x, y)))
-                    return true;
+                points.add(new Vec2(x, y));
             }
         }
 
@@ -48,12 +77,11 @@ public class RectCollider extends AlignableCollider {
         double[] lrx = {left(), right()};
         for(double y = top(); y < bottom(); y += DIST_BETWEEN_POINTS) {
             for(double x : lrx) {
-                if(other.contains(new Vec2(x, y)))
-                    return true;
+                points.add(new Vec2(x, y));
             }
         }
 
-        return false;
+        return points;
     }
 
     @Override
@@ -63,18 +91,22 @@ public class RectCollider extends AlignableCollider {
         pos.set(new Vec2(pos.get().getX(), y - dy));
     }
 
+    @Override
     public double top() {
         return pos.get().getY() - dimensions.get().getY() / 2;
     }
 
+    @Override
     public double bottom() {
         return pos.get().getY() + dimensions.get().getY() / 2;
     }
 
+    @Override
     public double left() {
         return pos.get().getX() - dimensions.get().getX() / 2;
     }
 
+    @Override
     public double right() {
         return pos.get().getX() + dimensions.get().getX() / 2;
     }

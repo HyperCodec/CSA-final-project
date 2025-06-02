@@ -13,7 +13,7 @@ import finalproject.game.components.markers.physics.colliders.CircleCollider;
 import finalproject.game.components.renderables.sprite.AnimatedSprite;
 import finalproject.game.components.tickables.physics.Drag;
 import finalproject.game.components.tickables.physics.Gravity;
-import finalproject.game.components.tickables.physics.PlatformCollision;
+import finalproject.game.components.tickables.physics.GeneralCollision;
 import finalproject.game.components.tickables.physics.VelocityPositionUpdater;
 import finalproject.game.util.ResourceUtils;
 import finalproject.game.util.Timer;
@@ -64,7 +64,7 @@ public class Dynamite implements Entity, Tickable {
         Rigidbody rb = new Rigidbody(1, vel);
         r.addMarker(rb);
 
-        r.addTickable(new PlatformCollision(collider, vel));
+        r.addTickable(new GeneralCollision(collider, vel));
         r.addTickable(new Drag(0.1, rb));
         r.addTickable(new Gravity(vel));
         r.addTickable(new VelocityPositionUpdater(pos, vel));

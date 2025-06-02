@@ -18,7 +18,7 @@ public class VelocityPositionUpdater implements Tickable {
     @Override
     public void tick(WorldAccessor _world, double dt) {
         // pos is in px, vel is in m/s.
-        Vec2 delta = vel.get().mulSingle(dt * UnitConversions.PIXELS_PER_METER);
+        Vec2 delta = vel.get().mul(dt * UnitConversions.PIXELS_PER_METER);
         pos.set(pos.get().add(delta));
     }
 }

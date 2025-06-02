@@ -17,7 +17,7 @@ public class Drag implements Tickable {
     @Override
     public void tick(WorldAccessor _world, double dt) {
         Vec2 vel = rb.getVelocity();
-        Vec2 drag = vel.norm().mulSingle(-dragCoefficient * vel.magSq());
+        Vec2 drag = vel.norm().mul(-dragCoefficient * vel.magSq());
         rb.applyForce(drag, dt);
     }
 }
