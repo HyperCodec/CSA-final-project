@@ -21,6 +21,10 @@ public class BiasedViewBox<T> implements Box<T> {
         this(inner, Mapper.doNothing());
     }
 
+    public void setMapper(Mapper<T> mapper) {
+        this.mapper = mapper;
+    }
+
     @Override
     public void set(T val) {
         inner.set(val);

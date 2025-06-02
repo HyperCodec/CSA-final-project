@@ -1,11 +1,13 @@
 package finalproject.game.entities.character;
 
 import finalproject.engine.util.box.BasicBox;
+import finalproject.game.components.markers.Damageable;
 import finalproject.game.components.markers.physics.colliders.AlignableCollider;
 import finalproject.game.components.markers.physics.Rigidbody;
 import finalproject.game.components.markers.physics.colliders.EllipseCollider;
 import finalproject.game.components.renderables.AnimationController;
 import finalproject.game.components.renderables.sprite.flippable.FlippableAnimatedSprite;
+import finalproject.game.components.renderables.ui.HealthBar;
 import finalproject.game.components.tickables.Dash;
 import finalproject.game.components.tickables.physics.Drag;
 import finalproject.game.components.tickables.physics.Gravity;
@@ -68,6 +70,23 @@ public class Player implements Entity, Tickable {
 
     @Override
     public void spawn(@NotNull EntityComponentRegistry r) {
+        Damageable health = new Damageable(100) {
+            @Override
+            public void onDeath(WorldAccessor world) {
+                // TODO death animation
+            }
+
+            @Override
+            public void onDamage(WorldAccessor world, double amount) {
+                animationController.setCurrentAnimation("hurt");
+                animationController.setCancellable(false);
+            }
+        };
+        r.addMarker(health);
+
+        HealthBar healthBar = new HealthBar(new BiasedViewBox<>(pos, pos -> pos.addY(15)), new BasicBox<>(new Vec2(25, 5)), health);
+        r.addRenderable(healthBar);
+
         Gravity gravity = new Gravity(vel, useGravity);
         r.addTickable(gravity);
 

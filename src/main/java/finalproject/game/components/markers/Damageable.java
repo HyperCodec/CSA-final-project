@@ -61,6 +61,10 @@ public abstract class Damageable {
         this.health = health;
     }
 
+    public double getPercentHealth() {
+        return health / maxHealth;
+    }
+
     public abstract void onDeath(WorldAccessor world);
     public abstract void onDamage(WorldAccessor world, double amount);
 }
