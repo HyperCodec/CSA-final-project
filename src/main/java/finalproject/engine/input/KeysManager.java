@@ -132,7 +132,6 @@ public class KeysManager implements KeyListener {
         addKeybind("down", "DOWN");
 
         addKeybind("toggle_debug", "F3");
-        addKeybind("debug_colliders", "control F3");
     }
 
     public final static Map<String, CardinalDirection> DIRECTION_MAP = Map.of(

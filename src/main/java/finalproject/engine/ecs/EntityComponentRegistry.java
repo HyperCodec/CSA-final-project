@@ -23,6 +23,7 @@ public class EntityComponentRegistry {
     * for faster querying. mostly not doing it rn bc it's annoying to refactor.
     * I'll make the refactor if I start having performance issues.
     */
+    Entity parent = null;
     HashSet<Renderable> renderables = new HashSet<>();
     HashSet<Tickable> tickables = new HashSet<>();
     HashSet<Entity> children = new HashSet<>();
@@ -69,8 +70,7 @@ public class EntityComponentRegistry {
      * @param entity The entity to add
      */
     public void addChildEntity(Entity entity) {
-        children.add(entity);
-        engine.addEntity(entity);
+        engine.addChildEntity(target, entity);
     }
 
     public boolean destroySelf() {
@@ -147,5 +147,13 @@ public class EntityComponentRegistry {
 
     public Entity getTarget() {
         return target;
+    }
+
+    public void setParent(Entity parent) {
+        this.parent = parent;
+    }
+
+    public Entity getParent() {
+        return parent;
     }
 }

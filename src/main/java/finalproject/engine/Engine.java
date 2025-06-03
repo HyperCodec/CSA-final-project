@@ -4,7 +4,6 @@ import finalproject.engine.ecs.*;
 import finalproject.engine.input.KeysManager;
 import finalproject.engine.input.MouseManager;
 import finalproject.engine.util.box.BasicBox;
-import finalproject.engine.util.box.Box;
 import finalproject.engine.util.Vec2;
 import org.jetbrains.annotations.NotNull;
 
@@ -120,6 +119,12 @@ public class Engine extends JPanel {
         keys.removeAllSubscribers(r.getKeySubscribers());
         keys.removeAllKeyListeners(r.getKeyListeners());
 
+        Entity parent = r.getParent();
+        if(parent != null) {
+            EntityComponentRegistry parentR = components.get(parent);
+            parentR.getChildren().remove(entity);
+        }
+
         for(Entity child : r.getChildren())
             destroyEntity(child);
 
@@ -185,7 +190,11 @@ public class Engine extends JPanel {
 
     public synchronized void addChildEntity(Entity parent, Entity child) {
         EntityComponentRegistry r = components.get(parent);
-        r.addChildEntity(child);
+        r.getChildren().add(child);
+        EntityComponentRegistry childR = new EntityComponentRegistry(this, child);
+        components.put(child, childR);
+        child.spawn(childR);
+        childR.setParent(parent);
     }
 
     public Vec2 getScreenDimensions() {

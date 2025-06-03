@@ -13,6 +13,9 @@ import java.util.Iterator;
 // could've prob done this with reflection but then
 // everything would be super cursed.
 public class TextureManager {
+    // splitting this into subclasses makes it
+    // easier to find the textures I'm looking for
+    // in the IDE autocomplete.
     public static class Environment {
         public final static TileMap GRASS_TILE;
         public final static TileMap POPPIES_TILE;
@@ -149,12 +152,16 @@ public class TextureManager {
         public final static SpriteSheet IDLE_ANIMATION;
         public final static SpriteSheet WALK_ANIMATION;
         public final static SpriteSheet HURT_ANIMATION;
+        public final static SpriteSheet ATTACK_ANIMATION;
+        public final static SpriteSheet DEATH_ANIMATION;
 
         static {
             try {
                 IDLE_ANIMATION = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/character/player/idle.png"), 1, 6);
                 WALK_ANIMATION = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/character/player/walk.png"), 1, 8);
                 HURT_ANIMATION = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/character/player/hurt.png"), 1, 4);
+                ATTACK_ANIMATION = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/character/player/attack.png"), 1, 6);
+                DEATH_ANIMATION = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/character/player/death.png"), 1, 4);
             } catch (URISyntaxException | IOException e) {
                 throw new RuntimeException(e);
             }

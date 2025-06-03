@@ -15,13 +15,16 @@ public class AnimationController extends Sprite implements Tickable {
     Map<String, AnimatedSprite> animations;
     String currentAnimation;
     boolean cancellable = true;
+    boolean ephemeral = false;
     String queuedAnimation = null;
+    final String defaultAnimation;
 
     public AnimationController(Box<Vec2> pos, Map<String, AnimatedSprite> animations, String defaultAnimation) {
         super(pos);
 
         this.animations = animations;
         currentAnimation = defaultAnimation;
+        this.defaultAnimation = defaultAnimation;
     }
 
     public AnimationController(Box<Vec2> pos, Map<String, AnimatedSprite> animations) {
@@ -57,9 +60,19 @@ public class AnimationController extends Sprite implements Tickable {
 
         if(!cancellable) {
             queuedAnimation = name;
+            animations.get(name).reset();
             return;
         }
 
+        forceCurrentAnimation(name);
+    }
+
+    // goes back to default animation when the current one ends
+    public void setEphemeral(boolean ephemeral) {
+        this.ephemeral = ephemeral;
+    }
+
+    public void forceCurrentAnimation(String name) {
         currentAnimation = name;
         animations.get(currentAnimation).reset();
     }
@@ -96,12 +109,22 @@ public class AnimationController extends Sprite implements Tickable {
         AnimatedSprite current = animations.get(currentAnimation);
         current.tick(world, dt);
 
-        if(current.justFinishedCycle())
+        if(current.justFinishedCycle()) {
             cancellable = true;
+            if(ephemeral) {
+                setCurrentAnimation(defaultAnimation);
+                ephemeral = false;
+            }
+        }
 
-        if(cancellable && queuedAnimation != null) {
-            setCurrentAnimation(queuedAnimation);
-            queuedAnimation = null;
+        if(queuedAnimation != null) {
+            AnimatedSprite queued = animations.get(queuedAnimation);
+            queued.tick(world, dt);
+
+            if(cancellable) {
+                setCurrentAnimation(queuedAnimation);
+                queuedAnimation = null;
+            }
         }
     }
 }

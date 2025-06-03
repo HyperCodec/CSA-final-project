@@ -1,21 +1,25 @@
 package finalproject.game.components.markers;
 
 import finalproject.engine.ecs.WorldAccessor;
+import finalproject.engine.util.box.Box;
 
 public abstract class Damageable {
     double maxHealth;
     double health;
+    final Box<Boolean> invincible;
 
-    public Damageable(double maxHealth, double health) {
+    public Damageable(double maxHealth, double health, Box<Boolean> invincible) {
         this.maxHealth = maxHealth;
         this.health = health;
+        this.invincible = invincible;
     }
 
-    public Damageable(double maxHealth) {
-        this(maxHealth, maxHealth);
+    public Damageable(double maxHealth, Box<Boolean> invincible) {
+        this(maxHealth, maxHealth, invincible);
     }
 
     public boolean damage(WorldAccessor world, double amount) {
+        if(invincible.get()) return false;
         health -= amount;
         onDamage(world, amount);
 

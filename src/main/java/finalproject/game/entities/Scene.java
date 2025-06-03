@@ -33,17 +33,8 @@ public class Scene implements Entity {
 
     @Override
     public void spawn(EntityComponentRegistry r) {
-        Player player = null;
-        for(Entity entity : entities) {
-            if(entity instanceof Player p)
-                player = p;
+        for(Entity entity : entities)
             r.addChildEntity(entity);
-        }
-
-        // track player with camera
-        if(player != null) {
-            r.setMainCamera(r.getWorldAccessor().makeCamera(player.pos));
-        }
     }
 
     public void reload(@NotNull WorldAccessor world) {

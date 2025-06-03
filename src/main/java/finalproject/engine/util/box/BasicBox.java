@@ -7,8 +7,6 @@ package finalproject.engine.util.box;
  * components with immutable types.
  */
 public class BasicBox<T> implements Box<T> {
-    // could probably make this public instead
-    // of using getter/setter but whatever
     private T val;
 
     public BasicBox(T val) {

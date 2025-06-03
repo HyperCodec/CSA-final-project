@@ -10,9 +10,9 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 
 public class HealthBar implements Renderable {
-    public final Box<Vec2> pos;
-    public final Box<Vec2> dimensions;
-    public final Damageable health;
+    Box<Vec2> pos;
+    Box<Vec2> dimensions;
+    Damageable health;
 
     public HealthBar(Box<Vec2> pos, Box<Vec2> dimensions, Damageable health) {
         this.pos = pos;
@@ -34,7 +34,7 @@ public class HealthBar implements Renderable {
         int top = (int)(cy - h/2);
 
         // background of bar
-        g.setColor(Color.GRAY);
+        g.setColor(Color.DARK_GRAY);
         g.fillRect(left, top, (int) w, (int) h);
 
         // health

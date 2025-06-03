@@ -226,6 +226,10 @@ public class Vec2 {
         };
     }
 
+    public VectorComponent getComponent(Axis axis) {
+        return new VectorComponent(getValue(axis), axis);
+    }
+
     @Override
     public String toString() {
         return String.format("Vec2(%.2f, %.2f)", x, y);

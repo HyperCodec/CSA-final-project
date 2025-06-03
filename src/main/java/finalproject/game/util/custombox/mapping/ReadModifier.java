@@ -1,5 +1,6 @@
-package finalproject.game.util.custombox;
+package finalproject.game.util.custombox.mapping;
 
+import finalproject.engine.util.box.BasicBox;
 import finalproject.engine.util.box.Box;
 
 /**
@@ -8,16 +9,20 @@ import finalproject.engine.util.box.Box;
  * a different place without having to create a new Box.
  * @param <T> The type of the Box.
  */
-public class BiasedViewBox<T> implements Box<T> {
+public class ReadModifier<T> implements Box<T> {
     Box<T> inner;
     Mapper<T> mapper;
 
-    public BiasedViewBox(Box<T> inner, Mapper<T> mapper) {
+    public ReadModifier(T inner, Mapper<T> mapper) {
+        this(new BasicBox<>(inner), mapper);
+    }
+
+    public ReadModifier(Box<T> inner, Mapper<T> mapper) {
         this.inner = inner;
         this.mapper = mapper;
     }
 
-    public BiasedViewBox(Box<T> inner) {
+    public ReadModifier(Box<T> inner) {
         this(inner, Mapper.doNothing());
     }
 
