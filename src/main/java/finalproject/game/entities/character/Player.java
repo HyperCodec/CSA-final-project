@@ -7,6 +7,7 @@ import finalproject.engine.util.box.BasicBox;
 import finalproject.game.components.markers.physics.colliders.RectCollider;
 import finalproject.game.components.renderables.AnimationController;
 import finalproject.game.components.renderables.sprite.flippable.FlippableAnimatedSprite;
+import finalproject.game.components.renderables.sprite.geometry.CircleSprite;
 import finalproject.game.components.renderables.ui.bar.HealthBar;
 import finalproject.game.components.renderables.ui.bar.TimerBar;
 import finalproject.game.components.tickables.Dash;
@@ -14,7 +15,6 @@ import finalproject.engine.ecs.EntityComponentRegistry;
 import finalproject.engine.ecs.Tickable;
 import finalproject.engine.ecs.WorldAccessor;
 import finalproject.engine.util.box.Box;
-import finalproject.game.entities.attack.hitbox.Hitbox;
 import finalproject.game.entities.attack.hitbox.RepelHitbox;
 import finalproject.game.util.Timer;
 import finalproject.game.util.custombox.mapping.ReadModifier;
@@ -52,7 +52,7 @@ public class Player extends LivingEntity implements Tickable {
     public final static double MELEE_DAMAGE = 10;
     public final static double INVINCIBILITY_DURATION = 1;
     public final static Vec2 COLLIDER_SIZE = new Vec2(12, 20);
-    public final static Vec2 MELEE_HITBOX_SIZE = new Vec2(25, 10);
+    public final static Vec2 MELEE_HITBOX_SIZE = new Vec2(25, 20);
 
     // UI elements
     public final static Vec2 HEALTH_BAR_POS = new Vec2(30, 15);

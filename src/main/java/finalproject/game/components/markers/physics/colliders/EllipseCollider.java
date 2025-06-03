@@ -70,30 +70,18 @@ public class EllipseCollider extends AlignableCollider {
     }
 
     public Vec2 getEdgePoint(double angle) {
-        // a lot of these operations are really
-        // expensive, should probably optimize or
-        // derive my own formula.
-        double sign = (0 <= angle && angle < Math.PI / 2) ||
-                (3 * Math.PI / 2 < angle && angle <= 2 * Math.PI ) ?
-                1 : -1;
-
+        // ofc when I derive it myself, it works perfectly.
+        // never trust math stackexchange.
         Vec2 center = pos.get();
         Vec2 dimensions2 = dimensions.get();
-
-        double cx = center.getX();
-        double cy = center.getY();
 
         double a = dimensions2.getX() / 2;
         double b = dimensions2.getY() / 2;
 
-        double tan = Math.tan(angle);
-        double divisor = Math.sqrt(b * b + a * a * tan * tan);
+        double x = a * Math.cos(angle);
+        double y = b * Math.sin(angle);
 
-        double x = (a * b / divisor) + cx;
-        double y = (a * b * tan / divisor) - cy;
-
-        Vec2 edgePoint = new Vec2(x, y);
-        return edgePoint.mul(sign);
+        return new Vec2(x, y).add(center);
     }
 
     @Override

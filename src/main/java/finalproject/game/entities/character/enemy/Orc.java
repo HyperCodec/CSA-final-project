@@ -46,6 +46,7 @@ public class Orc extends Enemy implements Tickable {
 
         r.addTickable(this);
         r.addRenderable(animations);
+        r.addTickable(animations);
     }
 
     @Override

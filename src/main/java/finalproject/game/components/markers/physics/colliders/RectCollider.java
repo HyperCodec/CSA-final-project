@@ -2,7 +2,6 @@ package finalproject.game.components.markers.physics.colliders;
 
 import finalproject.engine.util.box.Box;
 import finalproject.engine.util.Vec2;
-import finalproject.game.util.physics.CardinalDirection;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ public class RectCollider extends AlignableCollider {
 
     @Override
     public boolean contains(@NotNull Vec2 point) {
-        return point.getX() <= left() && point.getX() >= right() &&
+        return point.getX() >= left() && point.getX() <= right() &&
                 point.getY() >= top() && point.getY() <= bottom();
     }
 
