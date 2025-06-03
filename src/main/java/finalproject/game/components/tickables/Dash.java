@@ -27,7 +27,6 @@ public class Dash implements Tickable {
 
     public synchronized boolean activate() {
         if(!cooldown.isFinished() || active) return false;
-        System.out.println("dash activated");
         active = true;
         actionable.set(false);
         duration.reset();
@@ -35,10 +34,13 @@ public class Dash implements Tickable {
     }
 
     private void endDash() {
-        System.out.println("dash ended");
         active = false;
         cooldown.reset();
         actionable.set(true);
+    }
+
+    public Timer getCooldownTimer() {
+        return cooldown;
     }
 
     @Override

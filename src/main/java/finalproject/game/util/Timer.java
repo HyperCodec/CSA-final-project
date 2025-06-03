@@ -51,4 +51,8 @@ public class Timer {
     public double getDuration() {
         return duration;
     }
+
+    public double getPercentageElapsed() {
+        return elapsed / duration;
+    }
 }

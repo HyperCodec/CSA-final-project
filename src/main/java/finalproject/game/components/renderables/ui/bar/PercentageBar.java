@@ -1,24 +1,27 @@
-package finalproject.game.components.renderables.ui;
+package finalproject.game.components.renderables.ui.bar;
 
 import finalproject.engine.Camera;
 import finalproject.engine.ecs.Renderable;
 import finalproject.engine.util.Vec2;
 import finalproject.engine.util.box.Box;
-import finalproject.game.components.markers.Damageable;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
-public class HealthBar implements Renderable {
+public abstract class PercentageBar implements Renderable {
     Box<Vec2> pos;
     Box<Vec2> dimensions;
-    Damageable health;
+    Color backgroundColor;
+    Color barColor;
 
-    public HealthBar(Box<Vec2> pos, Box<Vec2> dimensions, Damageable health) {
+    public PercentageBar(Box<Vec2> pos, Box<Vec2> dimensions, Color backgroundColor, Color barColor) {
         this.pos = pos;
         this.dimensions = dimensions;
-        this.health = health;
+        this.backgroundColor = backgroundColor;
+        this.barColor = barColor;
     }
+
+    public abstract double getPercentage();
 
     @Override
     public void render(@NotNull Graphics g, @NotNull Camera mainCamera) {
@@ -34,14 +37,14 @@ public class HealthBar implements Renderable {
         int top = (int)(cy - h/2);
 
         // background of bar
-        g.setColor(Color.DARK_GRAY);
+        g.setColor(backgroundColor);
         g.fillRect(left, top, (int) w, (int) h);
 
-        // health
-        double healthW = health.getPercentHealth() * w;
+        // actual percent bar
+        double percentW = Math.max(0, Math.min(1, getPercentage())) * w;
 
-        g.setColor(Color.RED);
-        g.fillRect(left, top, (int) healthW, (int) h);
+        g.setColor(barColor);
+        g.fillRect(left, top, (int) percentW, (int) h);
     }
 
     @Override

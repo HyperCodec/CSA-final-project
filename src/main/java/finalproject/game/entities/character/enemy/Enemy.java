@@ -3,7 +3,7 @@ package finalproject.game.entities.character.enemy;
 import finalproject.engine.ecs.EntityComponentRegistry;
 import finalproject.engine.util.Vec2;
 import finalproject.engine.util.box.BasicBox;
-import finalproject.game.components.renderables.ui.HealthBar;
+import finalproject.game.components.renderables.ui.bar.HealthBar;
 import finalproject.game.entities.character.LivingEntity;
 import finalproject.game.util.custombox.mapping.ReadModifier;
 import org.jetbrains.annotations.NotNull;

@@ -7,7 +7,8 @@ import finalproject.engine.util.box.BasicBox;
 import finalproject.game.components.markers.physics.colliders.RectCollider;
 import finalproject.game.components.renderables.AnimationController;
 import finalproject.game.components.renderables.sprite.flippable.FlippableAnimatedSprite;
-import finalproject.game.components.renderables.ui.HealthBar;
+import finalproject.game.components.renderables.ui.bar.HealthBar;
+import finalproject.game.components.renderables.ui.bar.TimerBar;
 import finalproject.game.components.tickables.Dash;
 import finalproject.engine.ecs.EntityComponentRegistry;
 import finalproject.engine.ecs.Tickable;
@@ -25,6 +26,7 @@ import finalproject.game.util.rendering.TextureManager;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -46,12 +48,16 @@ public class Player extends LivingEntity implements Tickable {
     public final static double ANIMATION_FRAME_TIME = 0.1;
     public final static double RENDER_Y_OFFSET = 2;
     public final static double END_LAG = 0.1;
-    public final static Vec2 HEALTH_BAR_POS = new Vec2(30, 15);
-    public final static Vec2 HEALTH_BAR_SIZE = new Vec2(50, 4);
-    public final static Vec2 COLLIDER_SIZE = new Vec2(12, 20);
-    public final static Vec2 MELEE_HITBOX_SIZE = new Vec2(25, 10);
     public final static double MELEE_DAMAGE = 10;
     public final static double INVINCIBILITY_DURATION = 1;
+    public final static Vec2 COLLIDER_SIZE = new Vec2(12, 20);
+    public final static Vec2 MELEE_HITBOX_SIZE = new Vec2(25, 10);
+
+    // UI elements
+    public final static Vec2 HEALTH_BAR_POS = new Vec2(30, 15);
+    public final static Vec2 HEALTH_BAR_SIZE = new Vec2(50, 4);
+    public final static Vec2 DASH_BAR_POS = new Vec2(30, 20);
+    public final static Vec2 DASH_BAR_SIZE = new Vec2(50, 4);
 
     public final Box<Boolean> canMove = new BasicBox<>(true);
     public final Box<HorizontalDirection> facing = new BasicBox<>(HorizontalDirection.RIGHT);
@@ -107,6 +113,16 @@ public class Player extends LivingEntity implements Tickable {
 
         Dash dash = new Dash(pos, facing, canMove, DASH_COOLDOWN, DASH_DURATION, DASH_SPEED);
         r.addTickable(dash);
+
+        TimerBar dashBar = new TimerBar(
+                new ScreenToAbsolute(DASH_BAR_POS, camera),
+                new BasicBox<>(DASH_BAR_SIZE),
+                dash.getCooldownTimer(),
+                Color.DARK_GRAY,
+                Color.CYAN
+        );
+        r.addRenderable(dashBar);
+
 //        r.subscribeKeyDown("dash", dash::activate);
 
         // have to use key listener because
