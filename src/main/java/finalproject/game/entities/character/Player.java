@@ -14,7 +14,8 @@ import finalproject.engine.ecs.EntityComponentRegistry;
 import finalproject.engine.ecs.Tickable;
 import finalproject.engine.ecs.WorldAccessor;
 import finalproject.engine.util.box.Box;
-import finalproject.game.entities.attack.Hitbox;
+import finalproject.game.entities.attack.hitbox.Hitbox;
+import finalproject.game.entities.attack.hitbox.RepelHitbox;
 import finalproject.game.util.Timer;
 import finalproject.game.util.custombox.mapping.ReadModifier;
 import finalproject.engine.util.box.ScreenToAbsolute;
@@ -85,6 +86,7 @@ public class Player extends LivingEntity implements Tickable {
         animations.setCancellable(false);
         intangible.set(true);
         invincibleTimer.reset();
+        canMove.set(false);
     }
 
     @Override
@@ -111,7 +113,7 @@ public class Player extends LivingEntity implements Tickable {
         );
         r.addRenderable(healthBar);
 
-        Dash dash = new Dash(pos, facing, canMove, DASH_COOLDOWN, DASH_DURATION, DASH_SPEED);
+        Dash dash = new Dash(pos, vel, facing, canMove, DASH_COOLDOWN, DASH_DURATION, DASH_SPEED);
         r.addTickable(dash);
 
         TimerBar dashBar = new TimerBar(
@@ -167,6 +169,7 @@ public class Player extends LivingEntity implements Tickable {
         if(intangible.get() && invincibleTimer.tick(dt)) {
             intangible.set(false);
             animations.setCurrentAnimation("idle");
+            canMove.set(true);
         }
 
         if(attackActive.get()) {
@@ -211,6 +214,7 @@ public class Player extends LivingEntity implements Tickable {
         }
 
         facing.set(direction);
+        vel.set(new Vec2(0, vel.get().getY()));
     }
 
     private void handleMovement(@NotNull WorldAccessor world, double dt) {
@@ -296,12 +300,13 @@ public class Player extends LivingEntity implements Tickable {
         Box<Vec2> hitboxPos = new ReadModifier<Vec2>(pos, pos2 -> pos2.add(facing.get().toVector().mul(COLLIDER_SIZE.getX()/2)));
         world.addChildEntity(
                 this,
-                new Hitbox(
+                new RepelHitbox(
                         hitboxPos,
                         new RectCollider(hitboxPos, new BasicBox<>(MELEE_HITBOX_SIZE)),
                         this,
                         attackTimer.getDuration(),
-                        MELEE_DAMAGE
+                        MELEE_DAMAGE,
+                        10
                 )
         );
     }

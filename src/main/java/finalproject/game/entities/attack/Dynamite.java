@@ -15,6 +15,7 @@ import finalproject.game.components.tickables.physics.Drag;
 import finalproject.game.components.tickables.physics.Gravity;
 import finalproject.game.components.tickables.physics.GeneralCollision;
 import finalproject.game.components.tickables.physics.VelocityPositionUpdater;
+import finalproject.game.entities.attack.hitbox.Explosion;
 import finalproject.game.util.ResourceUtils;
 import finalproject.game.util.Timer;
 import finalproject.game.util.AudioSource;

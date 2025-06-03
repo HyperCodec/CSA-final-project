@@ -7,7 +7,8 @@ import finalproject.engine.util.box.BasicBox;
 import finalproject.engine.util.box.Box;
 import finalproject.game.components.markers.physics.colliders.RectCollider;
 import finalproject.game.components.renderables.sprite.ImageSprite;
-import finalproject.game.entities.attack.Hitbox;
+import finalproject.game.entities.attack.hitbox.Hitbox;
+import finalproject.game.entities.attack.hitbox.RepelHitbox;
 import finalproject.game.util.ResourceUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -36,7 +37,7 @@ public class Spike implements Entity {
 
     @Override
     public void spawn(@NotNull EntityComponentRegistry r) {
-        Hitbox hb = new Hitbox(
+        Hitbox hb = new RepelHitbox(
                 pos,
                 new RectCollider(
                         pos,
@@ -44,7 +45,9 @@ public class Spike implements Entity {
                                 TEXTURE.getHeight(null)))
                 ),
                 null,
-                DAMAGE);
+                DAMAGE,
+                10000
+        );
         r.addChildEntity(hb);
 
         ImageSprite sprite = new ImageSprite(pos, TEXTURE);

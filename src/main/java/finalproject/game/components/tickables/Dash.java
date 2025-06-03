@@ -8,16 +8,18 @@ import finalproject.game.util.Timer;
 import finalproject.game.util.physics.HorizontalDirection;
 
 public class Dash implements Tickable {
-    Box<Vec2> pos;
-    Box<HorizontalDirection> direction;
-    Box<Boolean> actionable;
+    final Box<Vec2> pos;
+    final Box<Vec2> vel;
+    final Box<HorizontalDirection> direction;
+    final Box<Boolean> actionable;
     final Timer cooldown;
     final Timer duration;
     final double speed;
     boolean active = false;
 
-    public Dash(Box<Vec2> pos, Box<HorizontalDirection> direction, Box<Boolean> actionable, double cooldown, double duration, double speed) {
+    public Dash(Box<Vec2> pos, Box<Vec2> vel, Box<HorizontalDirection> direction, Box<Boolean> actionable, double cooldown, double duration, double speed) {
         this.pos = pos;
+        this.vel = vel;
         this.direction = direction;
         this.actionable = actionable;
         this.cooldown = new Timer(cooldown);
@@ -37,6 +39,7 @@ public class Dash implements Tickable {
         active = false;
         cooldown.reset();
         actionable.set(true);
+        vel.set(Vec2.ZERO);
     }
 
     public Timer getCooldownTimer() {

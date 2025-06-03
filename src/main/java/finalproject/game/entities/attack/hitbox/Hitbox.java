@@ -1,4 +1,4 @@
-package finalproject.game.entities.attack;
+package finalproject.game.entities.attack.hitbox;
 
 import finalproject.engine.ecs.Entity;
 import finalproject.engine.ecs.EntityComponentRegistry;
@@ -8,7 +8,7 @@ import finalproject.engine.util.Vec2;
 import finalproject.engine.util.box.BasicBox;
 import finalproject.engine.util.box.Box;
 import finalproject.game.components.markers.Damageable;
-import finalproject.game.components.markers.physics.colliders.CircleCollider;
+import finalproject.game.components.markers.physics.Rigidbody;
 import finalproject.game.components.markers.physics.colliders.Collider;
 import finalproject.game.components.tickables.DespawnAfterTime;
 import org.jetbrains.annotations.NotNull;
@@ -16,14 +16,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Hitbox implements Entity, Tickable {
+public abstract class Hitbox implements Entity, Tickable {
     public final Box<Vec2> pos;
     public final Collider collider;
     public final Entity owner;
     public final double despawnTime;
     public final double damage;
-
-    // TODO knockback
 
     // allow importing box directly to
     // make the hitbox move with the parent entity
@@ -47,6 +45,8 @@ public class Hitbox implements Entity, Tickable {
         this(pos, collider, owner, Double.POSITIVE_INFINITY, damage);
     }
 
+    protected abstract Vec2 getKnockbackForce(Entity other, Collider otherCollider);
+
     @Override
     public void spawn(@NotNull EntityComponentRegistry r) {
         r.addMarker(collider);
@@ -65,8 +65,11 @@ public class Hitbox implements Entity, Tickable {
             Entity ent = kv.getKey();
 
             Collider collider = world.findMarkerInEntity(ent, Collider.class);
-            if(collider.isColliding(this.collider))
+            if(collider.isColliding(this.collider)) {
+                Rigidbody rb = world.findMarkerInEntity(ent, Rigidbody.class);
                 kv.getValue().damage(world, damage);
+                rb.applyForce(getKnockbackForce(ent, collider), dt);
+            }
         }
     }
 }

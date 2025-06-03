@@ -59,6 +59,7 @@ public abstract class LivingEntity implements Entity {
     public void spawn(@NotNull EntityComponentRegistry r) {
         r.addMarker(health);
         r.addMarker(collider);
+        r.addMarker(rb);
 
         r.addTickable(new GeneralCollision(collider, vel, grounded, fallThroughPlatforms, fallDuration, this));
         r.addTickable(new Gravity(vel, useGravity));
