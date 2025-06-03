@@ -297,6 +297,9 @@ public class Player extends LivingEntity implements Tickable {
 
         // TODO slash sound
 
+        // TODO only push in facing
+        // direction instead of full
+        // RepelHitbox.
         Box<Vec2> hitboxPos = new ReadModifier<Vec2>(pos, pos2 -> pos2.add(facing.get().toVector().mul(COLLIDER_SIZE.getX()/2)));
         world.addChildEntity(
                 this,

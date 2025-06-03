@@ -1,6 +1,7 @@
 package finalproject.game.util;
 
 import finalproject.game.entities.character.Player;
+import finalproject.game.entities.character.enemy.Orc;
 import finalproject.game.entities.environment.Platform;
 import finalproject.engine.util.Vec2;
 import finalproject.game.entities.environment.Spike;
@@ -39,7 +40,8 @@ public class ParseUtils {
             TextureManager.class,
             TextureManager.Environment.class,
             TileMap.class,
-            Spike.class
+            Spike.class,
+            Orc.class
     );
 
     /**

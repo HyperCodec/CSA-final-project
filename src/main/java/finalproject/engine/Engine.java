@@ -77,6 +77,9 @@ public class Engine extends JPanel {
                 repaint();
 
                 try {
+                    // letting FPS get too high wastes
+                    // resources and causes issues with dt
+                    // always being 0 or very close to 0.
                     Thread.sleep(FRAME_DELAY);
                 } catch (InterruptedException e) {
                     e.printStackTrace();

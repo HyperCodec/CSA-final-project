@@ -167,4 +167,24 @@ public class TextureManager {
             }
         }
     }
+
+    public static class Orc {
+        public final static SpriteSheet IDLE_ANIMATION;
+        public final static SpriteSheet WALK_ANIMATION;
+        public final static SpriteSheet HURT_ANIMATION;
+        public final static SpriteSheet ATTACK_ANIMATION;
+        public final static SpriteSheet DEATH_ANIMATION;
+
+        static {
+            try {
+                IDLE_ANIMATION = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/character/orc/idle.png"), 1, 6);
+                WALK_ANIMATION = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/character/orc/walk.png"), 1, 8);
+                HURT_ANIMATION = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/character/orc/hurt.png"), 1, 4);
+                ATTACK_ANIMATION = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/character/orc/attack.png"), 1, 6);
+                DEATH_ANIMATION = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/character/orc/death.png"), 1, 4);
+            } catch (URISyntaxException | IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 }
