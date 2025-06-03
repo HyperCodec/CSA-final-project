@@ -5,8 +5,10 @@ import finalproject.engine.ecs.EntityComponentRegistry;
 import finalproject.engine.ecs.Tickable;
 import finalproject.engine.ecs.WorldAccessor;
 import finalproject.engine.util.Vec2;
+import finalproject.engine.util.box.BasicBox;
 import finalproject.engine.util.box.Box;
 import finalproject.game.components.markers.Damageable;
+import finalproject.game.components.markers.physics.colliders.CircleCollider;
 import finalproject.game.components.markers.physics.colliders.Collider;
 import finalproject.game.components.tickables.DespawnAfterTime;
 import org.jetbrains.annotations.NotNull;
@@ -21,6 +23,8 @@ public class Hitbox implements Entity, Tickable {
     public final double despawnTime;
     public final double damage;
 
+    // TODO knockback
+
     // allow importing box directly to
     // make the hitbox move with the parent entity
     public Hitbox(Box<Vec2> pos, Collider collider, Entity owner, double despawnTime, double damage) {
@@ -31,10 +35,23 @@ public class Hitbox implements Entity, Tickable {
         this.damage = damage;
     }
 
+    public Hitbox(Vec2 pos, Collider collider, Entity owner, double despawnTime, double damage) {
+        this(new BasicBox<>(pos), collider, owner, despawnTime, damage);
+    }
+
+    public Hitbox(Vec2 pos, Collider collider, Entity owner, double damage) {
+        this(pos, collider, owner, Double.POSITIVE_INFINITY, damage);
+    }
+
+    public Hitbox(Box<Vec2> pos, Collider collider, Entity owner, double damage) {
+        this(pos, collider, owner, Double.POSITIVE_INFINITY, damage);
+    }
+
     @Override
     public void spawn(@NotNull EntityComponentRegistry r) {
         r.addMarker(collider);
-        r.addTickable(new DespawnAfterTime(this, despawnTime));
+        if(despawnTime != Double.POSITIVE_INFINITY && despawnTime > 0.0)
+            r.addTickable(new DespawnAfterTime(this, despawnTime));
         r.addTickable(this);
     }
 

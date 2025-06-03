@@ -1,6 +1,7 @@
 textures/dynamite/explosion.png - https://ansimuz.itch.io/explosion-animations-pack
 textures/dynamite/dynamite.png, textures/dynamite/dynamite.pdn - https://tumas81.itch.io/minerman-adventure/ (modified by me)
-textures/tiles/*.png (except placeholder) - https://tumas81.itch.io/minerman-adventure/
-textures/tiles/placeholder.png - me (couldn't find a real image for it, so I just made it myself, not my original concept)
-textures/character/player/*.png - https://zerie.itch.io/tiny-rpg-character-asset-pack
+textures/environment/tiles/*.png (except placeholder) - https://tumas81.itch.io/minerman-adventure/
+textures/environment/tiles/placeholder.png - me (couldn't find a real image for it, so I just made it myself, not my original concept)
+textures/environment/spike.png - https://www.mariowiki.com/File:SMM-SMB-Spikes.png
+textures/character/player/*.png, textures/character/orc/*.png - https://zerie.itch.io/tiny-rpg-character-asset-pack
 sounds/explosion.wav - https://pixabay.com/sound-effects/explosion-fx-343683/ (cropped by me)

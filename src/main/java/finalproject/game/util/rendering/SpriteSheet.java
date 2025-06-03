@@ -30,4 +30,8 @@ public class SpriteSheet {
     public List<Image> getImages() {
         return ImageUtils.flatCastImages(images);
     }
+
+    public int countImages() {
+        return images.size();
+    }
 }

@@ -22,9 +22,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-public class Explosion implements Entity, Tickable {
+public class Explosion extends Hitbox implements Tickable {
+    // probably should just move this texture stuff to TextureManager.
     final static SpriteSheet EXPLOSION_TEXTURE;
-    final static double GRAPHICS_Y_OFFSET = 15;
 
     static {
         try {
@@ -34,51 +34,18 @@ public class Explosion implements Entity, Tickable {
         }
     }
 
-    public final HashSet<Entity> hit = new HashSet<>();
-    public final Box<Vec2> pos;
-    public final double radius;
-    public final double damage;
-    final Entity owner;
+    final static double GRAPHICS_Y_OFFSET = 15;
+    final static double ANIMATION_FRAME_DELAY = 0.1;
+    final static double DESPAWN_TIME = EXPLOSION_TEXTURE.countImages() * ANIMATION_FRAME_DELAY;
 
-    Collider hitbox;
-
-    public Explosion(Vec2 pos, double radius, double damage, Entity owner) {
-        this.pos = new BasicBox<>(pos);
-        this.radius = radius;
-        this.damage = damage;
-        this.owner = owner;
+    public Explosion(Vec2 pos, double radius, Entity owner, double damage) {
+        super(pos, new CircleCollider(new BasicBox<>(pos), radius), owner, DESPAWN_TIME, damage);
     }
 
     @Override
     public void spawn(@NotNull EntityComponentRegistry r) {
-        hitbox = new CircleCollider(pos, radius);
-        r.addMarker(hitbox);
-
-        AnimatedSprite sprite = new AnimatedSprite(new BasicBox<>(pos.get().subY(GRAPHICS_Y_OFFSET)), EXPLOSION_TEXTURE.getImages(), 0.1);
+        AnimatedSprite sprite = new AnimatedSprite(new BasicBox<>(pos.get().subY(GRAPHICS_Y_OFFSET)), EXPLOSION_TEXTURE.getImages(), ANIMATION_FRAME_DELAY);
         r.addRenderable(sprite);
         r.addTickable(sprite);
-
-        r.addTickable(new DespawnAfterTime(this, sprite.getCycleDuration()));
-    }
-
-    @Override
-    public void tick(@NotNull WorldAccessor world, double dt) {
-        HashMap<Entity, Damageable> damageables = world.findEntitiesWithMarker(Damageable.class);
-
-        damageables.remove(owner);
-
-        // for some reason HashMap doesn't have removeAll
-        for(Entity ent : hit)
-            damageables.remove(ent);
-
-        for(Map.Entry<Entity, Damageable> kv : damageables.entrySet()) {
-            Entity ent = kv.getKey();
-            Collider hurtbox = world.findMarkerInEntity(ent, Collider.class);
-
-            if(hurtbox.isColliding(hitbox)) {
-                kv.getValue().damage(world, damage);
-                hit.add(ent);
-            }
-        }
     }
 }

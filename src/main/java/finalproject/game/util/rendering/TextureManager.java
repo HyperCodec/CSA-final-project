@@ -23,7 +23,7 @@ public class TextureManager {
 
         static {
             try {
-                SpriteSheet grassSheet = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/tiles/grass.png"), 1, 3);
+                SpriteSheet grassSheet = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/environment/tiles/grass.png"), 1, 3);
                 ArrayList<BufferedImage> grassImages = grassSheet.getBufferedImages();
                 Iterator<BufferedImage> grassIter = grassImages.iterator();
 
@@ -41,7 +41,7 @@ public class TextureManager {
 
         static {
             try {
-                SpriteSheet groundSheet = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/tiles/ground.png"), 1, 3);
+                SpriteSheet groundSheet = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/environment/tiles/ground.png"), 1, 3);
                 ArrayList<BufferedImage> groundImages = groundSheet.getBufferedImages();
                 Iterator<BufferedImage> groundIter = groundImages.iterator();
 
@@ -59,7 +59,7 @@ public class TextureManager {
 
         static {
             try {
-                SpriteSheet rockSheet = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/tiles/rock.png"), 1, 3);
+                SpriteSheet rockSheet = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/environment/tiles/rock.png"), 1, 3);
                 ArrayList<BufferedImage> rockImages = rockSheet.getBufferedImages();
                 Iterator<BufferedImage> rockIter = rockImages.iterator();
 
@@ -75,7 +75,7 @@ public class TextureManager {
 
         static {
             try {
-                SAND_TILE = new TileMap(ResourceUtils.readImage(TextureManager.class, "assets/textures/tiles/sand.png"));
+                SAND_TILE = new TileMap(ResourceUtils.readImage(TextureManager.class, "assets/textures/environment/tiles/sand.png"));
             } catch (URISyntaxException | IOException e) {
                 throw new RuntimeException(e);
             }
@@ -87,7 +87,7 @@ public class TextureManager {
 
         static {
             try {
-                SpriteSheet wallSheet = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/tiles/wall.png"), 1, 3);
+                SpriteSheet wallSheet = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/environment/tiles/wall.png"), 1, 3);
                 ArrayList<BufferedImage> wallImages = wallSheet.getBufferedImages();
                 Iterator<BufferedImage> wallIter = wallImages.iterator();
 
@@ -106,7 +106,7 @@ public class TextureManager {
 
         static {
             try {
-                SpriteSheet waterSheet = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/tiles/water.png"), 1, 2);
+                SpriteSheet waterSheet = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/environment/tiles/water.png"), 1, 2);
                 ArrayList<BufferedImage> waterImages = waterSheet.getBufferedImages();
                 Iterator<BufferedImage> waterIter = waterImages.iterator();
 
@@ -124,7 +124,7 @@ public class TextureManager {
 
         static {
             try {
-                SpriteSheet woodSheet = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/tiles/wood.png"), 1, 4);
+                SpriteSheet woodSheet = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/environment/tiles/wood.png"), 1, 4);
                 ArrayList<BufferedImage> woodImages = woodSheet.getBufferedImages();
                 Iterator<BufferedImage> woodIter = woodImages.iterator();
 
@@ -141,7 +141,7 @@ public class TextureManager {
 
         static {
             try {
-                PLACEHOLDER_TILE = new TileMap(ResourceUtils.readImage(TextureManager.class, "assets/textures/tiles/placeholder.png"));
+                PLACEHOLDER_TILE = new TileMap(ResourceUtils.readImage(TextureManager.class, "assets/textures/environment/tiles/placeholder.png"));
             } catch (URISyntaxException | IOException e) {
                 throw new RuntimeException(e);
             }

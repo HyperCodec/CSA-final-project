@@ -14,10 +14,18 @@ public class Camera {
     }
 
     public Vec2 getScreenPos(@NotNull Vec2 absolutePos) {
-        return absolutePos.sub(pos.get()).add(engine.getScreenDimensions().div(2));
+        return getScreenPos(absolutePos, 1);
+    }
+
+    public Vec2 getScreenPos(@NotNull Vec2 absolutePos, double parallax) {
+        return absolutePos.sub(pos.get().mul(parallax)).add(engine.getScreenDimensions().div(2));
     }
 
     public Vec2 getAbsolutePos(@NotNull Vec2 screenPos) {
-        return screenPos.add(pos.get()).sub(engine.getScreenDimensions().div(2));
+        return getAbsolutePos(screenPos, 1);
+    }
+
+    public Vec2 getAbsolutePos(@NotNull Vec2 screenPos, double parallax) {
+        return screenPos.add(pos.get().mul(parallax)).sub(engine.getScreenDimensions().div(2));
     }
 }

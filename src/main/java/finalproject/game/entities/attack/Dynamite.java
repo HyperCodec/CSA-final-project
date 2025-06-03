@@ -92,7 +92,7 @@ public class Dynamite implements Entity, Tickable {
         } catch (UnsupportedAudioFileException | LineUnavailableException | URISyntaxException | IOException e) {
             throw new RuntimeException(e);
         }
-        world.addEntity(new Explosion(pos.get(), EXPLOSION_RADIUS, DAMAGE, owner));
+        world.addEntity(new Explosion(pos.get(), EXPLOSION_RADIUS, owner, DAMAGE));
         world.destroyEntity(this);
     }
 }

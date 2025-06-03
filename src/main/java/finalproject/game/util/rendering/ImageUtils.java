@@ -20,4 +20,16 @@ public class ImageUtils {
     public static List<Image> flatCastImages(@NotNull Collection<BufferedImage> images) {
         return images.stream().map((image) -> (Image) image).toList();
     }
+
+    public static BufferedImage rotateImage(@NotNull BufferedImage image, double angle) {
+        AffineTransform tx = AffineTransform.getRotateInstance(angle, (double) image.getWidth() / 2, (double) image.getHeight() / 2);
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+        return op.filter(image, null);
+    }
+
+    public static BufferedImage scaleImage(@NotNull BufferedImage image, double scale) {
+        AffineTransform tx = AffineTransform.getScaleInstance(scale, scale);
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+        return op.filter(image, null);
+    }
 }
