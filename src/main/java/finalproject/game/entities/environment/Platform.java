@@ -13,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.HashSet;
+import java.util.List;
 
 public class Platform implements Entity {
     public final Box<Vec2> pos;
@@ -31,6 +32,15 @@ public class Platform implements Entity {
     public Platform(Vec2 pos, Vec2 dimensions, @NotNull TileMap tileMap) {
         this(pos, dimensions);
         this.image = tileMap.tileRect((int) dimensions.getX(), (int) dimensions.getY());
+    }
+
+    public List<Vec2> getTopEdges() {
+        Vec2 pos2 = pos.get();
+
+        return List.of(
+                pos2.sub(dimensions.div(2)),
+                pos2.add(dimensions.div(2).mulY(-1))
+        );
     }
 
     @Override

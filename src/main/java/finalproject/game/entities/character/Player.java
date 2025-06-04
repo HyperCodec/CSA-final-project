@@ -7,7 +7,6 @@ import finalproject.engine.util.box.BasicBox;
 import finalproject.game.components.markers.physics.colliders.RectCollider;
 import finalproject.game.components.renderables.AnimationController;
 import finalproject.game.components.renderables.sprite.flippable.FlippableAnimatedSprite;
-import finalproject.game.components.renderables.sprite.geometry.CircleSprite;
 import finalproject.game.components.renderables.ui.bar.HealthBar;
 import finalproject.game.components.renderables.ui.bar.TimerBar;
 import finalproject.game.components.tickables.Dash;
@@ -16,8 +15,9 @@ import finalproject.engine.ecs.Tickable;
 import finalproject.engine.ecs.WorldAccessor;
 import finalproject.engine.util.box.Box;
 import finalproject.game.entities.attack.hitbox.RepelHitbox;
+import finalproject.game.entities.environment.Platform;
 import finalproject.game.util.Timer;
-import finalproject.game.util.custombox.mapping.ReadModifier;
+import finalproject.game.util.custombox.mapping.GetModifier;
 import finalproject.engine.util.box.ScreenToAbsolute;
 import finalproject.game.util.physics.CardinalDirection;
 import finalproject.engine.util.Vec2;
@@ -48,9 +48,9 @@ public class Player extends LivingEntity implements Tickable {
     public final static double DASH_DURATION = 0.25;
     public final static double ANIMATION_FRAME_TIME = 0.1;
     public final static double RENDER_Y_OFFSET = 2;
-    public final static double END_LAG = 0.1;
+    public final static double END_LAG = 1;
     public final static double MELEE_DAMAGE = 10;
-    public final static double INVINCIBILITY_DURATION = 1;
+    public final static double INVINCIBILITY_DURATION = 1.25;
     public final static Vec2 COLLIDER_SIZE = new Vec2(12, 20);
     public final static Vec2 MELEE_HITBOX_SIZE = new Vec2(25, 20);
 
@@ -93,6 +93,9 @@ public class Player extends LivingEntity implements Tickable {
     protected void onDeath(WorldAccessor world) {
         // TODO death animation
     }
+
+    @Override
+    protected void onTouchPlatform(WorldAccessor world, Platform platform) {}
 
     @Override
     public void spawn(@NotNull EntityComponentRegistry r) {
@@ -300,7 +303,7 @@ public class Player extends LivingEntity implements Tickable {
         // TODO only push in facing
         // direction instead of full
         // RepelHitbox.
-        Box<Vec2> hitboxPos = new ReadModifier<Vec2>(pos, pos2 -> pos2.add(facing.get().toVector().mul(COLLIDER_SIZE.getX()/2)));
+        Box<Vec2> hitboxPos = new GetModifier<Vec2>(pos, pos2 -> pos2.add(facing.get().toVector().mul(COLLIDER_SIZE.getX()/2)));
         world.addChildEntity(
                 this,
                 new RepelHitbox(
@@ -314,9 +317,11 @@ public class Player extends LivingEntity implements Tickable {
         );
     }
 
+    // TODO bow attack
+
     @Contract("_ -> new")
     private @NotNull FlippableAnimatedSprite createAnimation(List<BufferedImage> frames) {
-        return new FlippableAnimatedSprite(new ReadModifier<Vec2>(pos, pos2 -> pos2.addY(RENDER_Y_OFFSET)), frames, ANIMATION_FRAME_TIME, facing);
+        return new FlippableAnimatedSprite(new GetModifier<Vec2>(pos, pos2 -> pos2.addY(RENDER_Y_OFFSET)), frames, ANIMATION_FRAME_TIME, facing);
     }
 
     @Contract("_ -> new")
@@ -326,7 +331,7 @@ public class Player extends LivingEntity implements Tickable {
 
     @Contract(" -> new")
     private @NotNull AnimationController setupAnimations() {
-        return new AnimationController(new ReadModifier<Vec2>(pos, pos2 -> pos2.addY(RENDER_Y_OFFSET)), Map.of(
+        return new AnimationController(new GetModifier<Vec2>(pos, pos2 -> pos2.addY(RENDER_Y_OFFSET)), Map.of(
                 "idle", createAnimation(TextureManager.Player.IDLE_ANIMATION),
                 "walk", createAnimation(TextureManager.Player.WALK_ANIMATION),
                 "hurt", createAnimation(TextureManager.Player.HURT_ANIMATION),

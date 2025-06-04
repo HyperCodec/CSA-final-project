@@ -205,6 +205,23 @@ public class Vec2 {
         return closest;
     }
 
+    public int getClosestIndex(@NotNull Collection<Vec2> others) {
+        int i = 0;
+        int closest = 0;
+        double smallestDist = Double.POSITIVE_INFINITY;
+
+        for(Vec2 other : others) {
+            double dist = this.sub(other).magSq();
+            if(dist < smallestDist) {
+                smallestDist = dist;
+                closest = i;
+            }
+            i++;
+        }
+
+        return closest;
+    }
+
     public VectorComponent getClosestComponent(@NotNull Collection<VectorComponent> others) {
         double smallestDist = Double.POSITIVE_INFINITY;
         VectorComponent closest = null;

@@ -5,7 +5,7 @@ import finalproject.engine.util.Vec2;
 import finalproject.engine.util.box.BasicBox;
 import finalproject.game.components.renderables.ui.bar.HealthBar;
 import finalproject.game.entities.character.LivingEntity;
-import finalproject.game.util.custombox.mapping.ReadModifier;
+import finalproject.game.util.custombox.mapping.GetModifier;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class Enemy extends LivingEntity {
@@ -20,7 +20,7 @@ public abstract class Enemy extends LivingEntity {
     public void spawn(@NotNull EntityComponentRegistry r) {
         super.spawn(r);
         r.addRenderable(new HealthBar(
-                new ReadModifier<Vec2>(pos, pos2 -> pos2.addY(HEALTH_BAR_OFFSET)),
+                new GetModifier<Vec2>(pos, pos2 -> pos2.addY(HEALTH_BAR_OFFSET)),
                 new BasicBox<>(HEALTH_BAR_SIZE),
                 health
         ));

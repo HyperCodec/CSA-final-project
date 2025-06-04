@@ -5,6 +5,7 @@ import finalproject.engine.ecs.EntityComponentRegistry;
 import finalproject.engine.util.Vec2;
 import finalproject.engine.util.box.BasicBox;
 import finalproject.engine.util.box.Box;
+import finalproject.game.components.markers.physics.colliders.CircleCollider;
 import finalproject.game.components.markers.physics.colliders.RectCollider;
 import finalproject.game.components.renderables.sprite.ImageSprite;
 import finalproject.game.entities.attack.hitbox.Hitbox;
@@ -39,10 +40,9 @@ public class Spike implements Entity {
     public void spawn(@NotNull EntityComponentRegistry r) {
         Hitbox hb = new RepelHitbox(
                 pos,
-                new RectCollider(
+                new CircleCollider(
                         pos,
-                        new BasicBox<>(new Vec2(TEXTURE.getWidth(null),
-                                TEXTURE.getHeight(null)))
+                        TEXTURE.getWidth(null)
                 ),
                 null,
                 DAMAGE,

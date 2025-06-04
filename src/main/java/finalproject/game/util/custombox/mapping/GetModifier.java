@@ -9,20 +9,20 @@ import finalproject.engine.util.box.Box;
  * a different place without having to create a new Box.
  * @param <T> The type of the Box.
  */
-public class ReadModifier<T> implements Box<T> {
+public class GetModifier<T> implements Box<T> {
     Box<T> inner;
     Mapper<T> mapper;
 
-    public ReadModifier(T inner, Mapper<T> mapper) {
+    public GetModifier(T inner, Mapper<T> mapper) {
         this(new BasicBox<>(inner), mapper);
     }
 
-    public ReadModifier(Box<T> inner, Mapper<T> mapper) {
+    public GetModifier(Box<T> inner, Mapper<T> mapper) {
         this.inner = inner;
         this.mapper = mapper;
     }
 
-    public ReadModifier(Box<T> inner) {
+    public GetModifier(Box<T> inner) {
         this(inner, Mapper.doNothing());
     }
 

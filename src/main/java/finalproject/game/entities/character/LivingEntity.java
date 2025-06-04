@@ -14,6 +14,7 @@ import finalproject.game.components.tickables.physics.Drag;
 import finalproject.game.components.tickables.physics.GeneralCollision;
 import finalproject.game.components.tickables.physics.Gravity;
 import finalproject.game.components.tickables.physics.VelocityPositionUpdater;
+import finalproject.game.entities.environment.Platform;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class LivingEntity implements Entity {
@@ -55,13 +56,20 @@ public abstract class LivingEntity implements Entity {
     protected abstract void onDamage(WorldAccessor world, double amount);
     protected abstract void onDeath(WorldAccessor world);
 
+    protected abstract void onTouchPlatform(WorldAccessor world, Platform platform);
+
     @Override
     public void spawn(@NotNull EntityComponentRegistry r) {
         r.addMarker(health);
         r.addMarker(collider);
         r.addMarker(rb);
 
-        r.addTickable(new GeneralCollision(collider, vel, grounded, fallThroughPlatforms, fallDuration, this));
+        r.addTickable(new GeneralCollision(collider, vel, grounded, fallThroughPlatforms, fallDuration, this) {
+            @Override
+            protected void onTouchPlatform(WorldAccessor world, Platform platform) {
+                LivingEntity.this.onTouchPlatform(world, platform);
+            }
+        });
         r.addTickable(new Gravity(vel, useGravity));
         r.addTickable(new Drag(0.25, rb));
         r.addTickable(new VelocityPositionUpdater(pos, vel));

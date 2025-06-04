@@ -59,6 +59,10 @@ public class GeneralCollision implements Tickable {
             grounded.set(false);
     }
 
+    // probably not the ideal way to do things,
+    // but I don't really have time to make it better
+    protected void onTouchPlatform(WorldAccessor world, Platform platform) {}
+
     private boolean performPlatformCollision(@NotNull WorldAccessor world) {
         // kind of slow to query every frame, but storing it is a little annoying
         ArrayList<Platform> platforms = world.findEntitiesOfType(Platform.class);
@@ -78,6 +82,7 @@ public class GeneralCollision implements Tickable {
                 continue;
             }
 
+            onTouchPlatform(world, platform);
             if(platform.fallingEntities.contains(parent)) continue;
 
             if(velY > 0) {
@@ -104,7 +109,7 @@ public class GeneralCollision implements Tickable {
             if(wall.collider.contains(center))
                 // entity's center is inside the wall, so don't prune cardinals
                 validCardinals = List.of(wall.collider.getCardinals());
-            else if(wall.collider.outerIntersect(collider))
+            else if(collider.outerIntersect(wall.collider))
                 // entity only intersects edges, center is outside
                 validCardinals = Arrays.stream(wall.collider.getCardinals())
                         .filter(component -> switch(component.getAxis()) {
