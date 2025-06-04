@@ -28,10 +28,10 @@ public class FpsDisplay implements Entity, Tickable, Renderable {
     }
 
     @Override
-    public void render(@NotNull Graphics g, Camera _mainCamera) {
+    public void render(@NotNull Graphics g, Camera mainCamera) {
         if(!visible.get()) return;
         g.setColor(Color.BLACK);
-        g.drawString(String.format("FPS: %.2f", fps), 10, 20);
+        g.drawString(String.format("FPS: %.2f", fps), mainCamera.getWidth() - 75, 20);
     }
 
     @Override

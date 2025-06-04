@@ -28,4 +28,16 @@ public class Camera {
     public Vec2 getAbsolutePos(@NotNull Vec2 screenPos, double parallax) {
         return screenPos.add(pos.get().mul(parallax)).sub(engine.getScreenDimensions().div(2));
     }
+
+    public Vec2 getScreenDimensions() {
+        return engine.getScreenDimensions();
+    }
+
+    public int getWidth() {
+        return engine.getWidth();
+    }
+
+    public int getHeight() {
+        return engine.getHeight();
+    }
 }

@@ -119,11 +119,11 @@ public class ParseUtils {
             return parseObject(type, args.toList());
         }
 
-        String parent = obj.getString("parent");
+        String provider = obj.getString("provider");
         String staticName = obj.getString("static");
 
         try {
-            return parseStatic(type, parent, staticName);
+            return parseStatic(type, provider, staticName);
         } catch(NoSuchFieldException | IllegalAccessException e) {
             throw new IllegalArgumentException("Invalid static value: " + obj, e);
         }
@@ -180,14 +180,14 @@ public class ParseUtils {
         return constructor.newInstance(args);
     }
 
-    public static Object parseStatic(String typeName, String parentName, String staticName) throws NoSuchFieldException, IllegalAccessException {
+    public static Object parseStatic(String typeName, String providerName, String staticName) throws NoSuchFieldException, IllegalAccessException {
         Class<?> type = CLASS_MAP.get(typeName);
-        Class<?> parent = CLASS_MAP.get(parentName);
+        Class<?> parent = CLASS_MAP.get(providerName);
 
         if(type == null)
             throw new IllegalArgumentException("No such class: " + typeName);
         if(parent == null)
-            throw new IllegalArgumentException("No such class: " + parentName);
+            throw new IllegalArgumentException("No such class: " + providerName);
 
         return fetchStatic(type, parent, staticName);
     }

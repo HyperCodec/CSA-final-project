@@ -52,7 +52,7 @@ public class Player extends LivingEntity implements Tickable {
     public final static double END_LAG = 1;
     public final static double MELEE_DAMAGE = 10;
     public final static double INVINCIBILITY_DURATION = 1.25;
-    public final static double ARROW_SPEED = 10;
+    public final static double ARROW_SPEED = 5;
     public final static Vec2 COLLIDER_SIZE = new Vec2(12, 20);
     public final static Vec2 MELEE_HITBOX_SIZE = new Vec2(25, 20);
 
@@ -79,6 +79,8 @@ public class Player extends LivingEntity implements Tickable {
     double jumpHeldDuration = 0;
     boolean isJumping = false;
     boolean isBowAttack = false;
+
+    // TODO simple score on kill and goal reach.
 
     public Player(Vec2 pos) {
         super(pos, 100, COLLIDER_SIZE, 50);
@@ -152,7 +154,7 @@ public class Player extends LivingEntity implements Tickable {
                         dash.activate();
                         break;
                     case KeyEvent.VK_F:
-                        bowAttack(world);
+                        bowAttack();
                 }
             }
 
@@ -335,7 +337,7 @@ public class Player extends LivingEntity implements Tickable {
         isBowAttack = false;
     }
 
-   public void bowAttack(WorldAccessor world) {
+   public void bowAttack() {
         if(attackActive.get() || endlag.get()) return;
 
         attackActive.set(true);

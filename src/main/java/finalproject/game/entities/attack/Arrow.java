@@ -3,23 +3,27 @@ package finalproject.game.entities.attack;
 import finalproject.engine.ecs.Entity;
 import finalproject.engine.ecs.EntityComponentRegistry;
 import finalproject.engine.ecs.WorldAccessor;
+import finalproject.engine.util.Axis;
 import finalproject.engine.util.Vec2;
 import finalproject.engine.util.box.BasicBox;
 import finalproject.engine.util.box.Box;
 import finalproject.game.components.markers.physics.colliders.CircleCollider;
 import finalproject.game.components.markers.physics.colliders.Collider;
 import finalproject.game.components.renderables.sprite.ImageSprite;
+import finalproject.game.components.renderables.sprite.flippable.FlippableImageSprite;
 import finalproject.game.components.tickables.physics.VelocityPositionUpdater;
 import finalproject.game.entities.attack.hitbox.Hitbox;
 import finalproject.game.util.ResourceUtils;
+import finalproject.game.util.physics.CardinalDirection;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
 public class Arrow extends Hitbox {
-    final static Image ARROW_IMAGE;
+    final static BufferedImage ARROW_IMAGE;
 
     static {
         try {
@@ -45,7 +49,9 @@ public class Arrow extends Hitbox {
     @Override
     public void spawn(@NotNull EntityComponentRegistry r) {
         super.spawn(r);
-        r.addRenderable(new ImageSprite(pos, ARROW_IMAGE));
+        r.addRenderable(new FlippableImageSprite(pos, ARROW_IMAGE, new BasicBox<>(
+                CardinalDirection.fromComponent(vel.get().getComponent(Axis.X)).toHorizontal())
+        ));
         r.addTickable(new VelocityPositionUpdater(pos, vel));
     }
 

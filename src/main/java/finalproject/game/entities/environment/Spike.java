@@ -42,7 +42,7 @@ public class Spike implements Entity {
                 pos,
                 new CircleCollider(
                         pos,
-                        TEXTURE.getWidth(null)
+                        (double) TEXTURE.getWidth(null) / 2
                 ),
                 null,
                 DAMAGE,

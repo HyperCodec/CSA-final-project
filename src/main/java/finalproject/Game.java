@@ -38,7 +38,7 @@ public class Game extends JFrame {
 
         // actual level data
         try {
-            engine.addEntity(SceneUtils.parseFromResources("levels/test_level.json"));
+            engine.addEntity(SceneUtils.parseFromResources("levels/level1.json"));
         } catch(Exception e) {
             throw new RuntimeException(e);
         }
