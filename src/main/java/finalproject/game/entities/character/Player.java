@@ -14,6 +14,7 @@ import finalproject.engine.ecs.EntityComponentRegistry;
 import finalproject.engine.ecs.Tickable;
 import finalproject.engine.ecs.WorldAccessor;
 import finalproject.engine.util.box.Box;
+import finalproject.game.entities.attack.Arrow;
 import finalproject.game.entities.attack.hitbox.RepelHitbox;
 import finalproject.game.entities.environment.Platform;
 import finalproject.game.util.Timer;
@@ -51,6 +52,7 @@ public class Player extends LivingEntity implements Tickable {
     public final static double END_LAG = 1;
     public final static double MELEE_DAMAGE = 10;
     public final static double INVINCIBILITY_DURATION = 1.25;
+    public final static double ARROW_SPEED = 10;
     public final static Vec2 COLLIDER_SIZE = new Vec2(12, 20);
     public final static Vec2 MELEE_HITBOX_SIZE = new Vec2(25, 20);
 
@@ -68,12 +70,15 @@ public class Player extends LivingEntity implements Tickable {
     public final Box<Boolean> attackActive = new BasicBox<>(false);
     public final Box<Boolean> endlag = new BasicBox<>(false);
 
-    Timer attackTimer;
+    public Timer attackTimer;
     public final Timer endlagTimer = new Timer(END_LAG);
     public final Timer invincibleTimer = new Timer(INVINCIBILITY_DURATION);
 
+    public Dash dash;
+
     double jumpHeldDuration = 0;
     boolean isJumping = false;
+    boolean isBowAttack = false;
 
     public Player(Vec2 pos) {
         super(pos, 100, COLLIDER_SIZE, 50);
@@ -87,6 +92,8 @@ public class Player extends LivingEntity implements Tickable {
         intangible.set(true);
         invincibleTimer.reset();
         canMove.set(false);
+        dash.abruptlyCancel();
+        attackActive.set(false);
     }
 
     @Override
@@ -116,7 +123,7 @@ public class Player extends LivingEntity implements Tickable {
         );
         r.addRenderable(healthBar);
 
-        Dash dash = new Dash(pos, vel, facing, canMove, DASH_COOLDOWN, DASH_DURATION, DASH_SPEED);
+        dash = new Dash(pos, vel, facing, canMove, DASH_COOLDOWN, DASH_DURATION, DASH_SPEED);
         r.addTickable(dash);
 
         TimerBar dashBar = new TimerBar(
@@ -140,8 +147,12 @@ public class Player extends LivingEntity implements Tickable {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() == KeyEvent.VK_Q) {
-                    dash.activate();
+                switch(e.getKeyCode()) {
+                    case KeyEvent.VK_Q:
+                        dash.activate();
+                        break;
+                    case KeyEvent.VK_F:
+                        bowAttack(world);
                 }
             }
 
@@ -180,6 +191,11 @@ public class Player extends LivingEntity implements Tickable {
                 attackActive.set(false);
                 animations.setCurrentAnimation("idle");
 
+                if(isBowAttack) {
+                    Vec2 arrowVel = facing.get().toVector().mul(ARROW_SPEED * COLLIDER_SIZE.getX()/2);
+                    world.addChildEntity(this, new Arrow(pos.get(), arrowVel, this));
+                }
+
                 if(bufferedDirection != null)
                     facing.set(bufferedDirection);
 
@@ -196,7 +212,7 @@ public class Player extends LivingEntity implements Tickable {
         if(canMove.get()) {
             handleMovement(world, dt);
         }
-        handleAttack(world);
+        handleMeleeAttack(world);
     }
 
     private void faceMouse(@NotNull Camera camera, @NotNull MouseEvent e) {
@@ -286,13 +302,13 @@ public class Player extends LivingEntity implements Tickable {
         useGravity.set(true);
     }
 
-    private void handleAttack(@NotNull WorldAccessor world) {
+    private void handleMeleeAttack(@NotNull WorldAccessor world) {
         if(!world.isMouseClicking() || attackActive.get() || endlag.get()) return;
 
-        attack(world);
+        meleeAttack(world);
     }
 
-    private void attack(@NotNull WorldAccessor world) {
+    public void meleeAttack(@NotNull WorldAccessor world) {
         attackActive.set(true);
         attackTimer = new Timer(animations.getAnimation("meleeAttack").getCycleDuration());
 
@@ -315,9 +331,20 @@ public class Player extends LivingEntity implements Tickable {
                         10
                 )
         );
+
+        isBowAttack = false;
     }
 
-    // TODO bow attack
+   public void bowAttack(WorldAccessor world) {
+        if(attackActive.get() || endlag.get()) return;
+
+        attackActive.set(true);
+        attackTimer = new Timer(animations.getAnimation("bowAttack").getCycleDuration());
+
+        animations.setCurrentAnimation("bowAttack");
+
+        isBowAttack = true;
+   }
 
     @Contract("_ -> new")
     private @NotNull FlippableAnimatedSprite createAnimation(List<BufferedImage> frames) {
@@ -335,7 +362,8 @@ public class Player extends LivingEntity implements Tickable {
                 "idle", createAnimation(TextureManager.Player.IDLE_ANIMATION),
                 "walk", createAnimation(TextureManager.Player.WALK_ANIMATION),
                 "hurt", createAnimation(TextureManager.Player.HURT_ANIMATION),
-                "meleeAttack", createAnimation(TextureManager.Player.ATTACK_ANIMATION),
+                "meleeAttack", createAnimation(TextureManager.Player.MELEE_ATTACK_ANIMATION),
+                "bowAttack", createAnimation(TextureManager.Player.BOW_ATTACK_ANIMATION),
                 "death", createAnimation(TextureManager.Player.DEATH_ANIMATION)
         ), "idle");
     }

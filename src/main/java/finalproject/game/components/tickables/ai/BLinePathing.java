@@ -1,9 +1,7 @@
 package finalproject.game.components.tickables.ai;
 
 import finalproject.engine.ecs.WorldAccessor;
-import finalproject.engine.util.Axis;
 import finalproject.engine.util.Vec2;
-import finalproject.engine.util.VectorComponent;
 import finalproject.engine.util.box.Box;
 
 import java.util.List;

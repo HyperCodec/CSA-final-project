@@ -3,6 +3,7 @@ package finalproject.game.components.tickables.ai;
 import finalproject.engine.ecs.WorldAccessor;
 import finalproject.engine.util.Axis;
 import finalproject.engine.util.Vec2;
+import finalproject.engine.util.VectorComponent;
 import finalproject.engine.util.box.Box;
 import finalproject.game.util.physics.CardinalDirection;
 import finalproject.game.util.physics.HorizontalDirection;
@@ -36,8 +37,9 @@ public abstract class FacedBLPathing extends BLinePathing {
     public void step(WorldAccessor world, double dt) {
         // might want to add a call to super or something
         Vec2 currentPos = pos.get();
-        Vec2 direction = getCurrentNode().sub(currentPos).norm();
-        pos.set(currentPos.add(direction.mul(speed * dt)));
-        facing.set(CardinalDirection.fromComponent(direction.getComponent(Axis.X)).toHorizontal());
+        double x = getCurrentNode().getX() > currentPos.getX() ? 1 : -1;
+
+        pos.set(currentPos.addX(x * speed * dt));
+        facing.set(CardinalDirection.fromVector(new Vec2(x, 0)).toHorizontal());
     }
 }

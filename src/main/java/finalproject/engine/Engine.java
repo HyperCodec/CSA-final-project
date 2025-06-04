@@ -125,7 +125,9 @@ public class Engine extends JPanel {
         Entity parent = r.getParent();
         if(parent != null) {
             EntityComponentRegistry parentR = components.get(parent);
-            parentR.getChildren().remove(entity);
+            if(parentR != null)
+                // in rare cases parentR can be null
+                parentR.getChildren().remove(entity);
         }
 
         for(Entity child : r.getChildren())

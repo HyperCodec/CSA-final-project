@@ -152,7 +152,8 @@ public class TextureManager {
         public final static SpriteSheet IDLE_ANIMATION;
         public final static SpriteSheet WALK_ANIMATION;
         public final static SpriteSheet HURT_ANIMATION;
-        public final static SpriteSheet ATTACK_ANIMATION;
+        public final static SpriteSheet MELEE_ATTACK_ANIMATION;
+        public final static SpriteSheet BOW_ATTACK_ANIMATION;
         public final static SpriteSheet DEATH_ANIMATION;
 
         static {
@@ -160,7 +161,8 @@ public class TextureManager {
                 IDLE_ANIMATION = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/character/player/idle.png"), 1, 6);
                 WALK_ANIMATION = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/character/player/walk.png"), 1, 8);
                 HURT_ANIMATION = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/character/player/hurt.png"), 1, 4);
-                ATTACK_ANIMATION = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/character/player/attack.png"), 1, 6);
+                MELEE_ATTACK_ANIMATION = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/character/player/attack.png"), 1, 6);
+                BOW_ATTACK_ANIMATION = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/character/player/bow_attack.png"), 1, 9);
                 DEATH_ANIMATION = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/character/player/death.png"), 1, 4);
             } catch (URISyntaxException | IOException e) {
                 throw new RuntimeException(e);

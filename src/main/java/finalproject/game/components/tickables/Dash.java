@@ -42,6 +42,12 @@ public class Dash implements Tickable {
         vel.set(Vec2.ZERO);
     }
 
+    public void abruptlyCancel() {
+        if(!active) return;
+        active = false;
+        cooldown.reset();
+    }
+
     public Timer getCooldownTimer() {
         return cooldown;
     }

@@ -1,5 +1,6 @@
 textures/dynamite/explosion.png - https://ansimuz.itch.io/explosion-animations-pack
 textures/dynamite/dynamite.png, textures/dynamite/dynamite.pdn - https://tumas81.itch.io/minerman-adventure/ (modified by me)
+textures/arrow.png - https://arydian.itch.io/simple-wooden-bow-and-arrows
 textures/environment/tiles/*.png (except placeholder) - https://tumas81.itch.io/minerman-adventure/
 textures/environment/tiles/placeholder.png - me (couldn't find a real image for it, so I just made it myself, not my original concept)
 textures/environment/spike.png - https://www.mariowiki.com/File:SMM-SMB-Spikes.png

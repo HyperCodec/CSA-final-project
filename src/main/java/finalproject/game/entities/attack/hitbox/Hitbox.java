@@ -18,7 +18,7 @@ import java.util.Map;
 
 public abstract class Hitbox implements Entity, Tickable {
     public final Box<Vec2> pos;
-    public final Collider collider;
+    public Collider collider;
     public final Entity owner;
     public final double despawnTime;
     public final double damage;
@@ -46,6 +46,7 @@ public abstract class Hitbox implements Entity, Tickable {
     }
 
     protected abstract Vec2 getKnockbackForce(Entity other, Collider otherCollider);
+    protected void onCollide(WorldAccessor world, Entity other, Collider otherCollider) {}
 
     @Override
     public void spawn(@NotNull EntityComponentRegistry r) {
@@ -69,6 +70,7 @@ public abstract class Hitbox implements Entity, Tickable {
                 Rigidbody rb = world.findMarkerInEntity(ent, Rigidbody.class);
                 kv.getValue().damage(world, damage);
                 rb.applyForce(getKnockbackForce(ent, collider), dt);
+                onCollide(world, ent, collider);
             }
         }
     }
