@@ -16,6 +16,9 @@ import finalproject.game.components.tickables.ai.PathTweener;
 import finalproject.game.entities.attack.hitbox.RepelHitbox;
 import finalproject.game.entities.character.Player;
 import finalproject.game.entities.environment.Platform;
+import finalproject.game.entities.ui.Score;
+import finalproject.game.util.AudioSource;
+import finalproject.game.util.ResourceUtils;
 import finalproject.game.util.Timer;
 import finalproject.game.util.custombox.mapping.GetModifier;
 import finalproject.game.util.physics.CardinalDirection;
@@ -25,7 +28,11 @@ import finalproject.game.util.rendering.TextureManager;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +42,7 @@ public class Orc extends Enemy implements Tickable {
     public final static double WALK_SPEED = 25;
     public final static double MIN_PAUSE_TIME = 0.5;
     public final static double MAX_PAUSE_TIME = 5.0;
-    public final static double AGGRO_RANGE = 50.0;
+    public final static double AGGRO_RANGE = 100.0;
     public final static double ATTEMPT_ATTACK_RANGE = 40.0;
     public final static Vec2 ATTACK_HITBOX_SIZE = new Vec2(20, 20);
     public final static double ATTACK_DAMAGE = 10;
@@ -57,7 +64,7 @@ public class Orc extends Enemy implements Tickable {
     public boolean endlag = false;
     public Timer wanderPauseCooldown;
     public Timer attackTimer;
-    public final Timer endlagTimer = new Timer(Player.END_LAG);
+    public final Timer endlagTimer = new Timer(Player.END_LAG * 2);
     public Platform currentPlatform;
 
     public Orc(Vec2 pos) {
@@ -108,13 +115,28 @@ public class Orc extends Enemy implements Tickable {
         intangible.set(true);
         invincibleTimer.reset();
         canMove.set(false);
+        AudioSource hurt;
+        try {
+            hurt = ResourceUtils.readAudio(Player.class, "assets/sounds/orc/hurt.wav", 0);
+        } catch (URISyntaxException | UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            throw new RuntimeException(e);
+        }
+        hurt.play();
     }
 
     @Override
     protected void onDeath(@NotNull WorldAccessor world) {
-        // TODO death sfx
         world.addEntity(new DyingOrc(pos.get().addY(Player.RENDER_Y_OFFSET)));
         world.destroyEntity(this);
+        world.findEntitiesOfType(Score.class).getFirst().addScore(1);
+
+        AudioSource death;
+        try {
+            death = ResourceUtils.readAudio(Player.class, "assets/sounds/orc/death.wav", 0);
+        } catch (URISyntaxException | UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            throw new RuntimeException(e);
+        }
+        death.play();
     }
 
     @Override
@@ -145,6 +167,8 @@ public class Orc extends Enemy implements Tickable {
         Player player = world.findEntitiesOfType(Player.class).getFirst();
         Vec2 playerPos = player.pos.get();
 
+        double playerX = playerPos.getX();
+
         Vec2 delta = playerPos.sub(pos.get());
         double distSq = delta.magSq();
 
@@ -155,31 +179,48 @@ public class Orc extends Enemy implements Tickable {
             VectorComponent horizontal = delta.getComponent(Axis.X);
             facing.set(CardinalDirection.fromComponent(horizontal).toHorizontal());
 
-            vel.set(Vec2.ZERO);
-            pos.set(pos.get().add(facing.get().toVector().mul(WALK_SPEED * dt)));
+            List<Vec2> topEdges = currentPlatform.getTopEdges();
+            Vec2 leftEdge = topEdges.getFirst();
+            Vec2 rightEdge = topEdges.getLast();
 
-            if(!attackActive && !endlag && distSq <= ATTEMPT_ATTACK_RANGE * ATTEMPT_ATTACK_RANGE) {
-                attackActive = true;
-                animations.setCurrentAnimation("attack");
+            if(!attackActive) {
+                if (playerX >= leftEdge.getX() && playerX <= rightEdge.getX() && Math.abs(playerX - pos.get().getX()) >= 5) {
+                    vel.set(Vec2.ZERO);
+                    pos.set(pos.get().add(facing.get().toVector().mul(WALK_SPEED * dt)));
+                    animations.setCurrentAnimation("walk");
+                } else {
+                    animations.setCurrentAnimation("idle");
+                }
+
+                if (!endlag && distSq <= ATTEMPT_ATTACK_RANGE * ATTEMPT_ATTACK_RANGE) {
+                    attackActive = true;
+                    animations.setCurrentAnimation("attack");
 //                attackTimer.reset();
 
-                // TODO slash sound
+                    AudioSource attackSFX;
+                    try {
+                        attackSFX = ResourceUtils.readAudio(Player.class, "assets/sounds/slash.wav", 0);
+                    } catch (URISyntaxException | UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                        throw new RuntimeException(e);
+                    }
+                    attackSFX.play();
 
-                // TODO only push in facing
-                // direction instead of full
-                // RepelHitbox.
-                Box<Vec2> hitboxPos = new GetModifier<Vec2>(pos, pos2 -> pos2.add(facing.get().toVector().mul(Player.COLLIDER_SIZE.getX()/2)));
-                world.addChildEntity(
-                        this,
-                        new RepelHitbox(
-                                hitboxPos,
-                                new RectCollider(hitboxPos, new BasicBox<>(ATTACK_HITBOX_SIZE)),
-                                this,
-                                attackTimer.getDuration(),
-                                ATTACK_DAMAGE,
-                                10
-                        )
-                );
+                    // TODO only push in facing
+                    // direction instead of full
+                    // RepelHitbox.
+                    Box<Vec2> hitboxPos = new GetModifier<Vec2>(pos, pos2 -> pos2.add(facing.get().toVector().mul(Player.COLLIDER_SIZE.getX() / 2)));
+                    world.addChildEntity(
+                            this,
+                            new RepelHitbox(
+                                    hitboxPos,
+                                    new RectCollider(hitboxPos, new BasicBox<>(ATTACK_HITBOX_SIZE)),
+                                    this,
+                                    attackTimer.getDuration(),
+                                    ATTACK_DAMAGE,
+                                    10
+                            )
+                    );
+                }
             }
         } else if(aggro) {
             isWandering.set(true);

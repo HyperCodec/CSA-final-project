@@ -189,4 +189,18 @@ public class TextureManager {
             }
         }
     }
+
+    public static class GiantOrc {
+        public final static SpriteSheet IDLE_ANIMATION;
+        public final static SpriteSheet ATTACK_ANIMATION;
+
+        static {
+            try {
+                IDLE_ANIMATION = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/character/giant_orc/idle.png"), 1, 6);
+                ATTACK_ANIMATION = new SpriteSheet(ResourceUtils.readImage(TextureManager.class, "assets/textures/character/giant_orc/attack.png"), 1, 16);
+            } catch (URISyntaxException | IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 }

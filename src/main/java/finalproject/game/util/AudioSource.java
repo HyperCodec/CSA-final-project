@@ -7,7 +7,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class AudioSource implements Cloneable {
-    // idk how to set the volume/level
+    // idk how to set the volume/level.
+    // i also don't think a lot of this class actually works.
     long currentFrame;
     Clip clip;
     State state;

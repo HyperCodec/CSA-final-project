@@ -4,5 +4,13 @@ textures/arrow.png - https://arydian.itch.io/simple-wooden-bow-and-arrows
 textures/environment/tiles/*.png (except placeholder) - https://tumas81.itch.io/minerman-adventure/
 textures/environment/tiles/placeholder.png - me (couldn't find a real image for it, so I just made it myself, not my original concept)
 textures/environment/spike.png - https://www.mariowiki.com/File:SMM-SMB-Spikes.png
+textures/environment/flag.png - https://ankousse26.itch.io/free-flag-with-animation
 textures/character/player/*.png, textures/character/orc/*.png - https://zerie.itch.io/tiny-rpg-character-asset-pack
+textures/character/giant_orc/*.png - https://www.spriters-resource.com/playstation/breathoffire3/sheet/40417/
 sounds/explosion.wav - https://pixabay.com/sound-effects/explosion-fx-343683/ (cropped by me)
+sounds/player/hurt.wav - https://tuna.voicemod.net/sound/1af5a7bd-a444-47b4-9196-15b292643ee4
+sounds/player/death.wav - https://www.youtube.com/watch?v=UkdFjOd2kuk
+sounds/player/bow_attack.wav - https://quicksounds.com/sound/17011/weapon-crossbow-fire-arrow-release
+sounds/slash.wav - https://pixabay.com/sound-effects/sword-sound-2-36274/
+sounds/orc/death.wav - https://pixabay.com/sound-effects/snarlwav-14497/
+sounds/orc/hurt.wav - https://www.youtube.com/watch?v=OLJbtULNOaM

@@ -1,11 +1,14 @@
 package finalproject.game.util;
 
 import finalproject.game.entities.character.Player;
+import finalproject.game.entities.character.enemy.GiantOrc;
 import finalproject.game.entities.character.enemy.Orc;
+import finalproject.game.entities.environment.Flag;
 import finalproject.game.entities.environment.Platform;
 import finalproject.engine.util.Vec2;
 import finalproject.game.entities.environment.Spike;
 import finalproject.game.entities.environment.Wall;
+import finalproject.game.entities.ui.SimpleText;
 import finalproject.game.util.rendering.TextureManager;
 import finalproject.game.util.rendering.TileMap;
 import org.jetbrains.annotations.Contract;
@@ -41,7 +44,10 @@ public class ParseUtils {
             TextureManager.Environment.class,
             TileMap.class,
             Spike.class,
-            Orc.class
+            Orc.class,
+            Flag.class,
+            GiantOrc.class,
+            SimpleText.class
     );
 
     /**

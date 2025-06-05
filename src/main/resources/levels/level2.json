@@ -39,14 +39,14 @@
       {
         "type": "Vec2",
         "args": [
-          100.0,
-          -20.0
+          150.0,
+          10.0
         ]
       },
       {
         "type": "Vec2",
         "args": [
-          50.0,
+          100.0,
           5.0
         ]
       },
@@ -63,8 +63,56 @@
       {
         "type": "Vec2",
         "args": [
-          175.0,
-          -20.0
+          150.0,
+          -40.0
+        ]
+      },
+      {
+        "type": "Vec2",
+        "args": [
+          100.0,
+          5.0
+        ]
+      },
+      {
+        "type": "TileMap",
+        "provider": "Environment",
+        "static": "PLANKS_TILE_1"
+      }
+    ]
+  },
+  {
+    "type": "Orc",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          150.0,
+          -10.0
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Orc",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          150.0,
+          -45.0
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Platform",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          300.0,
+          -40.0
         ]
       },
       {
@@ -87,68 +135,68 @@
       {
         "type": "Vec2",
         "args": [
-          135.0,
-          -70.0
+          356.0,
+          -24.0
         ]
       }
     ]
   },
   {
-    "type": "Platform",
+    "type": "Spike",
     "args": [
       {
         "type": "Vec2",
         "args": [
-          175.0,
-          -70.0
-        ]
-      },
-      {
-        "type": "Vec2",
-        "args": [
-          50.0,
-          5.0
-        ]
-      },
-      {
-        "type": "TileMap",
-        "provider": "Environment",
-        "static": "PLANKS_TILE_1"
-      }
-    ]
-  },
-  {
-    "type": "Platform",
-    "args": [
-      {
-        "type": "Vec2",
-        "args": [
-          350.0,
+          356.0,
           -80.0
         ]
-      },
-      {
-        "type": "Vec2",
-        "args": [
-          150.0,
-          5.0
-        ]
-      },
-      {
-        "type": "TileMap",
-        "provider": "Environment",
-        "static": "PLANKS_TILE_1"
       }
     ]
   },
   {
-    "type": "Orc",
+    "type": "Spike",
     "args": [
       {
         "type": "Vec2",
         "args": [
-          350.0,
-          -90.0
+          372.0,
+          -24.0
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Spike",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          372.0,
+          -80.0
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Spike",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          388.0,
+          -24.0
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Spike",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          388.0,
+          -80.0
         ]
       }
     ]
@@ -159,32 +207,8 @@
       {
         "type": "Vec2",
         "args": [
-          350.0,
-          -135.0
-        ]
-      },
-      {
-        "type": "Vec2",
-        "args": [
-          100.0,
-          5.0
-        ]
-      },
-      {
-        "type": "TileMap",
-        "provider": "Environment",
-        "static": "PLANKS_TILE_1"
-      }
-    ]
-  },
-  {
-    "type": "Platform",
-    "args": [
-      {
-        "type": "Vec2",
-        "args": [
-          500.0,
-          -135.0
+          461.0,
+          -40.0
         ]
       },
       {
@@ -202,52 +226,16 @@
     ]
   },
   {
-    "type": "Spike",
-    "args": [
-      {
-        "type": "Vec2",
-        "args": [
-          450.0,
-          -135.0
-        ]
-      }
-    ]
-  },
-  {
-    "type": "Spike",
-    "args": [
-      {
-        "type": "Vec2",
-        "args": [
-          450.0,
-          -119.0
-        ]
-      }
-    ]
-  },
-  {
-    "type": "Spike",
-    "args": [
-      {
-        "type": "Vec2",
-        "args": [
-          450.0,
-          -151.0
-        ]
-      }
-    ]
-  },
-  {
     "type": "Flag",
     "args": [
       {
         "type": "Vec2",
         "args": [
-          500.0,
-          -165.0
+          461.0,
+          -70.0
         ]
       },
-      "levels/level2.json"
+      "levels/level3.json"
     ]
   }
 ]

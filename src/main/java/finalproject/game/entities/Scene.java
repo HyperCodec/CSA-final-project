@@ -4,7 +4,6 @@ import finalproject.engine.Camera;
 import finalproject.engine.ecs.Entity;
 import finalproject.engine.ecs.EntityComponentRegistry;
 import finalproject.engine.ecs.WorldAccessor;
-import finalproject.game.entities.character.Player;
 import finalproject.game.util.ParseUtils;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -40,6 +39,6 @@ public class Scene implements Entity {
     public void reload(@NotNull WorldAccessor world) {
         world.destroyEntity(this);
         entities = parseEntities(json);
-        world.addEntity(this);
+        world.addGlobalEntity(this);
     }
 }

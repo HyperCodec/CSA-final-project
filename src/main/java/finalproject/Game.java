@@ -2,6 +2,7 @@ package finalproject;
 
 import finalproject.engine.Engine;
 import finalproject.game.entities.ui.FpsDisplay;
+import finalproject.game.entities.ui.Score;
 import finalproject.game.util.SceneUtils;
 
 import javax.swing.*;
@@ -35,6 +36,7 @@ public class Game extends JFrame {
 
         // static stuff
         engine.addEntity(new FpsDisplay());
+        engine.addEntity(new Score());
 
         // actual level data
         try {

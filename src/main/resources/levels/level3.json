@@ -1,0 +1,494 @@
+[
+  {
+    "type": "Player",
+    "args": [
+      {
+        "type": "Vec2",
+        "provider": "Vec2",
+        "static": "ZERO"
+      }
+    ]
+  },
+  {
+    "type": "Platform",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          0.0,
+          10.0
+        ]
+      },
+      {
+        "type": "Vec2",
+        "args": [
+          50.0,
+          5.0
+        ]
+      },
+      {
+        "type": "TileMap",
+        "provider": "Environment",
+        "static": "PLANKS_TILE_1"
+      }
+    ]
+  },
+  {
+    "type": "Platform",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          150.0,
+          10.0
+        ]
+      },
+      {
+        "type": "Vec2",
+        "args": [
+          100.0,
+          5.0
+        ]
+      },
+      {
+        "type": "TileMap",
+        "provider": "Environment",
+        "static": "PLANKS_TILE_1"
+      }
+    ]
+  },
+
+  {
+    "type": "Platform",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          150.0,
+          -40.0
+        ]
+      },
+      {
+        "type": "Vec2",
+        "args": [
+          100.0,
+          5.0
+        ]
+      },
+      {
+        "type": "TileMap",
+        "provider": "Environment",
+        "static": "PLANKS_TILE_1"
+      }
+    ]
+  },
+  {
+    "type": "Platform",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          150.0,
+          -90.0
+        ]
+      },
+      {
+        "type": "Vec2",
+        "args": [
+          100.0,
+          5.0
+        ]
+      },
+      {
+        "type": "TileMap",
+        "provider": "Environment",
+        "static": "PLANKS_TILE_1"
+      }
+    ]
+  },
+  {
+    "type": "Orc",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          150.0,
+          -5.0
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Orc",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          150.0,
+          -50.0
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Orc",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          150.0,
+          -110.0
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Platform",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          325.0,
+          -90.0
+        ]
+      },
+      {
+        "type": "Vec2",
+        "args": [
+          50.0,
+          5.0
+        ]
+      },
+      {
+        "type": "TileMap",
+        "provider": "Environment",
+        "static": "PLANKS_TILE_1"
+      }
+    ]
+  },
+  {
+    "type": "Spike",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          395.0,
+          -90.0
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Spike",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          395.0,
+          -106.0
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Spike",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          395.0,
+          -122.0
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Spike",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          395.0,
+          -138.0
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Spike",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          395.0,
+          -74.0
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Spike",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          395.0,
+          -58.0
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Spike",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          395.0,
+          -42.0
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Spike",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          395.0,
+          -28.0
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Spike",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          363.0,
+          -74.0
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Spike",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          363.0,
+          -58.0
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Spike",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          363.0,
+          -42.0
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Spike",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          363.0,
+          -28.0
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Spike",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          363.0,
+          -12.0
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Spike",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          363.0,
+          4.0
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Spike",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          363.0,
+          20.0
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Spike",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          411.0,
+          -28.0
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Spike",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          427.0,
+          -28.0
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Spike",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          379.0,
+          20.0
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Spike",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          395.0,
+          20.0
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Platform",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          427.0,
+          20.0
+        ]
+      },
+      {
+        "type": "Vec2",
+        "args": [
+          50.0,
+          5.0
+        ]
+      },
+      {
+        "type": "TileMap",
+        "provider": "Environment",
+        "static": "PLANKS_TILE_1"
+      }
+    ]
+  },
+  {
+    "type": "Platform",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          550.0,
+          20.0
+        ]
+      },
+      {
+        "type": "Vec2",
+        "args": [
+          75.0,
+          5.0
+        ]
+      },
+      {
+        "type": "TileMap",
+        "provider": "Environment",
+        "static": "PLANKS_TILE_1"
+      }
+    ]
+  },
+  {
+    "type": "Orc",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          550.0,
+          5.0
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Platform",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          700.0,
+          20.0
+        ]
+      },
+      {
+        "type": "Vec2",
+        "args": [
+          60.0,
+          5.0
+        ]
+      },
+      {
+        "type": "TileMap",
+        "provider": "Environment",
+        "static": "PLANKS_TILE_1"
+      }
+    ]
+  },
+  {
+    "type": "Flag",
+    "args": [
+      {
+        "type": "Vec2",
+        "args": [
+          700.0,
+          -10.0
+        ]
+      },
+      "levels/boss_level.json"
+    ]
+  }
+]

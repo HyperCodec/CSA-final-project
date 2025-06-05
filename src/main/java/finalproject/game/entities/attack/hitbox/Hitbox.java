@@ -10,9 +10,12 @@ import finalproject.engine.util.box.Box;
 import finalproject.game.components.markers.Damageable;
 import finalproject.game.components.markers.physics.Rigidbody;
 import finalproject.game.components.markers.physics.colliders.Collider;
+import finalproject.game.components.markers.physics.colliders.RectCollider;
+import finalproject.game.components.renderables.sprite.geometry.RectangleSprite;
 import finalproject.game.components.tickables.DespawnAfterTime;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,6 +57,7 @@ public abstract class Hitbox implements Entity, Tickable {
         if(despawnTime != Double.POSITIVE_INFINITY && despawnTime > 0.0)
             r.addTickable(new DespawnAfterTime(this, despawnTime));
         r.addTickable(this);
+//        r.addRenderable(new RectangleSprite(pos, new BasicBox<>(((RectCollider) collider).getDimensions()), Color.RED));
     }
 
     @Override

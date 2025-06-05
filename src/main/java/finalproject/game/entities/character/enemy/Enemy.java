@@ -19,6 +19,10 @@ public abstract class Enemy extends LivingEntity {
     @Override
     public void spawn(@NotNull EntityComponentRegistry r) {
         super.spawn(r);
+        addHealthBar(r);
+    }
+
+    protected void addHealthBar(@NotNull EntityComponentRegistry r) {
         r.addRenderable(new HealthBar(
                 new GetModifier<Vec2>(pos, pos2 -> pos2.addY(HEALTH_BAR_OFFSET)),
                 new BasicBox<>(HEALTH_BAR_SIZE),

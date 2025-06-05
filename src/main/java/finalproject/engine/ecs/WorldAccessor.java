@@ -208,11 +208,21 @@ public class WorldAccessor {
     }
 
     public void destroyEntitiesOfType(Class<?> targetEntity) {
-        for(Entity entity : getEntities()) {
+        Set<Entity> entities = getEntities();
+        ArrayList<Entity> toRemove = new ArrayList<>();
+
+        // using this arraylist method
+        // since apparently, ConcurrentModificationException
+        // is still thrown when removing from the HashMap
+        // while iterating over this set.
+        for(Entity entity : entities) {
             if(targetEntity.isAssignableFrom(entity.getClass())) {
-                engine.destroyEntity(entity);
+                toRemove.add(entity);
             }
         }
+
+        for(Entity entity : toRemove)
+            engine.destroyEntity(entity);
     }
 
     public boolean isKeyPressed(String ident) {

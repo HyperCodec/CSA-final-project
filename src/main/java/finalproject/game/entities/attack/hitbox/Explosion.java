@@ -30,11 +30,12 @@ public class Explosion extends RepelHitbox implements Tickable {
     final static double ANIMATION_FRAME_DELAY = 0.1;
     final static double DESPAWN_TIME = EXPLOSION_TEXTURE.countImages() * ANIMATION_FRAME_DELAY;
     public Explosion(Vec2 pos, double radius, Entity owner, double damage) {
-        super(pos, new CircleCollider(new BasicBox<>(pos), radius), owner, DESPAWN_TIME, damage, 100000);
+        super(pos, new CircleCollider(new BasicBox<>(pos), radius), owner, DESPAWN_TIME, damage, 1000);
     }
 
     @Override
     public void spawn(@NotNull EntityComponentRegistry r) {
+        super.spawn(r);
         AnimatedSprite sprite = new AnimatedSprite(new BasicBox<>(pos.get().subY(GRAPHICS_Y_OFFSET)), EXPLOSION_TEXTURE.getImages(), ANIMATION_FRAME_DELAY);
         r.addRenderable(sprite);
         r.addTickable(sprite);

@@ -16,7 +16,7 @@ public class SceneUtils {
      */
     public static void loadScene(@NotNull WorldAccessor world, Scene scene) {
         world.destroyEntitiesOfType(Scene.class);
-        world.addEntity(scene);
+        world.addGlobalEntity(scene);
     }
 
     public static @NotNull Scene parseFromResources(String path) throws IOException, URISyntaxException {
@@ -27,5 +27,9 @@ public class SceneUtils {
     public static void loadFromResources(WorldAccessor world, String path) throws IOException, URISyntaxException {
         Scene scene = parseFromResources(path);
         loadScene(world, scene);
+    }
+
+    public static void resetScene(@NotNull WorldAccessor world) {
+        world.findEntitiesOfType(Scene.class).getFirst().reload(world);
     }
 }

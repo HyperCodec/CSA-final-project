@@ -17,6 +17,10 @@ import finalproject.engine.util.box.Box;
 import finalproject.game.entities.attack.Arrow;
 import finalproject.game.entities.attack.hitbox.RepelHitbox;
 import finalproject.game.entities.environment.Platform;
+import finalproject.game.entities.ui.Score;
+import finalproject.game.util.AudioSource;
+import finalproject.game.util.ResourceUtils;
+import finalproject.game.util.SceneUtils;
 import finalproject.game.util.Timer;
 import finalproject.game.util.custombox.mapping.GetModifier;
 import finalproject.engine.util.box.ScreenToAbsolute;
@@ -28,12 +32,16 @@ import finalproject.game.util.rendering.TextureManager;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.List;
@@ -53,6 +61,7 @@ public class Player extends LivingEntity implements Tickable {
     public final static double MELEE_DAMAGE = 10;
     public final static double INVINCIBILITY_DURATION = 1.25;
     public final static double ARROW_SPEED = 5;
+    public final static double VOID_HEIGHT = 75;
     public final static Vec2 COLLIDER_SIZE = new Vec2(12, 20);
     public final static Vec2 MELEE_HITBOX_SIZE = new Vec2(25, 20);
 
@@ -73,8 +82,11 @@ public class Player extends LivingEntity implements Tickable {
     public Timer attackTimer;
     public final Timer endlagTimer = new Timer(END_LAG);
     public final Timer invincibleTimer = new Timer(INVINCIBILITY_DURATION);
+    public AudioSource attackSFX = null;
 
     public Dash dash;
+
+    public Platform lastPlatform;
 
     double jumpHeldDuration = 0;
     boolean isJumping = false;
@@ -96,15 +108,37 @@ public class Player extends LivingEntity implements Tickable {
         canMove.set(false);
         dash.abruptlyCancel();
         attackActive.set(false);
+        if(attackSFX != null) attackSFX.stop();
+        AudioSource hurt;
+        try {
+            hurt = ResourceUtils.readAudio(Player.class, "assets/sounds/player/hurt.wav", 0);
+        } catch (URISyntaxException | UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            throw new RuntimeException(e);
+        }
+        hurt.play();
     }
 
     @Override
-    protected void onDeath(WorldAccessor world) {
-        // TODO death animation
+    protected void onDeath(@NotNull WorldAccessor world) {
+        world.findEntitiesOfType(Score.class).getFirst().removeScore(10);
+        SceneUtils.resetScene(world);
+        AudioSource death;
+        try {
+            // the audio source class is super buggy
+            // if i load them as statics. loading them like this
+            // is not ideal but doesn't really matter since it doesn't
+            // hurt the FPS too much
+            death = ResourceUtils.readAudio(Player.class, "assets/sounds/player/death.wav", 0);
+        } catch (URISyntaxException | UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            throw new RuntimeException(e);
+        }
+        death.play();
     }
 
     @Override
-    protected void onTouchPlatform(WorldAccessor world, Platform platform) {}
+    protected void onTouchPlatform(WorldAccessor world, Platform platform) {
+        lastPlatform = platform;
+    }
 
     @Override
     public void spawn(@NotNull EntityComponentRegistry r) {
@@ -182,10 +216,18 @@ public class Player extends LivingEntity implements Tickable {
 
     @Override
     public void tick(@NotNull WorldAccessor world, double dt) {
+        // tp player back up from the void
+        if(pos.get().getY() >= VOID_HEIGHT) {
+            health.damage(world, 15);
+            pos.set(lastPlatform.pos.get().subY(15));
+            return;
+        }
+
         if(intangible.get() && invincibleTimer.tick(dt)) {
             intangible.set(false);
             animations.setCurrentAnimation("idle");
             canMove.set(true);
+            vel.set(new Vec2(0, vel.get().getY()));
         }
 
         if(attackActive.get()) {
@@ -194,6 +236,13 @@ public class Player extends LivingEntity implements Tickable {
                 animations.setCurrentAnimation("idle");
 
                 if(isBowAttack) {
+                    try {
+                        attackSFX = ResourceUtils.readAudio(Player.class, "assets/sounds/player/bow_attack.wav", 0);
+                    } catch (URISyntaxException | UnsupportedAudioFileException | IOException |
+                             LineUnavailableException e) {
+                        throw new RuntimeException(e);
+                    }
+                    attackSFX.play();
                     Vec2 arrowVel = facing.get().toVector().mul(ARROW_SPEED * COLLIDER_SIZE.getX()/2);
                     world.addChildEntity(this, new Arrow(pos.get(), arrowVel, this));
                 }
@@ -310,9 +359,22 @@ public class Player extends LivingEntity implements Tickable {
         meleeAttack(world);
     }
 
+    // for some reason the game sometimes freezes
+    // for like a second when trading hits, idrk why.
+    // FPS counter doesn't seem to notice a difference
+    // when it happens.
+    // I believe it's from attempting to load multiple
+    // audio files at once, but I don't really know.
     public void meleeAttack(@NotNull WorldAccessor world) {
         attackActive.set(true);
         attackTimer = new Timer(animations.getAnimation("meleeAttack").getCycleDuration());
+
+        try {
+            attackSFX = ResourceUtils.readAudio(Player.class, "assets/sounds/slash.wav", 0);
+        } catch (URISyntaxException | UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            throw new RuntimeException(e);
+        }
+        attackSFX.play();
 
         animations.setCurrentAnimation("meleeAttack");
 
