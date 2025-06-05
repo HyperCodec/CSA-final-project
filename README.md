@@ -18,6 +18,7 @@ All attacks happen in the direction of the mouse.
 - random lag spikes (likely caused by GC or something)
 - some jank interactions with velocity
 - built jar doesn't work (resource loading issues)
+- OBS really doesn't like recording the window properly
 
 ### Video
 https://github.com/user-attachments/assets/c94b43b0-ac0f-4156-9483-d9cd8fb343e5
