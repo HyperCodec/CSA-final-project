@@ -220,6 +220,7 @@ public class Player extends LivingEntity implements Tickable {
         if(pos.get().getY() >= VOID_HEIGHT) {
             health.damage(world, 15);
             pos.set(lastPlatform.pos.get().subY(15));
+            vel.set(Vec2.ZERO);
             return;
         }
 

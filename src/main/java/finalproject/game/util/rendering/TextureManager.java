@@ -17,6 +17,8 @@ public class TextureManager {
     // easier to find the textures I'm looking for
     // in the IDE autocomplete.
     public static class Environment {
+        // splitting up the initialization into a million static
+        // blocks was probably not the best idea but whatever
         public final static TileMap GRASS_TILE;
         public final static TileMap POPPIES_TILE;
         public final static TileMap DANDELIONS_TILE;
@@ -142,6 +144,16 @@ public class TextureManager {
         static {
             try {
                 PLACEHOLDER_TILE = new TileMap(ResourceUtils.readImage(TextureManager.class, "assets/textures/environment/tiles/placeholder.png"));
+            } catch (URISyntaxException | IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        public final static BufferedImage BACKGROUND_IMAGE;
+
+        static {
+            try {
+                BACKGROUND_IMAGE = ResourceUtils.readImage(TextureManager.class, "assets/textures/environment/background.png");
             } catch (URISyntaxException | IOException e) {
                 throw new RuntimeException(e);
             }

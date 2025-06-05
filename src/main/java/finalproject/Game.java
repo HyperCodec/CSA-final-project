@@ -1,9 +1,13 @@
 package finalproject;
 
 import finalproject.engine.Engine;
+import finalproject.engine.util.Vec2;
+import finalproject.game.entities.environment.BackgroundImage;
 import finalproject.game.entities.ui.FpsDisplay;
 import finalproject.game.entities.ui.Score;
 import finalproject.game.util.SceneUtils;
+import finalproject.game.util.rendering.TextureManager;
+import finalproject.game.util.rendering.TileMap;
 
 import javax.swing.*;
 
@@ -37,6 +41,7 @@ public class Game extends JFrame {
         // static stuff
         engine.addEntity(new FpsDisplay());
         engine.addEntity(new Score());
+        engine.addEntity(new BackgroundImage(new TileMap(TextureManager.Environment.BACKGROUND_IMAGE).tileRect(2379, 793), new Vec2(0, -75), 0.2));
 
         // actual level data
         try {

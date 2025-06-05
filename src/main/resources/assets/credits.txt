@@ -5,6 +5,7 @@ textures/environment/tiles/*.png (except placeholder) - https://tumas81.itch.io/
 textures/environment/tiles/placeholder.png - me (couldn't find a real image for it, so I just made it myself, not my original concept)
 textures/environment/spike.png - https://www.mariowiki.com/File:SMM-SMB-Spikes.png
 textures/environment/flag.png - https://ankousse26.itch.io/free-flag-with-animation
+textures/environment/background.png - https://edermunizz.itch.io/free-pixel-art-forest
 textures/character/player/*.png, textures/character/orc/*.png - https://zerie.itch.io/tiny-rpg-character-asset-pack
 textures/character/giant_orc/*.png - https://www.spriters-resource.com/playstation/breathoffire3/sheet/40417/
 sounds/explosion.wav - https://pixabay.com/sound-effects/explosion-fx-343683/ (cropped by me)

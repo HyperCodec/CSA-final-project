@@ -30,7 +30,7 @@ public class Score implements Entity, Renderable {
     public void render(@NotNull Graphics g, Camera mainCamera) {
         g.setColor(Color.BLACK);
 
-        g.drawString("Score: " + val.get(), 10, 50);
+        g.drawString("Score: " + val.get(), 75, 20);
     }
 
     @Override
